@@ -1,0 +1,180 @@
+
+.logo-container {padding:35px 0px 38px 0px;text-align: center;}
+.main-area{ max-width: 545px; width: 100%; vertical-align: middle;margin: 0 auto;}
+.login-block {position: relative;}
+.login-container {background: #ffffff; box-shadow: 0px 4px 40px rgba(108, 108, 108, 0.3);
+border-radius: 25px; padding:47px 46px 60px 46px; min-height:540px;}
+.login-leftimage {
+    position: absolute;
+    bottom: -114px;
+    left: -333px;
+    z-index: 9999;
+    text-align: left;
+}
+.login-rightimage {
+    position: absolute;
+    bottom: -116px;
+    right: -359px;
+    z-index: 9999;
+    text-align: right;;
+}
+
+.login-area h2 {
+    font-family: 'omnessemibold';
+    font-size: 30px;
+    color:#0F4C4F;
+    line-height: 24px;
+    text-align: center;
+    margin-bottom: 75px;
+    text-transform: capitalize;
+}
+.login-area .auth-form-group { margin-bottom: 3rem;}
+
+.login-area input {border: 0; width: 100%; border-bottom: 1px solid #eaeaea;font-size: 16px;border-radius: 0px;padding: 13px 5px;color: #4a5056;font-family: 'omnesregular';}
+.login-area input ~ .focus-border{position: absolute; bottom: 0; left: 0; width: 0; height: 1px; background-color: #00c888; transition: 0.4s;padding: 0;}
+.login-area input:focus ~ .focus-border{width: 100%; transition: 0.4s;}
+
+
+.auth-form-group i:before {
+    color: #dedcdc;
+}
+
+::-webkit-input-placeholder {
+    font-family: 'omnesmedium';
+    color: #6E7B8B;
+}
+:-ms-input-placeholder {
+    font-family: 'omnesmedium';
+    color: #6E7B8B;
+}
+::placeholder {
+    font-family: 'omnesmedium';
+    color: #6E7B8B;
+}
+
+.button-area {
+    margin-top: 65px;
+    text-align: center;
+}
+.button-area button {
+    max-width: 245px;
+    width: 100%;
+    height: 60px;
+    padding:10px;
+    text-align: center;
+    background: #98E91D;
+    color:#0F4C4F;
+    font-family: 'omnesbold';
+    font-size: 20px;
+    line-height: 26px;
+    border-radius: 60px;
+    border:0;
+    text-transform: uppercase;
+}
+.button-area button:hover {
+    background-color: #00c888;
+}
+.forgotlink {
+    margin-top: 46px;
+}
+.forgotlink a {
+    font-family: 'omnesmedium';
+    font-size: 14px;
+    color: #02C686;
+}
+
+
+/* Responsive */
+
+@media only screen and (max-width:1199px) {
+.login-leftimage {
+    left: -225px;
+    width: 280px;
+}
+.login-rightimage {
+    right: -222px;
+    width: 320px;
+}
+.login-container {
+    padding: 47px 46px 45px 46px;
+    min-height: 500px;
+}
+
+}
+
+
+@media only screen and (max-width:991px) {
+.logo-container {
+    padding:25px 0px 27px 0px;
+}
+.login-container {
+    padding: 40px 46px 45px 46px;
+    min-height: 480px;
+}
+.login-area h2 {
+    margin-bottom: 60px;
+}
+.login-leftimage {
+    left: -110px;
+    width: 190px;
+    bottom: -110px;
+}
+.login-rightimage {
+    right: -70px;
+    width: 140px;
+    bottom: -114px;
+}
+
+}
+
+
+@media only screen and (max-width:767px) {
+.logo-container {
+    padding: 20px 0px 22px 0px;
+}
+.login-container {
+    padding: 30px 30px 35px 30px;
+    min-height: 410px;
+}
+.login-area h2 {
+    margin-bottom: 40px;
+    font-size: 26px;
+}
+.login-area .auth-form-group:nth-child(2){ margin-bottom: 2rem;}
+.button-area {
+    margin-top: 50px;
+}
+.button-area button {
+    height: 50px;
+}
+.forgotlink {
+    margin-top: 35px;
+}
+
+}
+
+
+@media only screen and (min-width:576px) and (max-width:767px) {
+.login-area h2 {
+    margin-bottom: 45px;
+    font-size: 30px;
+}
+.login-container {
+    min-height: 415px;
+}
+
+}
+
+
+@media only screen and (min-width:1200px) and (max-width:1260px) {
+.login-rightimage {
+    right: -325px;
+}
+
+}
+
+
+
+
+
+
