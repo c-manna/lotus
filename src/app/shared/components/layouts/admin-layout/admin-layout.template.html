@@ -1,0 +1,30 @@
+
+
+<!-- <mat-drawer #drawer class="example-sidenav" mode="push"></mat-drawer> -->
+ <app-app-admin-top-panel></app-app-admin-top-panel>
+
+
+<mat-drawer-container class="example-container" autosize >
+    <mat-drawer #drawer class="example-sidenav" mode="push" [autoFocus]="false">
+        <app-admin-left-panel></app-admin-left-panel>
+       
+    </mat-drawer>
+   
+
+    <router-outlet></router-outlet>
+   
+    <mat-drawer #drawer1 position="end" class="example-sidenav" mode="push" [autoFocus]="false" >
+        <app-admin-rightside-panel></app-admin-rightside-panel>
+       
+    </mat-drawer>
+  
+    <!-- <div class="example-sidenav-content">
+      <button type="button" mat-button (click)="drawer1.toggle()">
+        Toggle sidenav
+      </button>
+    </div> -->
+  
+  </mat-drawer-container>
+
+
+  

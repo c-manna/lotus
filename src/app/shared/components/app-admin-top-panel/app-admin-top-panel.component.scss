@@ -1,0 +1,62 @@
+
+
+.header{
+    border-bottom: 1px solid #081215;
+    background: #0f2327;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    .header-left{
+        display: flex;
+        align-items: center;
+        .menu-icon{
+            width: 30px;
+            height: 20px;
+            background-image: url(../../../../assets/images/menuIcon.png);
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: transparent;
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+        .logo{
+            width: 110px;
+            height: 26px;
+            background-image: url(../../../../assets/images/logo.png);
+            background-size: cover;
+            background-position: center;
+            margin-left: 15px;
+        }
+    }
+    .header-right{
+        display: flex;
+        align-items: center;
+        button{
+            background-color: transparent;
+            border: 0;
+            padding: 0;
+            margin: 0;
+        }
+        .search-icon{
+            width: 27px;
+            height: 20px;
+            background-image: url(../../../../assets/images/search-icon.png);
+            background-position: center;
+            background-size: cover;
+        }
+        .user-icon{
+            width: 50px;
+            height: 30px;
+            background-color:#265360 ;
+            border-radius: 2px;
+            background-image: url(../../../../assets/images/userIcon.png);
+            background-size: 13px;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin-left: 15px;
+        }
+    }
+}

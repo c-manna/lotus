@@ -1,0 +1,18 @@
+
+
+<ul>
+<!--     <li><span><img src="assets/icons/star.svg" alt=""> </span>    My Markets</li>
+    <li routerLink="/tournament">
+        <i class="sport-icon apl-icon-sport-cricket"></i>
+        <span><img src="assets/icons/cricket.svg" alt=""> </span> Cricket</li>
+    <li><span><img src="assets/icons/football.svg" alt=""> </span>Football</li>
+    <li><span><img src="assets/icons/spade.svg" alt=""> </span>Tennis</li>
+    <li><span><img src="assets/icons/horse.svg" alt=""> </span>Horse Racing</li>
+    <li><span><img src="assets/icons/greyhound_1.svg" alt=""> </span>Greyhound Racing</li>
+    <li><span><img src="assets/icons/spade.svg" alt=""> </span> Exchange Games</li>
+    <li><span><img src="assets/icons/spade.svg" alt=""> </span> Casino</li> -->
+    <li *ngFor="let item of menu">
+        <a (click)="closeNav()" [routerLink]="['/series']">{{item.name}}</a> 
+    </li>
+</ul>
+

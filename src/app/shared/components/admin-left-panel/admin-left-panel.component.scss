@@ -1,0 +1,153 @@
+// .custombg{
+//     background: -webkit-linear-gradient(180deg, #188E61 45.8%, #02C686 100%);
+//     background: linear-gradient(180deg, #188E61 45.8%, #02C686 100%);
+// }
+
+// .main-sidebar, .main-sidebar::before{ width: 300px;height: 100%;}
+// aside p{padding-bottom: 0; line-height: 20px;font-size: 14px;font-family: 'omnessemibold';}
+// .nav-pills .nav-link{ color:#ffffff;}
+// aside .os-content{ padding:0 !important;}
+// a.brand-link{ line-height:2.5; border-bottom:none;padding: 2.8125rem 1rem 3rem 1rem; padding-left:16px;}
+// .nav-link { padding: 1.1rem 1.5rem;}
+// /* 
+// .nav-link i{ width:24px; display: inline-block; vertical-align:top; text-align: center; margin-right:14px; font-size: 18px;} */
+
+// nav .nav-link i{ width: 38px; height: 38px; border-radius: 15px; display: inline-block;vertical-align: middle; line-height: 39px; text-align: center; background:rgba(255, 255, 255, 0.15); font-size: 18px;}
+// nav .nav-link i:before{color: #ffffff;}
+
+
+// [class*='sidebar-dark-'] .nav-sidebar > .nav-item.menu-open > .nav-link i, 
+// [class*='sidebar-dark-'] .nav-sidebar > .nav-item:hover > .nav-link i, 
+// [class*='sidebar-dark-'] .nav-sidebar > .nav-item > .nav-link:focus i{background:rgba(255, 255, 255, 1);}
+
+
+// [class*='sidebar-dark-'] .nav-sidebar > .nav-item.menu-open > .nav-link i:before, 
+// [class*='sidebar-dark-'] .nav-sidebar > .nav-item:hover > .nav-link i:before, 
+// [class*='sidebar-dark-'] .nav-sidebar > .nav-item > .nav-link:focus i:before{ color:#02C686;}
+
+
+
+// [class*='sidebar-dark-'] .sidebar a {color: #fff;}
+// /* [class*='sidebar-dark-'] .nav-treeview > .nav-item > .nav-link.active, 
+// [class*='sidebar-dark-'] .nav-treeview > .nav-item > .nav-link.active:hover, 
+// [class*='sidebar-dark-'] .nav-treeview > .nav-item > .nav-link.active:focus {
+//         background: #ffffff; box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15); border-radius: 40px 0px 0px 40px; color:#009FE3;} */
+        
+// .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active i:before, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active i:before{ color:#02C686;}
+// .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active i, .sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active i{background:rgba(255, 255, 255, 1);}
+// /* ---------------left pannel admin name------------------------------ */
+
+// .adminnemesec{ position:fixed; left: 26px; bottom:20px; width: 280px; padding-right: 20px; z-index: -1;}
+// nav .nav-link i.icon-Professional-info-new{ font-size: 12px;}
+
+
+
+// /* .admin-name{background: #F0583A; box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);  border-radius: 46px; height: 46px; vertical-align: middle; padding-right: 16px; box-sizing: border-box; margin-bottom:26px; margin-top:20px;cursor: pointer; position: relative;}
+// .admin-name .leftname{ width: 46px; height: 46px; line-height: 46px; background: #FDBB30;  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.15);
+//     border-radius: 46px; text-align: center; font-weight: bold; font-size: 16px; text-transform: uppercase; color:#ffffff; margin-right: 18px; display: inline-block; vertical-align: middle;}
+
+// .admin-name .display-name{ width: calc(100% - 70px); display: inline-block; vertical-align: middle;}
+// .admin-name .display-name strong{font-weight: 600;  font-size: 14px; line-height: 20px; color:#ffffff; width: calc(100% - 20px); display: inline-block; }
+// .admin-name .display-name strong span{ font-weight: 400;}
+// .admin-name .display-name i{  width: 18px; display: inline-block; color:#ffffff; text-align: right;}
+
+// .login-copy{ margin-top:25px; display: flex; justify-content: space-between;}
+// .login-copy .leftcopysec{ width: 180px; display: inline-block; vertical-align: middle;}
+// .login-copy .leftcopysec .copyicon{ width: 36px; display: inline-block; vertical-align: middle;}
+// .login-copy .leftcopysec p{ color:#606C7E; width: calc(100% - 50px); margin-left:10px; font-size: 14px; line-height: 18px; display: inline-block; vertical-align:middle;font-weight: 500;}
+// .login-copy .leftcopysec p strong{ display: block; font-weight: 400; font-size: 12px;} 
+
+// .adminnemesec .dropdown-menu{background-color: #F0583A; border: 1px solid #F0583A; border-radius:0;  box-shadow:none; padding:0; width: 172px; top:inherit !important; padding: 6px 0px; transform: translate3d(88px, -151px, 0px) !important;}
+// .adminnemesec .dropdown-menu a{ font-weight: 500; font-size: 15px; line-height: 16px; color: #ffffff; padding:8px 20px;}
+// .adminnemesec .dropdown-menu a:hover{ background:transparent;}
+// .adminnemesec .dropdown-menu a i{ font-size: 12px; display: inline-block; vertical-align: middle; line-height: 17px; padding-right: 4px; float: right;}
+
+// .adminnemesec .dropdown-menu:before{ width: 20px; height: 20px; position: absolute; content: ""; bottom:-18px; left: 50%;
+
+//     width: 0;
+//     height: 0;
+//     border-left:10px solid transparent;
+//     border-right:10px solid transparent;
+//     border-top: 20px solid #F0583A;
+// }
+
+// .adminnemesec .dropdown-item:hover, .adminnemesec .dropdown-item:focus { color: #ffffff; text-decoration: none; background-color:transparent;} */
+
+// .adminnemesec {
+//     position: fixed;
+//     left: 0;
+//     bottom: 0;
+//     width: 300px;
+//     padding-right: 0;
+//     height: 205px;
+//     background: url(/assets/images/leftmenufooter.png) left bottom no-repeat;}
+
+// .adminnemesec p{ font-weight:400; font-size: 10px; line-height: 130%; text-transform: uppercase;  color: #EBF2F2; padding:170px 0 0 130px; box-sizing: border-box;}
+// .adminnemesec p span{ display: block;}
+
+// /* ================= On bording left menu ================= */
+
+// .backmenu .sidenav-title{  display: block;padding-bottom: 10px;}
+// .backmenu .sidenav-title i{ width: 38px; height: 38px; border-radius: 15px; display: inline-block; vertical-align: middle; line-height: 34px; text-align: center; background:rgba(255, 255, 255, 0.15); font-size: 18px;}
+// .backmenu .sidenav-title i:before{color: #ffffff; font-size: 14px;}
+// .backmenu .sidenav-title p{ margin-left: 12px; color:#ffffff; width: calc(100% - 50px ); margin-right:0;  padding:11px 0 11px 18px; position: relative; display: inline-block; vertical-align: middle;}
+
+
+// .user-pro-details .sidenav-title{display: block; padding-top:20px; padding-bottom: 20px;}
+// .user-pro-details .sidenav-title .profilepic { width: 38px; height: 38px; border-radius: 15px; display: inline-block; vertical-align: top; text-align: center; background:rgba(255, 255, 255, 0.15); border: 1px solid #9EF31E; overflow: hidden;}
+// .user-pro-details .sidenav-title .profilepic img{ width: 100%; height: 100%;}
+
+// .user-pro-details .sidenav-title .pro-details { margin-left: 12px; margin-right: 12px; color:#ffffff; width: calc(100% - 62px ); border-radius: 10px; padding:8px 15px; background:rgba(255, 255, 255, 0.15); display: inline-block; vertical-align: top;}
+// .user-pro-details .sidenav-title .pro-details h3{font-family: 'omnesmedium'; font-size: 16px; line-height: 150%; color:#ffffff; padding-bottom: 10px;}
+
+// .contactbox{ padding: 2px 0;}
+// .contactbox i{ width: 17px; display: inline-block; vertical-align: top; color:#97E91D; font-size: 12px; margin-top:2px;}
+// .contactbox strong{ width: calc(100% - 18px); display: inline-block; vertical-align: top; font-size: 12px; color:#ffffff; font-family: 'omnesregular';}
+
+
+// /* ================= Toggle Icon ================= */
+// /* .main-sidebar a.brand-link {
+//     display: inline-block;
+// }
+// .main-sidebar a.pushicon {
+//     vertical-align: middle;
+//     display: inline-block;
+// }
+// .main-sidebar a.pushicon i {
+//     font-size: 22px;
+//     color: #ffffff;
+// } */
+
+// ::ng-deep .sidebar-mini.sidebar-collapse .main-sidebar:hover, ::ng-deep .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused {
+//     width: 5.6rem;
+// }
+// ::ng-deep .sidebar-mini.sidebar-collapse.layout-fixed .main-sidebar:hover .brand-link {
+//     width: 60px;
+// }
+
+
+ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-family: 'Lato', sans-serif;
+    li{
+        position: relative;
+        padding: 13px 8px 13px 0;;
+        color: #000;
+        font-weight: 700;
+        border-bottom: 1px solid #f2f2f2;
+        font-size: 13px;
+        display: flex;
+    align-items: center;
+        span{
+            width: 16px;
+            height: 21px;
+            display: inline-block;
+            margin-right: 16px;
+            img{
+                max-width: 100%;
+            }
+        }
+    }
+}
