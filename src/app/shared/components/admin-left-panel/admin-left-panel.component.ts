@@ -10,7 +10,7 @@ import { SideNavService } from '@shared/services';
   styleUrls: ['./admin-left-panel.component.scss'],
 })
 export class AdminLeftPanelComponent implements OnInit {
-  menu = [];
+  events = [];
 
   constructor(
     private apiService: APIService,
@@ -28,7 +28,7 @@ export class AdminLeftPanelComponent implements OnInit {
     this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
       result => {
         if(result.success){
-          this.menu = result.data;
+          this.events = result.data;
         }       
       },
       err => {

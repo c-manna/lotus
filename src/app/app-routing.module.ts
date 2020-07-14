@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent, AuthLayoutComponent } from '@shared/components';
 import { AuthGuard } from '@shared/services/auth';
-import { MatchDetailComponent } from './pages/match-detail/match-detail.component'
+
 const routes: Routes = [
   {
     path: '',
@@ -21,11 +21,7 @@ const routes: Routes = [
         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       { 
-        path: 'match-detail', 
-        component: MatchDetailComponent 
-      },
-      { 
-        path: 'series', 
+        path: 'series/:id', 
         loadChildren: () => import('./pages/series/series.module').then(m => m.SeriesModule) 
       }
     ]
