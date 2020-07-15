@@ -4,40 +4,38 @@ import { APIService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 
 @Component({
-  selector: 'app-series',
-  templateUrl: './series.component.html',
-  styleUrls: ['./series.component.scss']
+  selector: 'app-matches',
+  templateUrl: './matches.component.html',
+  styleUrls: ['./matches.component.scss']
 })
-export class SeriesComponent implements OnInit {
-  series = [];
-  eventId;
+export class MatchesComponent implements OnInit {
+  matches = [];
+
   constructor(private apiService: APIService,
     private router: Router,
     private route: ActivatedRoute) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.route.snapshot.params['id']) {
-          this.getSeries(this.route.snapshot.paramMap.get('id'));
+          this.getMatches(this.route.snapshot.paramMap.get('id'));
         }
       }
     });
   }
 
   ngOnInit(): void {
-
   }
 
-  getSeries(id) {
-    this.eventId = id;
-    this.apiService.ApiCall('', environment.apiUrl + 'event-competition?eventID=' + id, 'get').subscribe(
+  getMatches(id) {
+    this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID='+id+'&competitionId=' + id, 'get').subscribe(
       result => {
         if (result.success) {
-          this.series = result.data;
-          console.log(this.series)
+          this.matches = result.data;
         }
       },
       err => {
       }
     );
   }
+
 }
