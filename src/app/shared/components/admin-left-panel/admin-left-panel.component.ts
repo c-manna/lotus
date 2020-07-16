@@ -3,6 +3,7 @@ import { environment } from '@env/environment';
 import { APIService } from '@shared/services';
 import { Router } from '@angular/router';
 import { SideNavService } from '@shared/services';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-admin-left-panel',
@@ -13,6 +14,7 @@ export class AdminLeftPanelComponent implements OnInit {
   events = [];
 
   constructor(
+    private _location: Location,
     private apiService: APIService,
     private router: Router,
     private toolbarService: SideNavService) {
@@ -38,6 +40,10 @@ export class AdminLeftPanelComponent implements OnInit {
 
   closeNav(){
     this.toolbarService.close();
+  }
+
+  backClicked() {
+    this._location.back();
   }
 
 }
