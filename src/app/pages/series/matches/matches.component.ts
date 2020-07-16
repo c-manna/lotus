@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { APIService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-matches',
@@ -10,13 +11,17 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 })
 export class MatchesComponent implements OnInit {
   matches = [];
-
+  _routeListener: Subscription;
+  eventId;
+  competitionId;
   constructor(private apiService: APIService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.router.events.subscribe(event => {
+    this._routeListener = this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         if (this.route.snapshot.params['id']) {
+          let url = event.urlAfterRedirects.split('/');
+          this.eventId = url[2];
           this.getMatches(this.route.snapshot.paramMap.get('id'));
         }
       }
@@ -27,6 +32,7 @@ export class MatchesComponent implements OnInit {
   }
 
   getMatches(id) {
+    this.competitionId = id;
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID='+id+'&competitionId=' + id, 'get').subscribe(
       result => {
         if (result.success) {
@@ -36,6 +42,10 @@ export class MatchesComponent implements OnInit {
       err => {
       }
     );
+  }
+
+  ngOnDestroy() {
+    this._routeListener.unsubscribe();
   }
 
 }

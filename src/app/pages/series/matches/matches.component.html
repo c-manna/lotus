@@ -1,5 +1,5 @@
 <ul>
-    <li *ngFor="let item of matches">
+    <li *ngFor="let item of matches" [routerLink]="['/series/'+eventId+'/matches/'+competitionId+'/match-details/'+item.event.id]">
         <span></span>{{item.event.name}}
     </li>
 </ul>

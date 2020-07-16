@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SideNavService } from '@shared/services';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-app-admin-top-panel',
@@ -8,7 +9,9 @@ import { SideNavService } from '@shared/services';
 })
 export class AppAdminTopPanelComponent implements OnInit {
 
-  constructor(private toolbarService: SideNavService) { }
+  constructor(
+    private _location: Location,
+    private toolbarService: SideNavService) { }
 
   ngOnInit(): void {
   }
@@ -16,11 +19,14 @@ export class AppAdminTopPanelComponent implements OnInit {
   toggleDrawer() {
     this.toolbarService.toggle();
     // this.toolbarService.close();
-}
+  }
 
-toggleDrawer1() {
-  this.toolbarService.toggle1();
-  // this.toolbarService.toggle();
-}
+  toggleDrawer1() {
+    this.toolbarService.toggle1();
+    // this.toolbarService.toggle();
+  }
 
+  backClicked() {
+    this._location.back();
+  }
 }
