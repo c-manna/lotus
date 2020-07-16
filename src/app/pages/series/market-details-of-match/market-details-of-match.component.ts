@@ -31,7 +31,6 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         if (this.route.snapshot.params['id']) {
           let url = event.urlAfterRedirects.split('/');
-          console.log(url);
           this.eventId = url[2];
           this.competitionId = url[4];
           this.getMatchDetails(this.route.snapshot.paramMap.get('id'));
