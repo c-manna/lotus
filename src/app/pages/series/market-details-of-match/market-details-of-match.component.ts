@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService } from '@shared/services';
+import { APIService, DataService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
@@ -21,8 +21,11 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   matchesDetails = [];
   _routeListener: Subscription;
   eventId;
-  competitionId
+  competitionId;
+  menuHeader = [];
+
   constructor(
+    private ds: DataService,
     public platform: Platform,
     private apiService: APIService,
     private router: Router,
@@ -41,6 +44,13 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
+    this.getHeaderData();
+  }
+
+  getHeaderData(){
+    this.ds.breadCrumb$.subscribe(menuHeader => {
+      this.menuHeader = menuHeader;
+    });
   }
 
   onResize(event) {

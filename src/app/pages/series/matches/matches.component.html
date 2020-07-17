@@ -1,5 +1,14 @@
-<ul>
-    <li *ngFor="let item of matches" [routerLink]="['/series/'+eventId+'/matches/'+competitionId+'/match-details/'+item.event.id]">
-        <span></span>{{item.event.name}}
-    </li>
-</ul>
+<div class="competition-detail bg-img">
+    <h2 class="page-title">T10 ipl</h2>
+    <!-- <p class="empty-report">No competitions available</p> -->
+    <div class="section">
+        <div class="date-section">
+            <div class="date">12th July 2020</div>
+            <ul>
+                <li *ngFor="let item of matches" (click)="setHeaderData(item)" [routerLink]="['/series/'+eventId+'/matches/'+competitionId+'/match-details/'+item.event.id]">
+                    {{item.event.name}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
