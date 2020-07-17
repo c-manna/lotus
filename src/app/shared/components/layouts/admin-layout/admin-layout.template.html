@@ -1,8 +1,7 @@
 
 
 <!-- <mat-drawer #drawer class="example-sidenav" mode="push"></mat-drawer> -->
- <app-app-admin-top-panel></app-app-admin-top-panel>
-
+ 
 
 <mat-drawer-container class="example-container" autosize >
     <mat-drawer #drawer class="example-sidenav" mode="push" [autoFocus]="false">
@@ -10,7 +9,7 @@
        
     </mat-drawer>
    
-
+    <app-app-admin-top-panel></app-app-admin-top-panel>
     <router-outlet></router-outlet>
    
     <mat-drawer #drawer1 position="end" class="example-sidenav" mode="push" [autoFocus]="false" >

@@ -1,0 +1,67 @@
+
+
+.section-1{
+    margin-bottom: 16px;
+}
+.cricket-wrapper{
+   padding: 15px 5px;
+    font-family: 'Lato', sans-serif;
+    h3{
+        margin: 0;
+        color: #07080a;
+        font-weight: 700;
+        font-size: 18px;
+        font-family: 'Lato', sans-serif;
+        margin-bottom: 10px;
+        padding: 0 10px 0;
+    }
+    .in-play{
+        color:#38a434;
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 7px;
+        padding: 0 10px 0;
+    }
+    .competitions{
+        font-weight: 500;
+        font-size: 18px;
+        color: #000;
+        margin-bottom: 10px;
+        padding: 0 10px 0;
+    }
+}
+
+.match-list{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li{
+        padding: 13px 19px 13px 11px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #000;
+        background-color: #ffffff;
+        margin-bottom: 2px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        span{
+           display: inline-block;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #2f8230;
+            position: relative;
+            &:before{
+                content: "";
+    position: absolute;
+    border-left: 6px solid #fff;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    left: 6px;
+    top: 4px;
+            }
+            
+        }
+    }
+}

@@ -1,5 +1,30 @@
-<ul>
-    <li *ngFor="let item of series" [routerLink]="['/series/'+eventId+'/matches/'+item.competition.id]">
-        <span></span>{{item.competition.name}}
-    </li>
-</ul>
+<div class="cricket-wrapper bg-img">
+    <h3>Cricket</h3>
+    <div class="section-1">
+
+        <div class="in-play">
+            In-play (1)
+        </div>
+        <ul class="match-list">
+            <li>
+                <div>AIK v Sirius</div><span></span>
+            </li>
+            <li>
+                <div>Birmingham v Charlton</div><span></span>
+            </li>
+            <li>
+                <div>Nottm Forest v Swansea</div><span></span>
+            </li>
+        </ul>
+    </div>
+    <div class="section-1">
+        <div class="competitions">
+            Competitions
+        </div>
+        <ul class="match-list">
+            <li *ngFor="let item of series" [routerLink]="['/series/'+eventId+'/matches/'+item.competition.id]">
+                <div>{{item.competition.name}}</div>
+            </li>
+        </ul>
+    </div>
+</div>
