@@ -47,7 +47,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     this.getHeaderData();
   }
 
-  getHeaderData(){
+  getHeaderData() {
     this.ds.breadCrumb$.subscribe(menuHeader => {
       this.menuHeader = menuHeader;
     });
@@ -62,7 +62,29 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       result => {
         if (result.success) {
           this.matchesDetails = result.data;
+          this.getMatchOdds(result.data[0].marketId);
+          this.getFancy(result.data[0].marketId);
         }
+      },
+      err => {
+      }
+    );
+  }
+
+  getMatchOdds(marketID) {
+    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-runner?eventID' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
+      result => {
+
+      },
+      err => {
+      }
+    );
+  }
+
+  getFancy(marketID) {
+    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID' + this.eventId + '&competitionId=' + this.competitionId + '&matcheventID=' + marketID, 'get').subscribe(
+      result => {
+        
       },
       err => {
       }
