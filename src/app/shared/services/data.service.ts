@@ -8,7 +8,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 export class DataService {
 
 
-  menuHeader: any = [];
+  menuHeader: any;
   private breadCrumb = new BehaviorSubject<any>(this.menuHeader);
   breadCrumb$ = this.breadCrumb.asObservable();
   changeBread(data) {

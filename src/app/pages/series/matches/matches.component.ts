@@ -14,6 +14,7 @@ export class MatchesComponent implements OnInit {
   _routeListener: Subscription;
   eventId;
   competitionId;
+  menuHeader:any;
 
   constructor(
     private ds: DataService,
@@ -32,10 +33,10 @@ export class MatchesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  setHeaderData(data){
-    this.ds.changeBread(data);
+    this.ds.breadCrumb$.subscribe(menuHeader => {
+      this.menuHeader = menuHeader;
+      console.log(this.menuHeader)
+    });
   }
 
   getMatches(id) {
