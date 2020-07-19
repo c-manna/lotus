@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService } from '@shared/services';
+import { APIService, DataService } from '@shared/services';
 import { Router } from '@angular/router';
 import { SideNavService } from '@shared/services';
 
@@ -13,6 +13,7 @@ export class AdminLeftPanelComponent implements OnInit {
   events = [];
 
   constructor(
+    private ds: DataService,
     private apiService: APIService,
     private router: Router,
     private toolbarService: SideNavService) {
@@ -34,6 +35,10 @@ export class AdminLeftPanelComponent implements OnInit {
       err => {
       }
     );
+  }
+
+  setEventData(data){
+    this.ds.changeEvent(data);
   }
 
   closeNav(){

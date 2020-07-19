@@ -143,7 +143,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
   getFancy(marketID) {
-    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matcheventID=' + marketID, 'get').subscribe(
+    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
 
       },

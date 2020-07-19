@@ -65,3 +65,113 @@
         }
     }
 }
+
+mat-expansion-panel-header{
+    pointer-events: none;
+  
+}
+.mat-expansion-panel-header{
+    padding-bottom: 13px;
+    height: auto;
+}
+.mat-expansion-indicator.ng-trigger{
+    margin-top: 12px;
+}
+
+.title{
+    font-size: 16px;
+    padding-top: 6px;
+    color: #000;
+    font-weight: 400;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    .vanue{
+margin-top: 5px;
+    }
+    .time{
+        color: #666666;
+        font-size: 14px;
+    }
+    .info-section{
+        width: 30px;
+        height: 30px;
+        margin-right: 30px;
+    }
+}
+.runner-run{
+    font-size: 10px;
+    width: calc(100% - 130px);
+    padding-left: 12px;
+    padding: 0 2px 5px 11px!important;
+    color: #000;
+}
+
+ul.listing-game{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 41px;
+        padding-top: 1px;
+        padding-bottom: 1px;
+        .suspended{
+            width: 134px;
+            line-height: 45px;
+            background-color: #dddddd;
+            color: #444444;
+            font-size: 14px;
+            text-transform: uppercase;
+            height: 41px;
+            text-align: center;
+        }
+        .bet-btn-wrapper{
+            display: flex;
+            .bet-button{
+                padding: 6px 1px;
+                line-height: normal;
+                color: #000;
+                text-align: center;
+                    width: 66px;
+                    height: 41px;
+                    margin: 0 0 0 2px;
+                
+                &.back{
+                    background-color: #a7d8fd;
+                    border: 1px solid #a7d8fd;
+                }
+                &.lay{
+                    background-color: #f9c9d4;
+                    border: 1px solid #f9c9d4;
+                }
+                &.back.has-no-runner{
+                    background-color: #e3f3fe;
+                  line-height: 25px;
+                  border: 1px solid #e3f3fe;
+                }
+                &.lay.has-no-runner{
+                    background-color: #fdeef2;
+                  line-height: 25px;
+                  border: 1px solid #fdeef2;
+                }
+                .price{
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+                .market-volume{
+                    font-size: 9px;
+                    font-weight: 400;
+                }
+            }
+          
+        }
+        .winner{
+            width: 136px;
+            text-align: left;
+        }
+    }
+}
