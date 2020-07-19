@@ -132,7 +132,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     );
   }
 
-  getMatchOdds(marketID) {
+  getFancy(marketID) {
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-runner?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
 
@@ -142,7 +142,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     );
   }
 
-  getFancy(marketID) {
+  getMatchOdds(marketID) {
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
 
