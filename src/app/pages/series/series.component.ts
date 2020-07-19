@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService } from '@shared/services';
+import { APIService, DataService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -15,7 +15,9 @@ export class SeriesComponent implements OnInit {
   counter = 0;
   _routeListener: Subscription;
 
-  constructor(private apiService: APIService,
+  constructor(
+    private ds: DataService,
+    private apiService: APIService,
     private router: Router,
     private route: ActivatedRoute) {
     this._routeListener = this.router.events.subscribe(event => {
@@ -30,6 +32,10 @@ export class SeriesComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  setHeaderData(data){
+    this.ds.changeBread(data);
   }
 
   getSeries(id) {

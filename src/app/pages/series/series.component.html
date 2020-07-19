@@ -22,7 +22,7 @@
             Competitions
         </div>
         <ul class="match-list">
-            <li *ngFor="let item of series" [routerLink]="['/series/'+eventId+'/matches/'+item.competition.id]">
+            <li *ngFor="let item of series" (click)="setHeaderData(item)" [routerLink]="['/series/'+eventId+'/matches/'+item.competition.id]">
                 <div>{{item.competition.name}}</div>
             </li>
         </ul>
