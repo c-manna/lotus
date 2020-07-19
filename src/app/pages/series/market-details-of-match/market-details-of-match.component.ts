@@ -126,7 +126,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         if (result.success) {
           this.matchesDetails = result.data;
           this.getMatchOdds(result.data[0].marketId);
-          this.getOdds(result.data[0].marketId);
+          this.getMatchOdds(result.data[0].marketId);
           this.getOddsFromInterval(result.data[0].marketId);
         }
       },
@@ -135,7 +135,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     );
   }
 
-  getMatchOdds(marketID) {
+  getFancy(marketID) {
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-runner?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
 
@@ -145,7 +145,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     );
   }
 
-  getOdds(marketID) {
+
+  getMatchOdds(marketID) {
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
         if (result.success) {
@@ -159,7 +160,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
   getOddsFromInterval(marketID) {
     this.getOddsInterval = setInterval(() => {
-      this.getOdds(marketID)
+      this.getMatchOdds(marketID)
     }, 5000);
   }
 
