@@ -11,7 +11,7 @@
     <li><span><img src="assets/icons/greyhound_1.svg" alt=""> </span>Greyhound Racing</li>
     <li><span><img src="assets/icons/spade.svg" alt=""> </span> Exchange Games</li>
     <li><span><img src="assets/icons/spade.svg" alt=""> </span> Casino</li> -->
-    <li *ngFor="let item of events"(click)="closeNav()" [routerLink]="['/series/'+item.eventType]">
+    <li *ngFor="let item of events"(click)="closeNav();setEventData(item)" [routerLink]="['/series/'+item.eventType]">
         <span></span>{{item.name}} 
     </li>
 </ul>

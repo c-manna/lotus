@@ -1,5 +1,5 @@
-<div class="cricket-wrapper bg-img">
-    <h3>Cricket</h3>
+<div class="cricket-wrapper bg-img" *ngIf="EnentList.indexOf(eventData.name) !== -1;else elsePart">
+    <h3>{{eventData.name}}</h3>
     <div class="section-1">
 
         <div class="in-play">
@@ -28,3 +28,112 @@
         </ul>
     </div>
 </div>
+<ng-template #elsePart>
+    <div class="cricket-wrapper bg-img">
+        <h3>{{eventData.name}}</h3>
+        <div class="greyhound-racing bg-img">
+            <mat-accordion>
+              
+                <mat-expansion-panel (opened)="panelOpenState = true"
+                                     (closed)="panelOpenState = false">
+                  <mat-expansion-panel-header>
+                    <div class="title">
+                        <div>
+                            <div class="vanue">Newcastle</div>
+                             <div class="time">00:26</div>
+                        </div>
+                        <div class="info-section"></div>
+                    </div>
+                  </mat-expansion-panel-header>
+                  <div class="runner-run">Top 3 of 0 runners</div>
+                  <ul class="listing-game">
+                      <li><div>1.Cash Point</div><span class="winner">Winner</span></li>
+                      <li>
+                        <div>2. Candlelight Max</div>
+                      </li>
+                      <li>
+                        <div>2. Candlelight Max</div>
+                      </li>
+                  </ul>
+                </mat-expansion-panel>
+        
+        
+        
+        
+        
+                <mat-expansion-panel (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false">
+                    <mat-expansion-panel-header>
+                      <div class="title">
+                        <div>
+                          <div class="vanue">Newcastle</div>
+                          <div class="time">00:26</div>
+                        </div>
+                      </div>
+                    </mat-expansion-panel-header>
+                    <div class="runner-run">Top 3 of 0 runners</div>
+                    <ul class="listing-game">
+                          <li><div>1.Cash Point</div>
+                            <div class="bet-btn-wrapper">
+                              <div class="bet-button back">
+                              <div class="price">2.66</div>
+                              <div class="market-volume">298,288</div>
+                              </div>
+                              <div class="bet-button lay">
+                              <div class="price">2.66</div>
+                              <div class="market-volume">298,288</div>
+                              </div>
+                            </div>
+                          </li>
+                          <li>
+                              <div>2.Sdindon</div>
+                              <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                <div class="price">2.66</div>
+                                <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                <div class="price">2.66</div>
+                                <div class="market-volume">298,288</div>
+                                </div>
+                              </div>
+                          </li>
+                          <li>
+                              <div>2.Sdindon</div>
+                              <div class="bet-btn-wrapper">
+                              <div class="bet-button back">
+                              <div class="price">2.66</div>
+                              <div class="market-volume">298,288</div>
+                              </div>
+                              <div class="bet-button lay">
+                              <div class="price">2.66</div>
+                              <div class="market-volume">298,288</div>
+                              </div>
+                              </div>
+                          </li>
+                          <li><div>1.Cash Point</div>  <div class="suspended">suspended</div></li>  
+                    </ul>
+                    </mat-expansion-panel>
+        
+                    <mat-expansion-panel (opened)="panelOpenState = true"
+                    (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header>
+                          <div class="title">
+                            <div>
+                              <div class="vanue">Newcastle</div>
+                              <div class="time">00:26</div>
+                            </div>
+                          </div>
+                        </mat-expansion-panel-header>
+                        <div class="runner-run">Top 3 of 0 runners</div>
+                        <ul class="listing-game">
+                          <li><div>1.Cash Point</div>  <div class="suspended">suspended</div></li> 
+                          <li><div>1.Cash Point</div>  <div class="suspended">suspended</div></li> 
+                           <li><div>1.Cash Point</div>  <div class="suspended">suspended</div></li>  
+                        </ul>
+                        </mat-expansion-panel>
+                
+              </mat-accordion>
+        </div>
+    </div>
+</ng-template>

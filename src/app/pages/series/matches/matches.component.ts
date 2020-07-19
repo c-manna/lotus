@@ -35,7 +35,6 @@ export class MatchesComponent implements OnInit {
   ngOnInit(): void {
     this.ds.breadCrumb$.subscribe(menuHeader => {
       this.menuHeader = menuHeader;
-      console.log(this.menuHeader)
     });
   }
 

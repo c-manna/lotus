@@ -14,6 +14,9 @@ export class SeriesComponent implements OnInit {
   eventId;
   counter = 0;
   _routeListener: Subscription;
+  eventData:any;
+  EnentList = ["Cricket","Tennis","Football","Soccer"];
+  panelOpenState: boolean = false;
 
   constructor(
     private ds: DataService,
@@ -31,8 +34,15 @@ export class SeriesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.ds.event$.subscribe(event => {
+      this.eventData = event;
+      console.log(this.eventData)
+    });
   }
+
+  togglePanel() {
+    this.panelOpenState = !this.panelOpenState
+}
 
   setHeaderData(data){
     this.ds.changeBread(data);
