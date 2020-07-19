@@ -1,55 +1,55 @@
 <div class="detail-page">
-   
+
     <div class="event-bar">
         <div class="left-side-bar">
             <div class="event-minute">
                 86'
             </div>
             <div class="match-start-info">
-              <div class="team-container">
-                  <span>0</span>
-                  <div class="team-name">India</div>
-              </div>
-              <div class="team-container">
-                <span>1</span>
-                <div class="team-name">England</div>
-              </div>
+                <div class="team-container">
+                    <span>0</span>
+                    <div class="team-name">India</div>
+                </div>
+                <div class="team-container">
+                    <span>1</span>
+                    <div class="team-name">England</div>
+                </div>
             </div>
         </div>
         <div class="right-side-bar">
-    
+
         </div>
     </div>
-    
+
     <div class="detail-page-tab">
         <ul class="tabs-ul">
-            <li  [class.active]="viewMode == 'tab1'" rel="tab1" (click)="viewMode ='tab1'" >
-               <span>Market</span>
+            <li [class.active]="viewMode == 'tab1'" rel="tab1" (click)="viewMode ='tab1'">
+                <span>Market</span>
             </li>
             <li [class.active]="viewMode == 'tab2'" rel="tab2" (click)="viewMode ='tab2'">
-               <span>News</span>
+                <span>News</span>
             </li>
             <li [class.active]="viewMode == 'tab3'" rel="tab3" (click)="viewMode ='tab3'">
-               <span>Live</span>
+                <span>Live</span>
             </li>
             <li [class.active]="viewMode == 'tab4'" rel="tab4" (click)="viewMode ='tab4'">
-               <span>Open bets(0)</span>
+                <span>Open bets(0)</span>
             </li>
         </ul>
         <div class="tab-slider--container " [ngSwitch]="viewMode">
             <div id="tab1" class="tab-slider--body bg-img " *ngSwitchCase="'tab1'">
-                    <div class="market-group">
-                        <div class="heading">
-                            <div class="title">Over/Under 3.5 Goals</div>
-                            <div class="markets__action">
-                                <div>Back</div>
-                                <div>Lay</div>
-                            </div>
+                <div class="market-group">
+                    <div class="heading">
+                        <div class="title">Over/Under 3.5 Goals</div>
+                        <div class="markets__action">
+                            <div>Back</div>
+                            <div>Lay</div>
                         </div>
-                        <ul>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
                                 <!-- <div class="bet-button back">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,288</div>
@@ -59,48 +59,11 @@
                                     <div class="market-volume">298,288</div>
                                 </div> -->
                                 <div class="suspended">suspended</div>
-                               </div>
-                            </li>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                               </div>
-                            </li>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                               </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="market-group fancy">
-                        <div class="heading">
-                            <div class="title bottom-border">Fancy</div>
-                            <div class="markets__action">
-                                <div>Back</div>
-                                <div>Lay</div>
                             </div>
-                        </div>
-                        <ul>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
+                        </li>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
                                 <div class="bet-button back">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,288</div>
@@ -109,188 +72,228 @@
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,288</div>
                                 </div>
-                               </div>
-                            </li>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                               </div>
-                            </li>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                               </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="market-group">
-                        <div class="heading">
-                            <div class="title">Over/Under 3.5 Goals</div>
-                            <div class="markets__action">
-                                <div>Back</div>
-                                <div>Lay</div>
                             </div>
+                        </li>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="market-group fancy">
+                    <div class="heading">
+                        <div class="title bottom-border">Fancy</div>
+                        <div class="markets__action">
+                            <div>Back</div>
+                            <div>Lay</div>
                         </div>
-                        <ul>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                               </div>
-                            </li>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                               </div>
-                            </li>
-                            <li>
-                                <div class="title">Almeria</div>
-                               <div class="bet-btn-wrapper">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                               </div>
-                            </li>
-                        </ul>
                     </div>
+                    <ul>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="market-group">
+                    <div class="heading">
+                        <div class="title">Over/Under 3.5 Goals</div>
+                        <div class="markets__action">
+                            <div>Back</div>
+                            <div>Lay</div>
+                        </div>
+                    </div>
+                    <ul>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="title">Almeria</div>
+                            <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div id="tab2" class="tab-slider--body " *ngSwitchCase="'tab2'">
-              <div class="news-wrapper">
-                  <ul class="news-ul">
-                      <li>
-                         <div class="news-top-section">
-                            <div class="left">
-                                <div class="news-icon">
-                                    <img src="assets/images/news-icon.jpg" alt="">
+                <div class="news-wrapper">
+                    <ul class="news-ul">
+                        <li>
+                            <div class="news-top-section">
+                                <div class="left">
+                                    <div class="news-icon">
+                                        <img src="assets/images/news-icon.jpg" alt="">
+                                    </div>
+                                    <div class="channel-name">
+                                        <div class="channel">Cricket</div>
+                                        <div class="channel-address">@cricket</div>
+                                    </div>
                                 </div>
-                                <div class="channel-name">
-                                    <div class="channel">Cricket</div>
-                                    <div class="channel-address">@cricket</div>
+                                <div class="icon"></div>
+                            </div>
+                            <p><span>#OnThisDay</span> in 1939, Off-spinner Haseeb Ahsan was born in Peshawar. </p>
+                            <p>In 12 Tests he claimed 27 wickets. He also served as Pakistan team manager and a
+                                selector.
+                            </p>
+                            <a href=""></a>
+                            <div class="img-div">
+                                <img src="assets/images/news.jpg" alt="">
+                            </div>
+                            <div class="img-bottom-section">
+                                <div class="icon-div">
+                                    <ul>
+                                        <li>
+                                            <img src="assets/images/heart.svg" alt="">
+                                        </li>
+                                        <li>
+                                            <img src="assets/images/download.svg" alt="">
+                                        </li>
+                                    </ul>
                                 </div>
+                                <div class="time-div">4m</div>
                             </div>
-                            <div class="icon"></div>
-                         </div>
-                         <p><span>#OnThisDay</span> in 1939, Off-spinner Haseeb Ahsan was born in Peshawar. </p>
-                         <p>In 12 Tests he claimed 27 wickets. He also served as Pakistan team manager and a selector.
-                        </p>
-                        <a href=""></a>
-                        <div class="img-div">
-                            <img src="assets/images/news.jpg" alt="">
-                        </div>
-                        <div class="img-bottom-section">
-                            <div class="icon-div">
-                                <ul>
-                                    <li>
-                                        <img src="assets/images/heart.svg" alt="">
-                                    </li>
-                                    <li>
-                                        <img src="assets/images/download.svg" alt="">
-                                    </li>
-                                </ul>
+                        </li>
+                        <li>
+                            <div class="news-top-section">
+                                <div class="left">
+                                    <div class="news-icon">
+                                        <img src="assets/images/news-icon.jpg" alt="">
+                                    </div>
+                                    <div class="channel-name">
+                                        <div class="channel">Cricket</div>
+                                        <div class="channel-address">@cricket</div>
+                                    </div>
+                                </div>
+                                <div class="icon"></div>
                             </div>
-                            <div class="time-div">4m</div>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="news-top-section">
-                           <div class="left">
-                            <div class="news-icon">
-                                <img src="assets/images/news-icon.jpg" alt="">
+                            <p><span>#OnThisDay</span> in 1939, Off-spinner Haseeb Ahsan was born in Peshawar. </p>
+                            <p>In 12 Tests he claimed 27 wickets. He also served as Pakistan team manager and a
+                                selector.
+                            </p>
+                            <a href=""></a>
+                            <div class="img-div">
+                                <img src="assets/images/news.jpg" alt="">
                             </div>
-                               <div class="channel-name">
-                                   <div class="channel">Cricket</div>
-                                   <div class="channel-address">@cricket</div>
-                               </div>
-                           </div>
-                           <div class="icon"></div>
-                        </div>
-                        <p><span>#OnThisDay</span> in 1939, Off-spinner Haseeb Ahsan was born in Peshawar. </p>
-                        <p>In 12 Tests he claimed 27 wickets. He also served as Pakistan team manager and a selector.
-                       </p>
-                       <a href=""></a>
-                       <div class="img-div">
-                           <img src="assets/images/news.jpg" alt="">
-                       </div>
-                       <div class="img-bottom-section">
-                           <div class="icon-div">
-                               <ul>
-                                   <li>
-                                       <img src="assets/images/heart.svg" alt="">
-                                   </li>
-                                   <li>
-                                       <img src="assets/images/download.svg" alt="">
-                                   </li>
-                               </ul>
-                           </div>
-                           <div class="time-div">4m</div>
-                       </div>
-                     </li>
-                  </ul>
-              </div>
+                            <div class="img-bottom-section">
+                                <div class="icon-div">
+                                    <ul>
+                                        <li>
+                                            <img src="assets/images/heart.svg" alt="">
+                                        </li>
+                                        <li>
+                                            <img src="assets/images/download.svg" alt="">
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="time-div">4m</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div id="tab3" class="tab-slider--body bg-img" *ngSwitchCase="'tab3'">
                 <div class="live-news-wrapper">
-                    <div class="live-news"  [ngStyle]="{'width': this.innerWidth + 'px','height':this.innerWidth*56/100+'px'}">
+                    <div class="live-news"
+                        [ngStyle]="{'width': this.innerWidth + 'px','height':this.innerWidth*56/100+'px'}">
 
                     </div>
-               </div>
-               <ul class="live-tab-ul">
-                <li [class.active]="liveMatch == 'tab1'" rel="tab1" (click)="liveMatch ='tab1'">Match State</li>
-                <li [class.active]="liveMatch == 'tab2'" rel="tab2" (click)="liveMatch ='tab2'">Watch Live</li>
+                </div>
+                <ul class="live-tab-ul">
+                    <li [class.active]="liveMatch == 'tab1'" rel="tab1" (click)="liveMatch ='tab1'">Match State</li>
+                    <li [class.active]="liveMatch == 'tab2'" rel="tab2" (click)="liveMatch ='tab2'">Watch Live</li>
 
-            </ul>
-            <div class="watch-live-container" [ngSwitch]="liveMatch">
-                <div id="tab1" class="tab-slider--body bg-img " *ngSwitchCase="'tab1'">
-                    <div class="live-tab-bd">
-                        <div class="market-group">
-                            <div class="heading">
-                                <div class="title">Over/Under 3.5 Goals</div>
-                                <div class="markets__action">
-                                    <div>Back</div>
-                                    <div>Lay</div>
+                </ul>
+                <div class="watch-live-container" [ngSwitch]="liveMatch">
+                    <div id="tab1" class="tab-slider--body bg-img " *ngSwitchCase="'tab1'">
+                        <div class="live-tab-bd">
+                            <div class="market-group">
+                                <div class="heading">
+                                    <div class="title">Over/Under 3.5 Goals</div>
+                                    <div class="markets__action">
+                                        <div>Back</div>
+                                        <div>Lay</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <!-- <div class="bet-button back">
+                                <ul>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <!-- <div class="bet-button back">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div>
@@ -298,50 +301,156 @@
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div> -->
-                                    <div class="suspended">suspended</div>
+                                            <div class="suspended">suspended</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="market-group fancy">
+                                <div class="heading">
+                                    <div class="title">Fancy</div>
+                                    <div class="markets__action">
+                                        <div>Back</div>
+                                        <div>Lay</div>
+                                    </div>
                                 </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
+                                <ul>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <!-- <div class="bet-button back">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div>
                                     <div class="bet-button lay">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
+                                    </div> -->
+                                            <div class="suspended">suspended</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="market-group">
+                                <div class="heading">
+                                    <div class="title">Over/Under 3.5 Goals</div>
+                                    <div class="markets__action">
+                                        <div>Back</div>
+                                        <div>Lay</div>
                                     </div>
                                 </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
+                                <ul>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <!-- <div class="bet-button back">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div>
                                     <div class="bet-button lay">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                            </ul>
+                                    </div> -->
+                                            <div class="suspended">suspended</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
-                        <div class="market-group fancy">
-                            <div class="heading">
-                                <div class="title">Fancy</div>
-                                <div class="markets__action">
-                                    <div>Back</div>
-                                    <div>Lay</div>
+                    </div>
+                    <div id="tab2" class="tab-slider--body bg-img " *ngSwitchCase="'tab2'">
+                        <div class="live-tab-bd">
+                            <div class="market-group">
+                                <div class="heading">
+                                    <div class="title">Over/Under 3.5 Goals</div>
+                                    <div class="markets__action">
+                                        <div>Back</div>
+                                        <div>Lay</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <!-- <div class="bet-button back">
+                                <ul>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <!-- <div class="bet-button back">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div>
@@ -349,50 +458,50 @@
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div> -->
-                                    <div class="suspended">suspended</div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="market-group">
-                            <div class="heading">
-                                <div class="title">Over/Under 3.5 Goals</div>
-                                <div class="markets__action">
-                                    <div>Back</div>
-                                    <div>Lay</div>
-                                </div>
+                                            <div class="suspended">suspended</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <!-- <div class="bet-button back">
+                            <div class="market-group fancy">
+                                <div class="heading">
+                                    <div class="title">Fancy</div>
+                                    <div class="markets__action">
+                                        <div>Back</div>
+                                        <div>Lay</div>
+                                    </div>
+                                </div>
+                                <ul>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <!-- <div class="bet-button back">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div>
@@ -400,227 +509,118 @@
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div> -->
-                                    <div class="suspended">suspended</div>
+                                            <div class="suspended">suspended</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="market-group">
+                                <div class="heading">
+                                    <div class="title">Over/Under 3.5 Goals</div>
+                                    <div class="markets__action">
+                                        <div>Back</div>
+                                        <div>Lay</div>
+                                    </div>
                                 </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
+                                <ul>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <!-- <div class="bet-button back">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
                                     </div>
                                     <div class="bet-button lay">
                                         <div class="price">2.66</div>
                                         <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                            </ul>
+                                    </div> -->
+                                            <div class="suspended">suspended</div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="title">Almeria</div>
+                                        <div class="bet-btn-wrapper">
+                                            <div class="bet-button back">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                            <div class="bet-button lay">
+                                                <div class="price">2.66</div>
+                                                <div class="market-volume">298,288</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="tab2" class="tab-slider--body bg-img " *ngSwitchCase="'tab2'">
-                    <div class="live-tab-bd">
-                        <div class="market-group">
-                            <div class="heading">
-                                <div class="title">Over/Under 3.5 Goals</div>
-                                <div class="markets__action">
-                                    <div>Back</div>
-                                    <div>Lay</div>
-                                </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <!-- <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div> -->
-                                    <div class="suspended">suspended</div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="market-group fancy">
-                            <div class="heading">
-                                <div class="title">Fancy</div>
-                                <div class="markets__action">
-                                    <div>Back</div>
-                                    <div>Lay</div>
-                                </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <!-- <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div> -->
-                                    <div class="suspended">suspended</div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="market-group">
-                            <div class="heading">
-                                <div class="title">Over/Under 3.5 Goals</div>
-                                <div class="markets__action">
-                                    <div>Back</div>
-                                    <div>Lay</div>
-                                </div>
-                            </div>
-                            <ul>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <!-- <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div> -->
-                                    <div class="suspended">suspended</div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                                <li>
-                                    <div class="title">Almeria</div>
-                                <div class="bet-btn-wrapper">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,288</div>
-                                    </div>
-                                </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-              
+
             </div>
             <div id="tab4" class="tab-slider--body bg-img" *ngSwitchCase="'tab4'">
                 <div class="accordian-section">
-                    <mat-accordion [multi]="true" >
-                        <mat-expansion-panel (opened)="panelOpenState = true"
-                                             (closed)="panelOpenState = false" >
-                          <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Unmatched Bets
-                            </mat-panel-title>
-                           
-                          </mat-expansion-panel-header>
-                          <p>You have no unmatched bets</p>
-                        </mat-expansion-panel>
-                        <mat-expansion-panel (opened)="panelOpenState = true"
-                            (closed)="panelOpenState = false">
+                    <mat-accordion [multi]="true">
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                             <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                Matched Bets
-                            </mat-panel-title>
-                            
+                                <mat-panel-title>
+                                    Unmatched Bets
+                                </mat-panel-title>
+
+                            </mat-expansion-panel-header>
+                            <p>You have no unmatched bets</p>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Matched Bets
+                                </mat-panel-title>
+
                             </mat-expansion-panel-header>
                             <p>You have no Matched bets</p>
                         </mat-expansion-panel>
-                      </mat-accordion>
+                    </mat-accordion>
                 </div>
             </div>
         </div>
     </div>
-    
-    </div>
-    
+
+</div>
