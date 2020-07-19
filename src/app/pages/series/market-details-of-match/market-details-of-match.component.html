@@ -139,16 +139,29 @@
                         </li>
                     </ul>
                 </div>
-                <div class="market-group">
+                <div class="market-group" *ngIf="matchOdds.length && matchOdds[0].runners">
                     <div class="heading">
-                        <div class="title">Over/Under 3.5 Goals</div>
+                        <div class="title">Match Odds</div>
                         <div class="markets__action">
                             <div>Back</div>
                             <div>Lay</div>
                         </div>
                     </div>
                     <ul>
-                        <li>
+                        <li *ngFor="let item of matchOdds[0].runners;let i= index">
+                            <div class="title">{{matchesDetails[0].runners[i].runnerName}}</div>
+                            <div class="bet-btn-wrapper">
+                                <div class="bet-button back">
+                                    <div class="price">{{item.ex.availableToBack[0].price}}</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                                <div class="bet-button lay">
+                                    <div class="price">{{item.ex.availableToLay[0].price}}</div>
+                                    <div class="market-volume">298,288</div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- <li>
                             <div class="title">Almeria</div>
                             <div class="bet-btn-wrapper">
                                 <div class="bet-button back">
@@ -173,20 +186,7 @@
                                     <div class="market-volume">298,288</div>
                                 </div>
                             </div>
-                        </li>
-                        <li>
-                            <div class="title">Almeria</div>
-                            <div class="bet-btn-wrapper">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,288</div>
-                                </div>
-                            </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </div>

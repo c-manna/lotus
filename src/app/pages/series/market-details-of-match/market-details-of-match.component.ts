@@ -22,8 +22,10 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   eventId;
   competitionId;
   menuHeader = [];
+  matchOdds: any = [];
+  getOddsInterval: any;
 
-  matchOdds =
+  matchOdds1 =
     [
       {
         "marketId": "1.166536383", "isMarketDataDelayed": false, "status": "OPEN", "betDelay": 0,
@@ -124,7 +126,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         if (result.success) {
           this.matchesDetails = result.data;
           this.getMatchOdds(result.data[0].marketId);
-          this.getFancy(result.data[0].marketId);
+          this.getOdds(result.data[0].marketId);
+          this.getOddsFromInterval(result.data[0].marketId);
         }
       },
       err => {
@@ -142,18 +145,27 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     );
   }
 
-  getFancy(marketID) {
+  getOdds(marketID) {
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
-
+        if (result.success) {
+          this.matchOdds = result["data"];
+        }
       },
       err => {
       }
     );
   }
 
+  getOddsFromInterval(marketID) {
+    this.getOddsInterval = setInterval(() => {
+      this.getOdds(marketID)
+    }, 5000);
+  }
+
   ngOnDestroy() {
     this._routeListener.unsubscribe();
+    clearInterval(this.getOddsInterval);
   }
 
 }
