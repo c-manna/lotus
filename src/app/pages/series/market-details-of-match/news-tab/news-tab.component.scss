@@ -1,0 +1,99 @@
+.news-wrapper{
+    
+ ul.news-ul{
+     padding: 0;
+     margin: 0;
+     list-style: none;
+     li{
+         padding: 10px;
+         .news-top-section
+         {
+             display: flex;
+ justify-content: space-between;
+ align-items: center;
+         }
+         .left{
+             display: flex;
+             align-items: center;
+             .news-icon{
+                 width: 32px;
+                 height: 32px;
+                 margin-right: 8px;
+                 img{
+                     max-width: 100%;
+                     border-radius: 50%;
+                 }
+             }
+             .channel-name{
+                 .channel{
+                     font-size: 12px;
+                     line-height: 18px;
+                     font-weight: 700;
+                     overflow: hidden;
+                     text-overflow: ellipsis;
+                     white-space: nowrap;
+                     padding-right: 4px;
+                     color: #000;
+                 }
+                 .channel-address{
+                     font-size: 12px;
+                     line-height: 18px;
+                     font-weight: 300;
+                     padding-right: 4px;
+                     color: #657786;
+                 }
+             }
+         }
+         .icon{
+             height: 18px;
+             width: 18px;
+             background-image: url(../../../../../assets/images/twit.svg);
+
+         }
+         p{
+             margin-top: 6px;
+             margin-left: 0;
+             font-size: 12px;
+             line-height: 18px;
+             margin-bottom: 12px;
+             font-weight: 400;
+              white-space: pre-wrap;
+              span{
+                  display: inline-block;
+                  color: #2b7bb9;
+              }
+         }
+         .img-div{
+             max-width: 800px;
+             img{
+                 max-width: 100%;
+             }
+         }
+     }
+ }
+ .img-bottom-section{
+     padding-top: 12px;
+     align-items: center;
+     display: flex;
+     justify-content: space-between;
+     ul{
+         padding: 0;
+         margin: 0;
+         list-style: none;
+         display: flex;
+         li{
+             width: 17px;
+             margin-right: 20px;
+             padding: 0;
+             img{
+                 max-width: 100%;
+             }
+         }
+     }
+     .time-div{
+         font-size: 12px;
+ line-height: 18px;
+ color: #657786;
+     }
+ }
+}

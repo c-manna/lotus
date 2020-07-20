@@ -1,354 +1,351 @@
-
-
-
-
 <div class="dashboard-page">
-        <div class="inplay-header"> 
-            <div class="inplay-div">In Play</div>
-            <div class="open-bets">Open Bets <span>0</span></div>
-            
+    <div class="inplay-header">
+        <div class="inplay-div">In Play</div>
+        <div class="open-bets">Open Bets <span>0</span></div>
+
+    </div>
+    <div class="play-section">
+        <div class="title">Cricket</div>
+
+        <div class="consolidated-events">
+            <ul class="main-ul">
+                <li>
+                    <div class="competitors" routerLink="/match-detail">
+                        <div class="name">England</div>
+                        <div class="name">India</div>
+                    </div>
+                    <div class="odds-header">
+                        <div>1</div>
+                        <div>X</div>
+                        <div>2</div>
+                    </div>
+                    <div class="market-odds">
+                        <ul>
+                            <li [class.active]="viewMode == 'tab1'" rel="tab1" (click)="viewMode ='tab1'">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+                            <li [class.active]="viewMode == 'tab2'" rel="tab2" (click)="viewMode ='tab2'">
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+                            <li [class.active]="viewMode == 'tab3'" rel="tab3" (click)="viewMode ='tab3'">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+                            <li [class.active]="viewMode == 'tab4'" rel="tab4" (click)="viewMode ='tab4'">
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+                            <li [class.active]="viewMode == 'tab5'" rel="tab5" (click)="viewMode ='tab5'">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+
+
+
+                            <li [class.active]="viewMode == 'tab6'" rel="tab6" (click)="viewMode ='tab6'">
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- <app-bet-place-from></app-bet-place-from> -->
+                    <div class="tab-slider--container " [ngSwitch]="viewMode">
+                        <div id="tab1" class="tab-slider--body back" *ngSwitchCase="'tab1'">
+                            <div>
+                                <div class="input-section">
+                                    <div class="input-left">
+                                        <div class="heading">odds</div>
+                                        <div class="incress-decress-value">
+                                            <button>-</button>
+                                            <input type="text">
+                                            <button>+</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-right">
+                                        <div class="heading">stake</div>
+                                        <div>
+                                            <input type="text" placeholder="Max: 500,000+">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-section">
+                                    <button>+1000</button>
+                                    <button>+10,000</button>
+                                    <button>+20,000</button>
+                                    <button>+2000</button>
+                                    <button>+20,000</button>
+                                    <button>+40,000</button>
+                                </div>
+                                <div class="bottom-button">
+                                    <button>Cancel</button>
+                                    <button>
+                                        <span>Place Bet</span>
+                                        <span>Profit:0.00</span>
+                                    </button>
+                                </div>
+                                <div class="toggle-button">
+                                    <label class="switch">
+                                        <div> Confirm bet before placing</div>
+                                        <input type="checkbox">
+                                        <span class="slider round">
+                                            <span class="text-span"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab2" class="tab-slider--body lay" *ngSwitchCase="'tab2'">
+                            <div>
+                                <div class="input-section">
+                                    <div class="input-left">
+                                        <div class="heading">odds</div>
+                                        <div class="incress-decress-value">
+                                            <button>-</button>
+                                            <input type="text">
+                                            <button>+</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-right">
+                                        <div class="heading">stake</div>
+                                        <div>
+                                            <input type="text" placeholder="Max: 500,000+">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-section">
+                                    <button>+1000</button>
+                                    <button>+10,000</button>
+                                    <button>+20,000</button>
+                                    <button>+2000</button>
+                                    <button>+20,000</button>
+                                    <button>+40,000</button>
+                                </div>
+                                <div class="bottom-button">
+                                    <button>Cancel</button>
+                                    <button>
+                                        <span>Place Bet</span>
+                                        <span>Profit:0.00</span>
+                                    </button>
+                                </div>
+                                <div class="toggle-button">
+                                    <label class="switch">
+                                        <div> Confirm bet before placing</div>
+                                        <input type="checkbox">
+                                        <span class="slider round"> <span class="text-span"></span></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab3" class="tab-slider--body back" *ngSwitchCase="'tab3'">
+                            <div>
+                                <div class="input-section">
+                                    <div class="input-left">
+                                        <div class="heading">odds</div>
+                                        <div class="incress-decress-value">
+                                            <button>-</button>
+                                            <input type="text">
+                                            <button>+</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-right">
+                                        <div class="heading">stake</div>
+                                        <div>
+                                            <input type="text" placeholder="Max: 500,000+">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-section">
+                                    <button>+1000</button>
+                                    <button>+10,000</button>
+                                    <button>+20,000</button>
+                                    <button>+2000</button>
+                                    <button>+20,000</button>
+                                    <button>+40,000</button>
+                                </div>
+                                <div class="bottom-button">
+                                    <button>Cancel</button>
+                                    <button>
+                                        <span>Place Bet</span>
+                                        <span>Profit:0.00</span>
+                                    </button>
+                                </div>
+                                <div class="toggle-button">
+                                    <label class="switch">
+                                        <div> Confirm bet before placing</div>
+                                        <input type="checkbox">
+                                        <span class="slider round">
+                                            <span class="text-span"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab4" class="tab-slider--body lay" *ngSwitchCase="'tab4'">
+                            <div>
+                                <div class="input-section">
+                                    <div class="input-left">
+                                        <div class="heading">odds</div>
+                                        <div class="incress-decress-value">
+                                            <button>-</button>
+                                            <input type="text">
+                                            <button>+</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-right">
+                                        <div class="heading">stake</div>
+                                        <div>
+                                            <input type="text" placeholder="Max: 500,000+">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-section">
+                                    <button>+1000</button>
+                                    <button>+10,000</button>
+                                    <button>+20,000</button>
+                                    <button>+2000</button>
+                                    <button>+20,000</button>
+                                    <button>+40,000</button>
+                                </div>
+                                <div class="bottom-button">
+                                    <button>Cancel</button>
+                                    <button>
+                                        <span>Place Bet</span>
+                                        <span>Profit:0.00</span>
+                                    </button>
+                                </div>
+                                <div class="toggle-button">
+                                    <label class="switch">
+                                        <div> Confirm bet before placing</div>
+                                        <input type="checkbox">
+                                        <span class="slider round">
+                                            <span class="text-span"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab5" class="tab-slider--body back" *ngSwitchCase="'tab5'">
+                            <div>
+                                <div class="input-section">
+                                    <div class="input-left">
+                                        <div class="heading">odds</div>
+                                        <div class="incress-decress-value">
+                                            <button>-</button>
+                                            <input type="text">
+                                            <button>+</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-right">
+                                        <div class="heading">stake</div>
+                                        <div>
+                                            <input type="text" placeholder="Max: 500,000+">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-section">
+                                    <button>+1000</button>
+                                    <button>+10,000</button>
+                                    <button>+20,000</button>
+                                    <button>+2000</button>
+                                    <button>+20,000</button>
+                                    <button>+40,000</button>
+                                </div>
+                                <div class="bottom-button">
+                                    <button>Cancel</button>
+                                    <button>
+                                        <span>Place Bet</span>
+                                        <span>Profit:0.00</span>
+                                    </button>
+                                </div>
+                                <div class="toggle-button">
+                                    <label class="switch">
+                                        <div> Confirm bet before placing</div>
+                                        <input type="checkbox">
+                                        <span class="slider round">
+                                            <span class="text-span"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="tab6" class="tab-slider--body lay" *ngSwitchCase="'tab6'">
+                            <div>
+                                <div class="input-section">
+                                    <div class="input-left">
+                                        <div class="heading">odds</div>
+                                        <div class="incress-decress-value">
+                                            <button>-</button>
+                                            <input type="text">
+                                            <button>+</button>
+                                        </div>
+                                    </div>
+                                    <div class="input-right">
+                                        <div class="heading">stake</div>
+                                        <div>
+                                            <input type="text" placeholder="Max: 500,000+">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="button-section">
+                                    <button>+1000</button>
+                                    <button>+10,000</button>
+                                    <button>+20,000</button>
+                                    <button>+2000</button>
+                                    <button>+20,000</button>
+                                    <button>+40,000</button>
+                                </div>
+                                <div class="bottom-button">
+                                    <button>Cancel</button>
+                                    <button>
+                                        <span>Place Bet</span>
+                                        <span>Profit:0.00</span>
+                                    </button>
+                                </div>
+                                <div class="toggle-button">
+                                    <label class="switch">
+                                        <div> Confirm bet before placing</div>
+                                        <input type="checkbox">
+                                        <span class="slider round">
+                                            <span class="text-span"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div class="play-section">
-            <div class="title">Cricket</div>
 
-            <div class="consolidated-events">
-                <ul class="main-ul">
-                    <li>
-                        <div class="competitors" routerLink="/match-detail">
-                            <div class="name">England</div>
-                            <div class="name">India</div>
-                        </div>
-                        <div class="odds-header">
-                            <div>1</div>
-                            <div>X</div>
-                            <div>2</div>
-                        </div>
-                        <div class="market-odds">
-                            <ul>
-                                <li  [class.active]="viewMode == 'tab1'" rel="tab1" (click)="viewMode ='tab1'" >
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,208</div>
-                                    </div>
-                                </li>
-                                <li [class.active]="viewMode == 'tab2'" rel="tab2" (click)="viewMode ='tab2'">
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,208</div>
-                                    </div>
-                                </li>
-                                <li [class.active]="viewMode == 'tab3'" rel="tab3" (click)="viewMode ='tab3'">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,208</div>
-                                    </div>
-                                </li>
-                                <li [class.active]="viewMode == 'tab4'" rel="tab4" (click)="viewMode ='tab4'">
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,208</div>
-                                    </div>
-                                </li>
-                                <li [class.active]="viewMode == 'tab5'" rel="tab5" (click)="viewMode ='tab5'">
-                                    <div class="bet-button back">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,208</div>
-                                    </div>
-                                </li>
-
-                               
-                               
-                                <li [class.active]="viewMode == 'tab6'" rel="tab6" (click)="viewMode ='tab6'">
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,208</div>
-                                    </div>
-                                </li>
-                               
-                            </ul>
-                        </div>
-                        <div class="tab-slider--container " [ngSwitch]="viewMode">
-                            <div id="tab1" class="tab-slider--body back" *ngSwitchCase="'tab1'">
-                                    <div>
-                                        <div class="input-section">
-                                            <div class="input-left">
-                                                <div class="heading">odds</div>
-                                                <div class="incress-decress-value">
-                                                    <button>-</button>
-                                                      <input type="text">
-                                                    <button>+</button>
-                                                </div>
-                                            </div>
-                                            <div class="input-right">
-                                              <div class="heading">stake</div>
-                                              <div>
-                                                  <input type="text" placeholder="Max: 500,000+">
-                                              </div>
-                                            </div>
-                                        </div>
-                                        <div class="button-section">
-                                          <button>+1000</button>
-                                          <button>+10,000</button>
-                                          <button>+20,000</button>
-                                          <button>+2000</button>
-                                          <button>+20,000</button>
-                                          <button>+40,000</button>
-                                        </div>
-                                        <div class="bottom-button">
-                                          <button>Cancel</button>
-                                          <button>
-                                              <span>Place Bet</span>
-                                              <span>Profit:0.00</span>
-                                          </button>
-                                        </div>
-                                        <div class="toggle-button">
-                                          <label class="switch">
-                                              <div>  Confirm bet before placing</div>
-                                              <input type="checkbox">
-                                              <span class="slider round">
-                                                  <span class="text-span"></span>
-                                              </span>
-                                            </label>
-                                        </div>
-                                    </div>
-                            </div>
-                            <div id="tab2" class="tab-slider--body lay" *ngSwitchCase="'tab2'">
-                                <div>
-                                    <div class="input-section">
-                                        <div class="input-left">
-                                            <div class="heading">odds</div>
-                                            <div class="incress-decress-value">
-                                                <button>-</button>
-                                                  <input type="text">
-                                                <button>+</button>
-                                            </div>
-                                        </div>
-                                        <div class="input-right">
-                                          <div class="heading">stake</div>
-                                          <div>
-                                              <input type="text" placeholder="Max: 500,000+">
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="button-section">
-                                      <button>+1000</button>
-                                      <button>+10,000</button>
-                                      <button>+20,000</button>
-                                      <button>+2000</button>
-                                      <button>+20,000</button>
-                                      <button>+40,000</button>
-                                    </div>
-                                    <div class="bottom-button">
-                                      <button>Cancel</button>
-                                      <button>
-                                          <span>Place Bet</span>
-                                          <span>Profit:0.00</span>
-                                      </button>
-                                    </div>
-                                    <div class="toggle-button">
-                                      <label class="switch">
-                                          <div>  Confirm bet before placing</div>
-                                          <input type="checkbox">
-                                          <span class="slider round"> <span class="text-span"></span></span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab3" class="tab-slider--body back" *ngSwitchCase="'tab3'">
-                                <div>
-                                    <div class="input-section">
-                                        <div class="input-left">
-                                            <div class="heading">odds</div>
-                                            <div class="incress-decress-value">
-                                                <button>-</button>
-                                                  <input type="text">
-                                                <button>+</button>
-                                            </div>
-                                        </div>
-                                        <div class="input-right">
-                                          <div class="heading">stake</div>
-                                          <div>
-                                              <input type="text" placeholder="Max: 500,000+">
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="button-section">
-                                      <button>+1000</button>
-                                      <button>+10,000</button>
-                                      <button>+20,000</button>
-                                      <button>+2000</button>
-                                      <button>+20,000</button>
-                                      <button>+40,000</button>
-                                    </div>
-                                    <div class="bottom-button">
-                                      <button>Cancel</button>
-                                      <button>
-                                          <span>Place Bet</span>
-                                          <span>Profit:0.00</span>
-                                      </button>
-                                    </div>
-                                    <div class="toggle-button">
-                                      <label class="switch">
-                                          <div>  Confirm bet before placing</div>
-                                          <input type="checkbox">
-                                          <span class="slider round">
-                                              <span class="text-span"></span>
-                                          </span>
-                                        </label>
-                                    </div>
-                                </div>
-                             </div>
-                             <div id="tab4" class="tab-slider--body lay" *ngSwitchCase="'tab4'">
-                                <div>
-                                    <div class="input-section">
-                                        <div class="input-left">
-                                            <div class="heading">odds</div>
-                                            <div class="incress-decress-value">
-                                                <button>-</button>
-                                                  <input type="text">
-                                                <button>+</button>
-                                            </div>
-                                        </div>
-                                        <div class="input-right">
-                                          <div class="heading">stake</div>
-                                          <div>
-                                              <input type="text" placeholder="Max: 500,000+">
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="button-section">
-                                      <button>+1000</button>
-                                      <button>+10,000</button>
-                                      <button>+20,000</button>
-                                      <button>+2000</button>
-                                      <button>+20,000</button>
-                                      <button>+40,000</button>
-                                    </div>
-                                    <div class="bottom-button">
-                                      <button>Cancel</button>
-                                      <button>
-                                          <span>Place Bet</span>
-                                          <span>Profit:0.00</span>
-                                      </button>
-                                    </div>
-                                    <div class="toggle-button">
-                                      <label class="switch">
-                                          <div>  Confirm bet before placing</div>
-                                          <input type="checkbox">
-                                          <span class="slider round">
-                                              <span class="text-span"></span>
-                                          </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab5" class="tab-slider--body back" *ngSwitchCase="'tab5'">
-                                <div>
-                                    <div class="input-section">
-                                        <div class="input-left">
-                                            <div class="heading">odds</div>
-                                            <div class="incress-decress-value">
-                                                <button>-</button>
-                                                  <input type="text">
-                                                <button>+</button>
-                                            </div>
-                                        </div>
-                                        <div class="input-right">
-                                          <div class="heading">stake</div>
-                                          <div>
-                                              <input type="text" placeholder="Max: 500,000+">
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="button-section">
-                                      <button>+1000</button>
-                                      <button>+10,000</button>
-                                      <button>+20,000</button>
-                                      <button>+2000</button>
-                                      <button>+20,000</button>
-                                      <button>+40,000</button>
-                                    </div>
-                                    <div class="bottom-button">
-                                      <button>Cancel</button>
-                                      <button>
-                                          <span>Place Bet</span>
-                                          <span>Profit:0.00</span>
-                                      </button>
-                                    </div>
-                                    <div class="toggle-button">
-                                      <label class="switch">
-                                          <div>  Confirm bet before placing</div>
-                                          <input type="checkbox">
-                                          <span class="slider round">
-                                              <span class="text-span"></span>
-                                          </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="tab6" class="tab-slider--body lay" *ngSwitchCase="'tab6'">
-                                <div>
-                                    <div class="input-section">
-                                        <div class="input-left">
-                                            <div class="heading">odds</div>
-                                            <div class="incress-decress-value">
-                                                <button>-</button>
-                                                  <input type="text">
-                                                <button>+</button>
-                                            </div>
-                                        </div>
-                                        <div class="input-right">
-                                          <div class="heading">stake</div>
-                                          <div>
-                                              <input type="text" placeholder="Max: 500,000+">
-                                          </div>
-                                        </div>
-                                    </div>
-                                    <div class="button-section">
-                                      <button>+1000</button>
-                                      <button>+10,000</button>
-                                      <button>+20,000</button>
-                                      <button>+2000</button>
-                                      <button>+20,000</button>
-                                      <button>+40,000</button>
-                                    </div>
-                                    <div class="bottom-button">
-                                      <button>Cancel</button>
-                                      <button>
-                                          <span>Place Bet</span>
-                                          <span>Profit:0.00</span>
-                                      </button>
-                                    </div>
-                                    <div class="toggle-button">
-                                      <label class="switch">
-                                          <div>  Confirm bet before placing</div>
-                                          <input type="checkbox">
-                                          <span class="slider round">
-                                              <span class="text-span"></span>
-                                          </span>
-                                        </label>
-                                    </div>
-                                </div>
-                                 </div>
-                          </div>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="consolidated-events">
-                <ul class="main-ul">
-                    <li>
-                        <div class="competitors" routerLink="/match-detail">
-                            <div class="name">England</div>
-                            <div class="name">India</div>
-                        </div>
-                        <div class="odds-header">
-                            <div>1</div>
-                            <div>X</div>
-                            <div>2</div>
-                        </div>
-                        <div class="market-odds">
-                            <!-- <ul>
+        <div class="consolidated-events">
+            <ul class="main-ul">
+                <li>
+                    <div class="competitors" routerLink="/match-detail">
+                        <div class="name">England</div>
+                        <div class="name">India</div>
+                    </div>
+                    <div class="odds-header">
+                        <div>1</div>
+                        <div>X</div>
+                        <div>2</div>
+                    </div>
+                    <div class="market-odds">
+                        <!-- <ul>
                                 <li  [class.active]="viewMode == 'tab1'" rel="tab1" (click)="viewMode ='tab1'" >
                                     <div class="bet-button back">
                                         <div class="price">2.66</div>
@@ -390,71 +387,67 @@
                                 </li>
                                
                             </ul> -->
-                        
-                            <div class="suspended">suspended</div>
-                        </div>
-                        
-                    </li>
-                </ul>
-            </div>
 
-            <div class="consolidated-events">
-                <ul class="main-ul">
-                    <li>
-                        <div class="competitors">
-                            <div class="name">England</div>
-                            <div class="name">India</div>
-                        </div>
-                        <div class="odds-header">
-                            <div>1</div>
-                            <div>X</div>
-                            <div>2</div>
-                        </div>
-                        <div class="market-odds">
-                            <ul>
-                                <li >
-                                    <div class="bet-button back has-no-runner">
-                                        -
-                                    </div>
-                                </li>
-                                <li >
-                                    <div class="bet-button lay has-no-runner">
-                                        -
-                                    </div>
-                                </li>
-                                <li >
-                                    <div class="bet-button back has-no-runner">
-                                        -
-                                    </div>
-                                </li>
-                                <li >
-                                    <div class="bet-button lay has-no-runner">
-                                       -
-                                    </div>
-                                </li>
-                                <li >
-                                    <div class="bet-button back has-no-runner">
-                                       -
-                                    </div>
-                                </li>
+                        <div class="suspended">suspended</div>
+                    </div>
 
-                               
-                               
-                                <li >
-                                    <div class="bet-button lay">
-                                        <div class="price">2.66</div>
-                                        <div class="market-volume">298,208</div>
-                                    </div>
-                                </li>
-                               
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                </li>
+            </ul>
         </div>
+
+        <div class="consolidated-events">
+            <ul class="main-ul">
+                <li>
+                    <div class="competitors">
+                        <div class="name">England</div>
+                        <div class="name">India</div>
+                    </div>
+                    <div class="odds-header">
+                        <div>1</div>
+                        <div>X</div>
+                        <div>2</div>
+                    </div>
+                    <div class="market-odds">
+                        <ul>
+                            <li>
+                                <div class="bet-button back has-no-runner">
+                                    -
+                                </div>
+                            </li>
+                            <li>
+                                <div class="bet-button lay has-no-runner">
+                                    -
+                                </div>
+                            </li>
+                            <li>
+                                <div class="bet-button back has-no-runner">
+                                    -
+                                </div>
+                            </li>
+                            <li>
+                                <div class="bet-button lay has-no-runner">
+                                    -
+                                </div>
+                            </li>
+                            <li>
+                                <div class="bet-button back has-no-runner">
+                                    -
+                                </div>
+                            </li>
+
+
+
+                            <li>
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
-
-
-
-

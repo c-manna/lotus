@@ -1,0 +1,35 @@
+.live-news-wrapper{
+ background-color: #000;
+ margin-left: -8px;
+ margin-right: -8px;
+ margin-top: -15px;
+ .live-news{
+     margin: 0 auto;
+ }
+
+}
+
+.live-tab-ul{
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    margin-left: -8px;
+    margin-right: -8px;
+    li{
+        background-color: #0f2327;
+        flex-grow: 1;
+        padding: 15px 22px 13px;
+        text-align: center;
+        font-size: 10px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        width: 50%;
+        color: #fff;
+        &.active{
+            border-bottom: 3px solid #2c4f58;
+        }
+    }
+}

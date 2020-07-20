@@ -1,0 +1,12 @@
+<div class="live-news-wrapper">
+ <div class="live-news" [ngStyle]="{'width': this.innerWidth + 'px','height':this.innerWidth*56/100+'px'}">
+
+ </div>
+</div>
+<ul class="live-tab-ul">
+ <li [class.active]="liveMatch == 'tab1'" rel="tab1" (click)="liveMatch ='tab1'">Match State</li>
+ <li [class.active]="liveMatch == 'tab2'" rel="tab2" (click)="liveMatch ='tab2'">Watch Live</li>
+
+</ul>
+
+<app-market-live-section [matchOdds]="matchOdds" [matchesDetails]="matchesDetails"></app-market-live-section>

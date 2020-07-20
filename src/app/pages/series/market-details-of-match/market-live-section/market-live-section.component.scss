@@ -1,0 +1,115 @@
+.live-tab-bd{
+    padding-top: 10px;
+}
+.market-group{
+ margin-bottom: 16px;
+ .heading{
+     display: flex;
+     justify-content: space-between;
+     padding: 0 2px 10px 11px;
+     border-bottom: 1px solid #f2f2f2;
+     
+     .markets__action{
+         display: flex;
+         div{
+             width: 66px;
+             font-size: 10px;
+             text-transform: uppercase;
+             text-align: center;
+         }
+     }
+ }
+ .title{
+     color: #000000;
+     font-weight: 700;
+     font-size: 14px;
+ }
+ ul{
+     padding: 0;
+     margin: 0;
+     list-style: none;
+     li{
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         background-color: #fff;
+         padding: 1px 2px 1px 11px;
+         border-bottom: 1px solid #f2f2f2;
+         .bet-btn-wrapper{
+             display: flex;
+         }
+         .suspended{
+             width: 134px;
+             line-height: 45px;
+             background-color: #dddddd;
+             color: #444444;
+             font-size: 14px;
+             text-transform: uppercase;
+             height: 41px;
+             text-align: center;
+         }
+         .bet-button{
+             padding: 6px 1px;
+             line-height: normal;
+             color: #000;
+             text-align: center;
+                 width: 66px;
+                 height: 41px;
+                 margin: 0 0 0 2px;
+             
+             &.back{
+                 background-color: #a7d8fd;
+                 border: 1px solid #a7d8fd;
+             }
+             &.lay{
+                 background-color: #f9c9d4;
+                 border: 1px solid #f9c9d4;
+             }
+             &.back.has-no-runner{
+                 background-color: #e3f3fe;
+               line-height: 25px;
+               border: 1px solid #e3f3fe;
+             }
+             &.lay.has-no-runner{
+                 background-color: #fdeef2;
+               line-height: 25px;
+               border: 1px solid #fdeef2;
+             }
+             .price{
+                 font-size: 12px;
+                 font-weight: 600;
+             }
+             .market-volume{
+                 font-size: 9px;
+                 font-weight: 400;
+             }
+         }
+     }
+ }
+}
+.market-group.fancy{
+ padding-bottom: 15px;
+ border-bottom: 1px solid #2c4f58;
+ .heading{
+     border-bottom: 1px solid #2c4f58;
+     padding-bottom: 0px;
+     margin-bottom: 8px;
+ }
+ .title{
+         border-bottom: 3px solid #2c4f58;
+         font-weight: 400;
+     text-transform: uppercase;
+     padding-bottom: 10px;
+     
+ }
+ ul{
+     li{
+         .title{
+             border: 0;
+             font-weight: 700;
+             text-transform: none;
+             padding-bottom: 0;
+         }
+     }
+ }
+}

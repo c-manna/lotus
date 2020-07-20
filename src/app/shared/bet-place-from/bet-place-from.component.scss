@@ -1,0 +1,228 @@
+//tab css================================start
+.tab-slider--container{
+   
+ .tab-slider--body{
+    padding: 10px 8px;
+    &.back{
+        border: 1px solid #a7d8fd;
+        border-bottom-width: 7px;
+    }
+    &.lay{
+       border: 1px solid #f9c9d4;
+       border-bottom-width: 7px;
+    }
+     .input-section{
+         display: flex;
+         justify-content: space-between;
+         .input-left,.input-right{
+             flex: 0 0 50%;
+             width: 50%;
+         }
+         .heading{
+            text-transform: uppercase;
+            font-size: 10px;
+            font-weight: 400;
+            color: #000;
+         }
+         .input-left{
+             padding-right: 4px;
+            .incress-decress-value{
+                display: flex;
+                align-items: center;
+                button{
+                    position: inherit;
+                    margin:  0;
+                    height: 35px;
+                    width: 35px;
+                    z-index: 10;
+                    background-color: #0f2327;
+                    border: 1px solid #0f2327;
+                    color: #fff;
+                    font-size: 13px;
+                    &:first-child{
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                    }
+                    &:last-child{
+                        border-top-left-radius: 0;
+                         border-bottom-left-radius: 0;
+                    }
+                }
+                input{
+                    flex: 1;
+                    border: 1px solid #f2f2f2;
+                    font-size: 12px;
+                    padding: 9px 11px;
+                    text-align: center;
+                    color: #000;
+                    height: 35px;
+                    border-radius: 0;
+                    width: 100%;
+                }
+            }
+         }
+         .input-right{
+             input{
+                padding: 9px 11px;
+                margin: 0 0 10px;
+                border: 1px solid #f2f2f2;
+                border-radius: 2px;
+                font-size: 12px;
+                background: #fff;
+                color: #000;
+                width: 100%;
+                height: 35px;
+             }
+         }
+     }
+     .button-section{
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+         button{
+            height: 2.1em;
+            font-size: 13px;
+            padding: 0 .9em;
+            box-shadow: none;
+            background-color: #0f2327;
+            color: #ffffff;
+            border: 0;
+            width: 33%;
+            margin-bottom: 2px;
+         }
+     }
+     .bottom-button{
+         display: flex;
+         justify-content: space-between;
+         padding-top: 12px;
+         button{
+             width: 49%;
+             border: 1px solid #777777;
+             color: #777777;
+             background-color: #fff;
+             box-shadow: none;
+             font-size: 13px;
+             border-radius: 2px;
+             font-weight: 500;
+             padding: 0 1.1em;
+             height: 45px;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             justify-content: center;
+         }
+         button:last-child{
+             background-color: #777777;
+             color: #fff;
+             span{
+                 display: block;
+                 line-height: normal;
+                 font-weight: 500;
+                 &:first-child{
+                    font-size: 13px;
+                   
+                 }
+                 &:last-child{
+                     font-size: 80%;
+                 }
+             }
+         }
+     }
+ }
+}
+
+.switch {
+position: relative;
+display: inline-block;
+width: 100%;
+height: 34px;
+display: flex;
+justify-content: space-between;
+float: none;
+border: 0;
+padding: 12px 1px 10px;
+height: auto;
+div{
+    color: #666666;
+}
+}
+
+.switch input { 
+opacity: 0;
+width: 0;
+height: 0;
+}
+
+.slider {
+position: absolute;
+cursor: pointer;
+top: 9px;
+width: 52px;
+right: 0;
+bottom: 0;
+background-color: #fff;
+transition: 0.4s;
+height: 26px;
+border: 1px solid #666666;
+}
+
+.slider:before {
+position: absolute;
+content: "";
+height: 24px;
+width: 24px;
+left: 0;
+bottom: -1px;
+background-color: white;
+transition: 0.4s;
+border: 1px solid #666666;
+}
+
+input:checked + .slider {
+background-color: #00a950;
+border: 1px solid #00a950;
+
+}
+input:checked + .slider .text-span{
+position: absolute;
+left: 5px;
+top: 2px;
+&:before{
+    content: "ON";
+    color: #fff;
+    font-size: 10px;
+}
+}
+
+.text-span{
+position: absolute;
+right: 5px;
+top: 2px;
+&:before{
+    content: "OFF";
+    color: #000;
+    font-size: 10px;
+}
+}
+
+input:focus + .slider {
+// box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+-webkit-transform: translateX(24px);
+-ms-transform: translateX(24px);
+transform: translateX(24px);
+}
+
+/* Rounded sliders */
+.slider.round {
+border-radius: 34px;
+}
+
+.slider.round:before {
+border-radius: 50%;
+}
+
+
+//tab css================================ end

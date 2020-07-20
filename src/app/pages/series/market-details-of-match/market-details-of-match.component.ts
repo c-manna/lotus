@@ -1,10 +1,9 @@
-import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { APIService, DataService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
-import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-market-details-of-match',
@@ -12,11 +11,7 @@ import { MatAccordion } from '@angular/material/expansion';
   styleUrls: ['./market-details-of-match.component.scss']
 })
 export class MarketDetailsOfMatchComponent implements OnInit {
-  @ViewChild(MatAccordion) accordion: MatAccordion;
-  @HostListener('window:resize', ['$event'])
   viewMode = 'tab3';
-  liveMatch = "tab1"
-  public innerWidth: any;
   matchesDetails = [];
   _routeListener: Subscription;
   eventId;
@@ -105,7 +100,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.innerWidth = window.innerWidth;
+
     this.getHeaderData();
     console.log(this.matchOdds)
   }
@@ -116,9 +111,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     });
   }
 
-  onResize(event) {
-    this.innerWidth = window.innerWidth;
-  }
+
 
   getMatchDetails(id) {
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-match?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matcheventID=' + id, 'get').subscribe(
