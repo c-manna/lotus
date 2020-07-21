@@ -7,6 +7,76 @@
     <div class="play-section">
         <div class="title">Cricket</div>
 
+        <div class="consolidated-events" *ngFor="let item of dataList; let i=index">
+            <ul class="main-ul">
+                <li>
+                    <div class="competitors" routerLink="/match-detail">
+                        <div class="name">{{item.name1}}</div>
+                        <div class="name">{{item.name2}}</div>
+                    </div>
+                    <div class="odds-header">
+                        <div>1</div>
+                        <div>X</div>
+                        <div>2</div>
+                    </div>
+                    <div class="market-odds">
+                        <ul>
+                            <li [class.active]="item.viewMode == 'tab1'" rel="tab1"
+                                (click)="openCreateBetForm('tab1',i)">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+                            <li [class.active]="item.viewMode == 'tab2'" rel="tab2"
+                                (click)="openCreateBetForm('tab2',i)">
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+                            <li [class.active]="item.viewMode == 'tab3'" rel="tab3"
+                                (click)="openCreateBetForm('tab3',i)">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+                            <li [class.active]="item.viewMode == 'tab4'" rel="tab4"
+                                (click)="openCreateBetForm('tab4',i)">
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+                            <li [class.active]="item.viewMode == 'tab5'" rel="tab5"
+                                (click)="openCreateBetForm('tab5',i)">
+                                <div class="bet-button back">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+
+                            <li [class.active]="item.viewMode == 'tab6'" rel="tab6"
+                                (click)="openCreateBetForm('tab6',i)">
+                                <div class="bet-button lay">
+                                    <div class="price">2.66</div>
+                                    <div class="market-volume">298,208</div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <app-bet-place-from *ngIf="item.createBetFormActive && createBetFormActive"
+                        (betCancelled)="canceBet()">
+                    </app-bet-place-from>
+                </li>
+            </ul>
+        </div>
+
+
+
+
         <div class="consolidated-events">
             <ul class="main-ul">
                 <li>
@@ -21,31 +91,31 @@
                     </div>
                     <div class="market-odds">
                         <ul>
-                            <li [class.active]="viewMode == 'tab1'" rel="tab1" (click)="viewMode ='tab1'">
+                            <li [class.active]="viewMode == 'tab1'" rel="tab1" (click)="openCreateBetForm('tab1',0)">
                                 <div class="bet-button back">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,208</div>
                                 </div>
                             </li>
-                            <li [class.active]="viewMode == 'tab2'" rel="tab2" (click)="viewMode ='tab2'">
+                            <li [class.active]="viewMode == 'tab2'" rel="tab2" (click)="openCreateBetForm('tab2',0)">
                                 <div class="bet-button lay">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,208</div>
                                 </div>
                             </li>
-                            <li [class.active]="viewMode == 'tab3'" rel="tab3" (click)="viewMode ='tab3'">
+                            <li [class.active]="viewMode == 'tab3'" rel="tab3" (click)="openCreateBetForm('tab3',0)">
                                 <div class="bet-button back">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,208</div>
                                 </div>
                             </li>
-                            <li [class.active]="viewMode == 'tab4'" rel="tab4" (click)="viewMode ='tab4'">
+                            <li [class.active]="viewMode == 'tab4'" rel="tab4" (click)="openCreateBetForm('tab4',0)">
                                 <div class="bet-button lay">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,208</div>
                                 </div>
                             </li>
-                            <li [class.active]="viewMode == 'tab5'" rel="tab5" (click)="viewMode ='tab5'">
+                            <li [class.active]="viewMode == 'tab5'" rel="tab5" (click)="openCreateBetForm('tab5',0)">
                                 <div class="bet-button back">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,208</div>
@@ -54,7 +124,7 @@
 
 
 
-                            <li [class.active]="viewMode == 'tab6'" rel="tab6" (click)="viewMode ='tab6'">
+                            <li [class.active]="viewMode == 'tab6'" rel="tab6" (click)="openCreateBetForm('tab6',0)">
                                 <div class="bet-button lay">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,208</div>
@@ -63,8 +133,7 @@
 
                         </ul>
                     </div>
-                    <!-- <app-bet-place-from></app-bet-place-from> -->
-                    <div class="tab-slider--container " [ngSwitch]="viewMode">
+                    <!-- <div class="tab-slider--container " [ngSwitch]="viewMode">
                         <div id="tab1" class="tab-slider--body back" *ngSwitchCase="'tab1'">
                             <div>
                                 <div class="input-section">
@@ -327,7 +396,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </li>
             </ul>
         </div>
@@ -437,7 +506,7 @@
 
 
 
-                            <li>
+                            <li (click)="openCreateBetForm('tab6',2)">
                                 <div class="bet-button lay">
                                     <div class="price">2.66</div>
                                     <div class="market-volume">298,208</div>
@@ -446,6 +515,7 @@
 
                         </ul>
                     </div>
+
                 </li>
             </ul>
         </div>
