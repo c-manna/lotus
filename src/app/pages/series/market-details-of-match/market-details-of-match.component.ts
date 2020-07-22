@@ -118,7 +118,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       result => {
         if (result.success) {
           this.matchesDetails = result.data;
-          this.getFancy(result.data[0].marketId);
+          this.getFancy(id);
           this.getMatchOdds(result.data[0].marketId);
           this.getOddsFromInterval(result.data[0].marketId);
         }
@@ -128,8 +128,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     );
   }
 
-  getFancy(marketID) {
-    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-runner?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
+  getFancy(matchID) {
+    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID==' + matchID, 'get').subscribe(
       result => {
 
       },
