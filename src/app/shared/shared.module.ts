@@ -2,14 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedComponentsModule } from '@shared/components/shared-components.module';
 import { AuthGuard } from './services/auth/auth.guard';
+import { NgMaterialModule } from './ng-material/ng-material.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    SharedComponentsModule
+    SharedComponentsModule,
+    NgMaterialModule
   ],
   exports: [
-    SharedComponentsModule
+    SharedComponentsModule,
+    NgMaterialModule
   ],
   providers: [AuthGuard]
 })

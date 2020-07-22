@@ -11,13 +11,15 @@ import { NewsTabComponent } from './market-details-of-match/news-tab/news-tab.co
 import { LiveTabComponent } from './market-details-of-match/live-tab/live-tab.component';
 import { OpenBetsTabComponent } from './market-details-of-match/open-bets-tab/open-bets-tab.component';
 import { MarketLiveSectionComponent } from './market-details-of-match/market-live-section/market-live-section.component';
+import { SharedModule } from '@shared/shared.module';
 
 @NgModule({
   declarations: [SeriesComponent, MatchesComponent, MarketDetailsOfMatchComponent, MarketTabComponent, NewsTabComponent, LiveTabComponent, OpenBetsTabComponent, MarketLiveSectionComponent],
   imports: [
     CommonModule,
     SeriesRoutingModule,
-    MatExpansionModule
+    MatExpansionModule,
+    SharedModule
   ]
 })
 export class SeriesModule { }
