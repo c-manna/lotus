@@ -5,13 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { AdminLayoutComponent, AuthLayoutComponent, AdminFooterPanelComponent, AdminLeftPanelComponent, AdminRightsidePanelComponent, AppAdminTopPanelComponent } from '@shared/components';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDrawer } from '@angular/material/sidenav';
+import { BetPlaceFromComponent } from './bet-place-from/bet-place-from.component';
+
 const components = [
   AdminLayoutComponent,
   AuthLayoutComponent,
   AdminFooterPanelComponent,
   AdminLeftPanelComponent,
   AdminRightsidePanelComponent,
-  AppAdminTopPanelComponent
+  AppAdminTopPanelComponent,
+  BetPlaceFromComponent
 ]
 
 @NgModule({
