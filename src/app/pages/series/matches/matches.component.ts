@@ -15,7 +15,7 @@ export class MatchesComponent implements OnInit {
   eventId;
   competitionId;
   menuHeader:any;
-
+  available = true;
   constructor(
     private ds: DataService,
     private apiService: APIService,
@@ -44,6 +44,9 @@ export class MatchesComponent implements OnInit {
       result => {
         if (result.success) {
           this.matches = result.data;
+        }
+        else{
+          this.available = false;
         }
       },
       err => {
