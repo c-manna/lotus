@@ -11,6 +11,7 @@ export class DashboardComponent implements OnInit {
   createBetFormActive: boolean = false;
   constructor() { }
   viewMode = '';
+  selectedItem: any = {};
   dataList = [{
     id: 1,
     name1: "India",
@@ -37,12 +38,13 @@ export class DashboardComponent implements OnInit {
     this.viewMode = '';
   }
 
-  openCreateBetForm(viewMode, index) {
+  openCreateBetForm(viewMode, index, type, value) {
     this.createBetFormActive = false;
     this.dataList.forEach((item) => {
       if (item['viewMode']) item['viewMode'] = false;
       if (item['createBetFormActive']) item['createBetFormActive'] = false;
-    })
+    });
+    this.selectedItem = { type: type, ...value };
     this.dataList[index]['viewMode'] = viewMode;
     this.dataList[index]['createBetFormActive'] = true;
     this.createBetFormActive = true;

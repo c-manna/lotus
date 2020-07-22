@@ -5,37 +5,37 @@
     <div class="input-left">
      <div class="heading">odds</div>
      <div class="incress-decress-value">
-      <button>-</button>
-      <input type="text">
-      <button>+</button>
+      <button (click)="subValue();">-</button>
+      <input type="number" [(ngModel)]="inputData">
+      <button (click)="addValue();">+</button>
      </div>
     </div>
     <div class="input-right">
      <div class="heading">stake</div>
      <div>
-      <input type="text" placeholder="Max: 500,000+">
+      <input type="text" placeholder="Max: 500,000+" [(ngModel)]="stakeValue">
      </div>
     </div>
    </div>
    <div class="button-section">
-    <button>+1000</button>
-    <button>+10,000</button>
-    <button>+20,000</button>
-    <button>+2000</button>
-    <button>+20,000</button>
-    <button>+40,000</button>
+    <button (click)="addStakeValue(1000)">+1000</button>
+    <button (click)="addStakeValue(10000)">+10,000</button>
+    <button (click)="addStakeValue(20000)">+20,000</button>
+    <button (click)="addStakeValue(2000)">+2000</button>
+    <button (click)="addStakeValue(20000)">+20,000</button>
+    <button (click)="addStakeValue(40000)">+40,000</button>
    </div>
    <div class="bottom-button">
     <button (click)="canceBet()">Cancel</button>
-    <button>
+    <button (click)="betPlace();">
      <span>Place Bet</span>
-     <span>Profit:0.00</span>
+     <span>{{(selectedItem.type === 'back') ? 'Profit:' : 'Liability:'}} {{calculatedValue}}</span>
     </button>
    </div>
    <div class="toggle-button">
     <label class="switch">
      <div> Confirm bet before placing</div>
-     <input type="checkbox">
+     <input type="checkbox" [(ngModel)]="checkBoxConfirmation">
      <span class="slider round">
       <span class="text-span"></span>
      </span>
