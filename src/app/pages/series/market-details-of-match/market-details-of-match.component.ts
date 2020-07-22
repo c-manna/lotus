@@ -118,7 +118,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       result => {
         if (result.success) {
           this.matchesDetails = result.data;
-          this.getMatchOdds(result.data[0].marketId);
+          this.getFancy(result.data[0].marketId);
           this.getMatchOdds(result.data[0].marketId);
           this.getOddsFromInterval(result.data[0].marketId);
         }
