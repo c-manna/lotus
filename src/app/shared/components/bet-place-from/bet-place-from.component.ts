@@ -11,7 +11,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Output() betCancelled: any = new EventEmitter();
   @Input('selectedItem') selectedItem: any;
   inputData: number;
-  stakeValue: number = 0;
+  stakeValue: any = 0;
   viewMode = '';
   calculatedValue: any = 0;
   checkBoxConfirmation: boolean;
@@ -46,20 +46,21 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   setStakeValue(event){
-    this.stakeValue+=event;
+    console.log(event)
+    this.stakeValue = parseFloat( this.stakeValue.toString()) + parseFloat(event);
     this.calculateValue();
   }
 
   addStakeValue(value) {
-    this.stakeValue = parseFloat( this.stakeValue.toString()) + value;
+    this.stakeValue = parseFloat( this.stakeValue.toString()) + parseFloat(value);
     this.calculateValue();
   }
 
   calculateValue() {
     if (this.selectedItem.type === 'back') {
-      this.calculatedValue = ((this.inputData - 1) * this.stakeValue).toFixed(2);
+      this.calculatedValue = (parseFloat((this.inputData - 1.00).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
     } else {
-      this.calculatedValue = ((this.inputData - 1) * this.stakeValue).toFixed(2);
+      this.calculatedValue = (parseFloat((this.inputData - 1.00).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
     }
   }
 
