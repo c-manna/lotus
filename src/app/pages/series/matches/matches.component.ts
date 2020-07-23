@@ -15,7 +15,7 @@ export class MatchesComponent implements OnInit {
   eventId;
   competitionId;
   menuHeader:any;
-  available = true;
+  available = false;
   constructor(
     private ds: DataService,
     private apiService: APIService,
@@ -43,10 +43,11 @@ export class MatchesComponent implements OnInit {
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID='+id+'&competitionId=' + id, 'get').subscribe(
       result => {
         if (result.success) {
+          this.available = false;
           this.matches = result.data;
         }
         else{
-          this.available = false;
+          this.available = true;
         }
       },
       err => {
