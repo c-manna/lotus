@@ -14,16 +14,19 @@ export class DashboardComponent implements OnInit {
   selectedItem: any = {};
   dataList = [{
     id: 1,
+    status: true,
     name1: "India",
     name2: "England",
     item: [{ back: 1.1, lay: 1.2 }, { back: 1.3, lay: 1.4 }, { back: 1.5, lay: 1.6 }]
   }, {
     id: 2,
+    status: true,
     name1: "RSA",
     name2: "England",
-    item: [{ back: 2.1, lay: 2.2 }, { back: 2.3, lay: 2.4 }, { back: 2.5, lay: 2.6 }]
+    item: [{ back: 2.1 }, { back: 2.3, lay: 2.4 }, {}]
   }, {
     id: 3,
+    status: false,
     name1: "India",
     name2: "RSA",
     item: [{ back: 3.1, lay: 3.2 }, { back: 3.3, lay: 3.4 }, { back: 3.5, lay: 3.6 }]

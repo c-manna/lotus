@@ -20,54 +20,40 @@
                         <div>2</div>
                     </div>
                     <div class="market-odds">
-                        <ul>
+                        <ul *ngIf="item.status;else suspendMatch">
                             <ng-template [ngIf]="1" *ngFor="let eachItem of item.item">
-                                <li [class.active]="item.viewMode == 'tab1'" rel="tab1"
-                                    (click)="openCreateBetForm('tab1',i, 'back', eachItem)">
+                                <li *ngIf="eachItem.back;else blankBackLay" [class.active]="item.viewMode == 'tab1'"
+                                    rel="tab1" (click)="openCreateBetForm('tab1',i, 'back', eachItem)">
                                     <div class="bet-button back">
-                                        <div class="price">2.66</div>
+                                        <div class="price">{{eachItem.back}}</div>
                                         <div class="market-volume">298,208</div>
                                     </div>
                                 </li>
-                                <li [class.active]="item.viewMode == 'tab2'" rel="tab2"
-                                    (click)="openCreateBetForm('tab2',i, 'lay', eachItem)">
+                                <li *ngIf="eachItem.lay;else blankBackLay" [class.active]="item.viewMode == 'tab2'"
+                                    rel="tab2" (click)="openCreateBetForm('tab2',i, 'lay', eachItem)">
                                     <div class="bet-button lay">
-                                        <div class="price">2.66</div>
+                                        <div class="price">{{eachItem.lay}}</div>
                                         <div class="market-volume">298,208</div>
                                     </div>
                                 </li>
+                                <ng-template #blankBackLay>
+                                    <li>
+                                        <div class="bet-button back has-no-runner">
+                                            -
+                                        </div>
+                                    </li>
+                                </ng-template>
                             </ng-template>
-                            <!-- <li [class.active]="item.viewMode == 'tab3'" rel="tab3"
-                                (click)="openCreateBetForm('tab3',i, 'back', item)">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,208</div>
-                                </div>
-                            </li>
-                            <li [class.active]="item.viewMode == 'tab4'" rel="tab4"
-                                (click)="openCreateBetForm('tab4',i, 'lay', item)">
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,208</div>
-                                </div>
-                            </li>
-                            <li [class.active]="item.viewMode == 'tab5'" rel="tab5"
-                                (click)="openCreateBetForm('tab5',i, 'back', item)">
-                                <div class="bet-button back">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,208</div>
-                                </div>
-                            </li>
-
-                            <li [class.active]="item.viewMode == 'tab6'" rel="tab6"
-                                (click)="openCreateBetForm('tab6',i, 'lay', item)">
-                                <div class="bet-button lay">
-                                    <div class="price">2.66</div>
-                                    <div class="market-volume">298,208</div>
-                                </div>
-                            </li> -->
-
                         </ul>
+                        <ng-template #suspendMatch>
+                            <ul class="main-ul">
+                                <li>
+                                    <div class="market-odds">
+                                        <div class="suspended">suspended</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </ng-template>
                     </div>
                     <app-bet-place-from *ngIf="item.createBetFormActive && createBetFormActive"
                         (betCancelled)="canceBet()" [selectedItem]="selectedItem">
@@ -79,7 +65,7 @@
 
 
 
-        <div class="consolidated-events">
+        <!-- <div class="consolidated-events">
             <ul class="main-ul">
                 <li>
                     <div class="competitors" routerLink="/match-detail">
@@ -90,8 +76,8 @@
                         <div>1</div>
                         <div>X</div>
                         <div>2</div>
-                    </div>
-                    <div class="market-odds">
+                    </div> -->
+        <!-- <div class="market-odds">
                         <ul>
                             <li [class.active]="viewMode == 'tab1'" rel="tab1">
                                 <div class="bet-button back">
@@ -134,8 +120,10 @@
                             </li>
 
                         </ul>
-                    </div>
-                    <!-- <div class="tab-slider--container " [ngSwitch]="viewMode">
+                    </div> -->
+
+
+        <!-- <div class="tab-slider--container " [ngSwitch]="viewMode">
                         <div id="tab1" class="tab-slider--body back" *ngSwitchCase="'tab1'">
                             <div>
                                 <div class="input-section">
@@ -399,11 +387,11 @@
                             </div>
                         </div>
                     </div> -->
-                </li>
+        <!-- </li>
             </ul>
-        </div>
+        </div> -->
 
-        <div class="consolidated-events">
+        <!-- <div class="consolidated-events">
             <ul class="main-ul">
                 <li>
                     <div class="competitors" routerLink="/match-detail">
@@ -415,8 +403,8 @@
                         <div>X</div>
                         <div>2</div>
                     </div>
-                    <div class="market-odds">
-                        <!-- <ul>
+                    <div class="market-odds"> -->
+        <!-- <ul>
                                 <li  [class.active]="viewMode == 'tab1'" rel="tab1" (click)="viewMode ='tab1'" >
                                     <div class="bet-button back">
                                         <div class="price">2.66</div>
@@ -459,12 +447,12 @@
                                
                             </ul> -->
 
-                        <div class="suspended">suspended</div>
+        <!-- <div class="suspended">suspended</div>
                     </div>
 
                 </li>
             </ul>
-        </div>
+        </div> -->
 
         <div class="consolidated-events">
             <ul class="main-ul">
