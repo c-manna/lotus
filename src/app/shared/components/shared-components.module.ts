@@ -5,9 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { AdminLayoutComponent, AuthLayoutComponent, AdminFooterPanelComponent, AdminLeftPanelComponent, AdminRightsidePanelComponent, AppAdminTopPanelComponent } from '@shared/components';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDrawer } from '@angular/material/sidenav';
-import { BetPlaceFromComponent } from './bet-place-from/bet-place-from.component';
-import { BetplaceConfirmationPopupComponent } from './betplace-confirmation-popup/betplace-confirmation-popup.component';
-import { MatDialogModule } from '@angular/material/dialog';
 
 const components = [
   AdminLayoutComponent,
@@ -15,9 +12,7 @@ const components = [
   AdminFooterPanelComponent,
   AdminLeftPanelComponent,
   AdminRightsidePanelComponent,
-  AppAdminTopPanelComponent,
-  BetPlaceFromComponent,
-  BetplaceConfirmationPopupComponent
+  AppAdminTopPanelComponent
 ]
 
 @NgModule({
@@ -25,8 +20,7 @@ const components = [
     CommonModule,
     FormsModule,
     RouterModule,
-    MatSidenavModule,
-    MatDialogModule
+    MatSidenavModule
   ],
   declarations: components,
   entryComponents: [],

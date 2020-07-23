@@ -34,19 +34,24 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   addValue() {
-    let value = (this.inputData + 0.1).toFixed(2);
+    let value = (this.inputData + 0.01).toFixed(2);
     this.inputData = parseFloat(value);
     this.calculateValue();
   }
 
   subValue() {
-    let value = (this.inputData - 0.1).toFixed(2);
+    let value = (this.inputData - 0.01).toFixed(2);
     this.inputData = parseFloat(value);
     this.calculateValue();
   }
 
+  setStakeValue(event){
+    this.stakeValue+=event;
+    this.calculateValue();
+  }
+
   addStakeValue(value) {
-    this.stakeValue += value;
+    this.stakeValue = parseFloat( this.stakeValue.toString()) + value;
     this.calculateValue();
   }
 

@@ -13,7 +13,7 @@
     <div class="input-right">
      <div class="heading">stake</div>
      <div>
-      <input type="text" placeholder="Max: 500,000+" [(ngModel)]="stakeValue">
+      <input #stake type="text" placeholder="Max: 500,000+" (ngModelChange)="setStakeValue($event)" [(ngModel)]="stakeValue" appTwoDigitDecimaNumber>
      </div>
     </div>
    </div>
