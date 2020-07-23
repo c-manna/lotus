@@ -11,7 +11,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Output() betCancelled: any = new EventEmitter();
   @Input('selectedItem') selectedItem: any;
   inputData: number;
-  stakeValue: any = 0;
+  stakeValue: number = 0;
   viewMode = '';
   calculatedValue: any = 0;
   checkBoxConfirmation: boolean;
@@ -45,22 +45,22 @@ export class BetPlaceFromComponent implements OnInit {
     this.calculateValue();
   }
 
-  setStakeValue(event){
-    console.log(event)
-    this.stakeValue = parseFloat( this.stakeValue.toString()) + parseFloat(event);
-    this.calculateValue();
-  }
-
   addStakeValue(value) {
-    this.stakeValue = parseFloat( this.stakeValue.toString()) + parseFloat(value);
+    if (this.stakeValue.toString() != '')
+      this.stakeValue = parseFloat(this.stakeValue.toString()) + parseFloat(value);
+    else
+      this.stakeValue = parseFloat(value);
     this.calculateValue();
   }
 
   calculateValue() {
     if (this.selectedItem.type === 'back') {
-      this.calculatedValue = (parseFloat((this.inputData - 1.00).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
+      this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
     } else {
-      this.calculatedValue = (parseFloat((this.inputData - 1.00).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
+      this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
+    }
+    if (this.stakeValue.toString() == '') {
+      this.calculatedValue = 0.00;
     }
   }
 
@@ -79,7 +79,7 @@ export class BetPlaceFromComponent implements OnInit {
           console.log('The dialog was closed');
         });
       }
-      else{
+      else {
         // display loader
       }
     }
