@@ -60,17 +60,22 @@ export class BetPlaceFromComponent implements OnInit {
 
   betPlace() {
     console.log("checkBoxConfirmation==", this.checkBoxConfirmation);
-    if (this.checkBoxConfirmation) {
-      console.log("open popup");
-      //open popup
-      const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
-        width: '250px',
-        data: {}
-      });
+    if (this.calculatedValue > 0) {
+      if (this.checkBoxConfirmation) {
+        console.log("open popup");
+        //open popup
+        const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
+          width: '250px',
+          data: {}
+        });
 
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('The dialog was closed');
-      });
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      }
+      else{
+        // display loader
+      }
     }
   }
 
