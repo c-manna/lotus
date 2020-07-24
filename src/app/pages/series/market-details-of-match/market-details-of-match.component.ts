@@ -81,6 +81,56 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       }
     ]
 
+  fancyMatch = [{
+    "RunnerName": "CC 20 Over Runs ADV", "LayPrice1": 172, "LaySize1": 100, "BackPrice1": 175, "BackSize1": 100, "GameStatus": "", "SelectionId": "94476"
+  }, {
+    "RunnerName": "Highest Run In Over ADV", "LayPrice1": 20, "LaySize1": 100, "BackPrice1": 21, "BackSize1": 100, "GameStatus": "", "SelectionId": "94490"
+  }, {
+    "RunnerName": "sd", "LayPrice1": 0, "LaySize1": 0, "BackPrice1": 0, "BackSize1": 0, "GameStatus": "OFFLINE", "SelectionId": "94481"
+  }, {
+    "RunnerName": "CW 6 Over Runs ADV", "LayPrice1": 48, "LaySize1": 100, "BackPrice1": 50, "BackSize1": 100, "GameStatus": "", "SelectionId": "94477"
+  }, {
+    "RunnerName": "NUSE", "LayPrice1": 0, "LaySize1": 0, "BackPrice1": 0, "BackSize1": 0, "GameStatus": "OFFLINE", "SelectionId": "94271"
+  }, {
+    "RunnerName": "B Rajapaksa Runs Open Valid", "LayPrice1": 23, "LaySize1": 110, "BackPrice1": 23, "BackSize1": 90, "GameStatus": "", "SelectionId": "94483"
+  }, {
+    "RunnerName": "Total Match Wkt ADV", "LayPrice1": 12, "LaySize1": 100, "BackPrice1": 13, "BackSize1": 100, "GameStatus": "", "SelectionId": "94487"
+  }, {
+    "RunnerName": "L Simmons Runs Open Valid", "LayPrice1": 25, "LaySize1": 110, "BackPrice1": 25, "BackSize1": 90, "GameStatus": "", "SelectionId": "95480"
+  }, {
+    "RunnerName": "Total Match Wide ADV", "LayPrice1": 8, "LaySize1": 100, "BackPrice1": 9, "BackSize1": 100, "GameStatus": "", "SelectionId": "94488"
+  }, {
+    "RunnerName": "Fall Of 1st WKT CWADV", "LayPrice1": 24, "LaySize1": 110, "BackPrice1": 24, "BackSize1": 90, "GameStatus": "", "SelectionId": "94480"
+  }, {
+    "RunnerName": "S Sarkar Runs Open Valid", "LayPrice1": 22, "LaySize1": 110, "BackPrice1": 22, "BackSize1": 90, "GameStatus": "", "SelectionId": "95481"
+  }, {
+    "RunnerName": "A Fernando Runs Open Valid", "LayPrice1": 22, "LaySize1": 110, "BackPrice1": 22, "BackSize1": 90, "GameStatus": "", "SelectionId": "94482"
+  }, {
+    "RunnerName": "Total Match Sixes ADV", "LayPrice1": 14, "LaySize1": 100, "BackPrice1": 16, "BackSize1": 100, "GameStatus": "", "SelectionId": "94486"
+  }, {
+    "RunnerName": "deg", "LayPrice1": 0, "LaySize1": 0, "BackPrice1": 0, "BackSize1": 0, "GameStatus": "OFFLINE", "SelectionId": "94484"
+  }, {
+    "RunnerName": "CC Will Win The Toss Bhav", "LayPrice1": 1, "LaySize1": 110, "BackPrice1": 1, "BackSize1": 90, "GameStatus": "", "SelectionId": "94472"
+  }, {
+    "RunnerName": "Total Match Four ADV", "LayPrice1": 26, "LaySize1": 100, "BackPrice1": 28, "BackSize1": 100, "GameStatus": "", "SelectionId": "94485"
+  }, {
+    "RunnerName": "Fall Of 1st WKT CC ADV", "LayPrice1": 25, "LaySize1": 110, "BackPrice1": 25, "BackSize1": 90, "GameStatus": "", "SelectionId": "94479"
+  }, {
+    "RunnerName": "NO USE", "LayPrice1": 0, "LaySize1": 0, "BackPrice1": 0, "BackSize1": 0, "GameStatus": "OFFLINE", "SelectionId": "94272"
+  }, {
+    "RunnerName": "CW 20 Over Runs ADV", "LayPrice1": 170, "LaySize1": 100, "BackPrice1": 173, "BackSize1": 100, "GameStatus": "", "SelectionId": "94478"
+  }, {
+    "RunnerName": "Match 1st Over Runs ADV", "LayPrice1": 6, "LaySize1": 100, "BackPrice1": 7, "BackSize1": 100, "GameStatus": "", "SelectionId": "94473"
+  }, {
+    "RunnerName": "CC 6 Over Runs ADV", "LayPrice1": 48, "LaySize1": 100, "BackPrice1": 50, "BackSize1": 100, "GameStatus": "", "SelectionId": "94475"
+  }, {
+    "RunnerName": "Match Only 2nd Over Runs ADV", "LayPrice1": 7, "LaySize1": 100, "BackPrice1": 8, "BackSize1": 100, "GameStatus": "", "SelectionId": "94474"
+  }, {
+    "RunnerName": "Top Scoring Batsman Runs ADV", "LayPrice1": 64, "LaySize1": 100, "BackPrice1": 67, "BackSize1": 100, "GameStatus": "", "SelectionId": "94491"
+  }, {
+    "RunnerName": "Total Match Extra Runs ADV", "LayPrice1": 14, "LaySize1": 100, "BackPrice1": 16, "BackSize1": 100, "GameStatus": "", "SelectionId": "94489"
+  }];
+
   constructor(
     private ds: DataService,
     public platform: Platform,

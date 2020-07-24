@@ -6,88 +6,97 @@
         <div class="toggle-button">
             <label class="switch">
                 <div> Tap to turn on one click betting</div>
-                <input type="checkbox">
+                <input type="checkbox" [(ngModel)]="settingData.oneClickBet" (change)="upDateOneClickBetting()">
                 <span class="slider round">
                     <span class="text-span"></span>
                 </span>
             </label>
         </div>
 
-           <div class="shake-group-wrapper">
+        <div class="shake-group-wrapper">
             <div class="stakes-group">
-                <div class="stake readonly active">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.oneClickStake==500}"
+                    (click)="changeOneClickStake(500)">
                     <div class="wrapper">
                         <p>500</p>
-                        <span>Active Stake</span>
+                        <span *ngIf="settingData.oneClickStake==500">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake readonly ">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.oneClickStake==1000}"
+                    (click)="changeOneClickStake(1000)">
                     <div class="wrapper">
                         <p>1000</p>
-
+                        <span *ngIf="settingData.oneClickStake==1000">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake readonly ">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.oneClickStake==1500}"
+                    (click)="changeOneClickStake(1500)">
                     <div class="wrapper">
                         <p>1500</p>
-
+                        <span *ngIf="settingData.oneClickStake==1500">Active Stake</span>
                     </div>
                 </div>
-               
-            </div>
-           <button class="disable-class">Edit</button>
-           </div>
 
-           <h2 class="page-title title-class">Edit Casino Stakes</h2>
-           <div class="shake-group-wrapper">
+            </div>
+            <button class="disable-class" (click)="editOneClickStake()">Edit</button>
+        </div>
+
+        <h2 class="page-title title-class">Edit Casino Stakes</h2>
+        <div class="shake-group-wrapper">
             <div class="stakes-group">
-                <div class="stake readonly active">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.casinoStakes==500}"
+                    (click)="changeCasinoStakes(500)">
                     <div class="wrapper">
                         <p>500</p>
-                        <span>Active Stake</span>
+                        <span *ngIf="settingData.casinoStakes==500">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake readonly ">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.casinoStakes==1000}"
+                    (click)="changeCasinoStakes(1000)">
                     <div class="wrapper">
                         <p>1000</p>
-
+                        <span *ngIf="settingData.casinoStakes==1000">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake readonly ">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.casinoStakes==1500}"
+                    (click)="changeCasinoStakes(1500)">
                     <div class="wrapper">
                         <p>1500</p>
-
+                        <span *ngIf="settingData.casinoStakes==1500">Active Stake</span>
                     </div>
                 </div>
-               
+
             </div>
-           <button>Edit</button>
-           </div>
-           <h2 class="page-title title-class">Edit Stakes</h2>
-           <div class="shake-group-wrapper">
+            <button (click)="editCasinoStakes()">Edit</button>
+        </div>
+        <h2 class="page-title title-class">Edit Stakes</h2>
+        <div class="shake-group-wrapper">
             <div class="stakes-group">
-                <div class="stake readonly active">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.stakes==500}"
+                    (click)="changeStakes(500)">
                     <div class="wrapper">
                         <p>500</p>
-                        <span>Active Stake</span>
+                        <span *ngIf="settingData.stakes==500">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake readonly ">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.stakes==1000}"
+                    (click)="changeStakes(1000)">
                     <div class="wrapper">
                         <p>1000</p>
-
+                        <span *ngIf="settingData.stakes==1000">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake readonly ">
+                <div class="stake" [ngClass]="{'readonly active' : settingData.stakes==1500}"
+                    (click)="changeStakes(1500)">
                     <div class="wrapper">
                         <p>1500</p>
-
+                        <span *ngIf="settingData.stakes==1500">Active Stake</span>
                     </div>
                 </div>
-               
+
             </div>
-           <button >Edit</button>
-           </div>
+            <button (click)="editStakes()">Edit</button>
+        </div>
     </div>
 
 
@@ -116,13 +125,13 @@
                         </label>
                     </li>
                     <li>
-                        <label class="checkbox_container">System time - (GMT +00:00)
+                        <label class="checkbox_container">Your device time - (GMT +05:30)
                             <input type="radio" checked="checked" name="radio">
                             <span class="checkmark"></span>
                         </label>
                     </li>
                     <li>
-                        <label class="checkbox_container">System time - (GMT +00:00)
+                        <label class="checkbox_container">India Standard time - (GMT +05:30)
                             <input type="radio" checked="checked" name="radio">
                             <span class="checkmark"></span>
                         </label>
@@ -136,16 +145,28 @@
     <div class="change-setting">
         <h2 class="page-title">Change Password</h2>
         <div class="input-wrapper">
-            <div class="input-row">
-                <input type="text" placeholder="Old Password">
-            </div>
-            <div class="input-row">
-                <input type="text" placeholder="New Password">
-            </div>
-            <div class="input-row">
-                <input type="text" placeholder="Repeat New Password">
-            </div>
-            <button>Save</button>
+            <form [formGroup]="passwordForm" (submit)="passwordSubmit()">
+                <div class="input-row">
+                    <input type="password" placeholder="Old Password" formControlName="password">
+                    <div *ngIf="passwordFormSubmit && f.password.errors" class="invalid-feedback">
+                        <div *ngIf="f.password.errors.required">Old password is required</div>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <input type="password" placeholder="New Password" formControlName="newPassword">
+                    <div *ngIf="passwordFormSubmit && f.newPassword.errors" class="invalid-feedback">
+                        <div *ngIf="f.newPassword.errors.required">New password is required</div>
+                    </div>
+                </div>
+                <div class="input-row">
+                    <input type="password" placeholder="Repeat New Password" formControlName="confirmPassword">
+                    <div *ngIf="passwordFormSubmit && f.confirmPassword.errors" class="invalid-feedback">
+                        <div *ngIf="f.confirmPassword.errors.required">Confirm password is required</div>
+                        <div *ngIf="f.confirmPassword.errors.mustMatch">Confirm password not matched</div>
+                    </div>
+                </div>
+                <button>Save</button>
+            </form>
         </div>
     </div>
 </div>
