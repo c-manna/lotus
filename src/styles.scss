@@ -11,8 +11,30 @@ body { margin: 0; font-family: 'Lato', sans-serif; }
 
 
 
-button:focus,input:focus,textarea:focus{
-  outline: none;
+button:focus,input:focus,textarea:focus,select:focus,
+button:hover,input:hover,textarea:hover,select:hover{
+  outline: none!important;
+  box-shadow: none!important;
+}
+.eye_Icon{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: #2c4f58;
+  position: fixed;
+  right: 20px;
+  bottom: 50px;
+  background-size: 35px;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+svg{
+  fill: #fff;
+  width: 35px;
+}
+  // background-image: url(./assets/icons/eye_white.svg);
 }
 .example-container {
     width: 100%;
@@ -47,4 +69,45 @@ button:focus,input:focus,textarea:focus{
     pointer-events: all;
     margin-top: 12px;
   }
+  .mat-expansion-panel-body{
+    padding: 0 4px 16px 24px;
 }
+mat-expansion-panel{
+  margin-bottom: 0;
+  margin-top: 0;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2px;
+  box-shadow: none;
+}
+.mat-expansion-panel:not([class*=mat-elevation-z]){
+  box-shadow: none;
+}
+.mat-content{
+  position: relative;
+}
+}
+
+.mat-drawer {
+  width: 75%;
+}
+
+
+.datePicker{
+  mat-form-field{
+      button{
+        background: #2f8230!important;
+          border: 0!important;
+          border-top-left-radius: 0!important;
+          border-bottom-left-radius: 0!important;
+      }
+  }
+}
+
+
+
+
+  
+
+
+
+

@@ -1,1 +1,45 @@
-<h1>admin right side</h1>
+<div class="right-side">
+    <p class="login-name">testdemo</p>
+    <ul>
+        <li>
+            <p class="balance-info">Balance Information</p>
+            <div class="content">
+                <div class="group">
+                    <div>Available Credit:</div>
+                    <span>0.00</span>
+                </div>
+                <div class="group">
+                    <div>Credit Limit:</div>
+                    <span>0.00</span>
+                </div>
+                <div class="group">
+                    <div>Winnings:</div>
+                    <span>0.00</span>
+                </div>
+                <div class="group">
+                    <div>Net Exposure:</div>
+                    <span>0.00</span>
+                </div>
+            </div>
+        </li>
+        <li routerLink="/openBets">
+            <p class="open-bets">Open Bets</p>
+        </li>
+        <li routerLink="/bettingPL">
+            <p class="betting-pl">Betting P&L</p>
+        </li>
+        <li routerLink="/transfarStatement">
+            <p class="transfar-statement">Transfer Statement</p>
+        </li>
+      
+        <li  routerLink="/ruleRegulation">
+            <p class="rule-regulation">Rules & Regulations</p>
+        </li>
+        <li class="setting" routerLink="/settings">
+            <p class="setting-icon">Settings</p>
+        </li>
+        <li>
+            <p class="signout">Sign Out</p>
+        </li>
+    </ul>
+</div>
