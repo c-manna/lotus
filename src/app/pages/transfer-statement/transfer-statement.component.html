@@ -1,0 +1,45 @@
+<div class="transfarStatement bg-img">
+    <h2 class="page-title">Open Bets</h2>
+
+    <div class="datePicker">
+        <mat-form-field color="accent" appearance="fill">
+            <!-- <mat-label>Inherited calendar color</mat-label> -->
+            <input matInput [matDatepicker]="picker1" placeholder="Select Date">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field color="accent" appearance="fill">
+            <!-- <mat-label>Custom calendar color</mat-label> -->
+            <input matInput [matDatepicker]="picker2" placeholder="Select Date">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2 color="primary"></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="select-box icon">
+        <select name="cars" id="cars">
+            <option value="volvo">Option 1</option>
+            <option value="saab">Option 2</option>
+            <option value="mercedes">Option 3</option>
+            <option value="audi">Option 4</option>
+        </select>
+    </div>
+    <button class="submit-btn">Submit</button>
+    <div class="show-search">
+        <div class="show-left">
+            <h4>Show</h4>
+            <div class="show-select icon">
+                <select name="cars" id="cars">
+                    <option value="volvo">25 Entries</option>
+                    <option value="saab">50 Entries</option>
+                    <option value="mercedes">75 Entries</option>
+                    <option value="audi">100 Entries</option>
+                </select>
+            </div>
+        </div>
+        <div class="show-left">
+            <h4>Search</h4>
+            <input type="text">
+        </div>
+    </div>
+</div>

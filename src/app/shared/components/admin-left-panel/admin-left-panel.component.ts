@@ -1,8 +1,7 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService, DataService } from '@shared/services';
+import { APIService, DataService, SideNavService } from '@shared/services';
 import { Router } from '@angular/router';
-import { SideNavService } from '@shared/services';
 
 @Component({
   selector: 'app-admin-left-panel',

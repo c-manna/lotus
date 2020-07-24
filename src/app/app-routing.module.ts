@@ -20,13 +20,32 @@ const routes: Routes = [
         path: 'dashboard',
         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
+      {
+        path: 'series/:id',
+        loadChildren: () => import('./pages/series/series.module').then(m => m.SeriesModule)
+      },
+      {
+        path: 'open-bets',
+        loadChildren: () => import('./pages/open-bets/open-bets.module').then(m => m.OpenBetsModule)
+      },
+      {
+        path: 'betting-profit-and-loss', 
+        loadChildren: () => import('./pages/betting-profit-and-loss/betting-profit-and-loss.module').then(m => m.BettingProfitAndLossModule)
+      },
       { 
-        path: 'series/:id', 
-        loadChildren: () => import('./pages/series/series.module').then(m => m.SeriesModule) 
+        path: 'transfer-statement', 
+        loadChildren: () => import('./pages/transfer-statement/transfer-statement.module').then(m => m.TransferStatementModule) 
+      },
+      { 
+        path: 'rule-and-regulation', 
+        loadChildren: () => import('./pages/rule-and-regulation/rule-and-regulation.module').then(m => m.RuleAndRegulationModule) 
+      },
+      { 
+        path: 'settings', 
+        loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule) 
       }
     ]
   }
-
 ];
 
 @NgModule({

@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { environment } from '@env/environment';
-
+import { APIService, DataService, SideNavService } from '@shared/services';
 import { Subscription } from "rxjs";
 import { filter } from 'rxjs/operators';
 
@@ -14,14 +14,19 @@ import { filter } from 'rxjs/operators';
 })
 export class AdminRightsidePanelComponent implements OnInit {
 
-  constructor() { 
+  constructor( private ds: DataService,
+    private apiService: APIService,
+    private router: Router,
+    private toolbarService: SideNavService) { 
   }
 
   ngOnInit() {
 
   }
 
-  
+  closeNav(){
+    this.toolbarService.close();
+  }
   /* Logout Admin user */
   logout() {
   }
