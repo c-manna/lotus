@@ -12,15 +12,20 @@ import { Platform } from '@angular/cdk/platform';
 })
 export class MarketDetailsOfMatchComponent implements OnInit {
   viewMode = 'tab3';
-  matchesDetails = [];
+  matchesDetails = [{
+    "marketId": "1.166397338", "marketName": "Match Odds", "marketStartTime": "2019-12-19T04:45:00.000Z", "totalMatched": 35685.4, "runners":
+      [{ "selectionId": 7461, "runnerName": "Pakistan", "handicap": 0, "sortPriority": 1 },
+      { "selectionId": 7337, "runnerName": "Sri Lanka", "handicap": 0, "sortPriority": 2 },
+      { "selectionId": 60443, "runnerName": "The Draw", "handicap": 0, "sortPriority": 3 }]
+  }];
   _routeListener: Subscription;
   eventId;
   competitionId;
   menuHeader = [];
-  matchOdds: any = [];
+  //matchOdds: any = [];
   getOddsInterval: any;
 
-  matchOdds1 =
+  matchOdds: any =
     [
       {
         "marketId": "1.166536383", "isMarketDataDelayed": false, "status": "OPEN", "betDelay": 0,
