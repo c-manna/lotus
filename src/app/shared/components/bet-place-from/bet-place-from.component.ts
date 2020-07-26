@@ -30,7 +30,7 @@ export class BetPlaceFromComponent implements OnInit {
     this.stakeValue = 0;
     this.calculatedValue = 0;
     this.selectedItem = changes.selectedItem.currentValue;
-    this.inputData = this.selectedItem[this.selectedItem.type];
+    this.inputData = this.selectedItem.value;
   }
 
   addValue() {

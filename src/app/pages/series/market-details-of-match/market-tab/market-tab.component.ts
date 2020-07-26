@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class MarketTabComponent implements OnInit {
   @Input() matchOdds: any;
   @Input() matchesDetails: any;
+  @Input('fancyMatch') fancyMatch: any;
   constructor() { }
 
   ngOnInit(): void {

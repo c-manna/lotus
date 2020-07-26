@@ -22,40 +22,28 @@
                     <div class="market-odds">
                         <ul *ngIf="item.status;else suspendMatch">
                             <ng-template [ngIf]="1" *ngFor="let eachItem of item.item">
-                                <li *ngIf="eachItem.back;else blankBackLay" [class.active]="item.viewMode == 'tab1'"
-                                    rel="tab1" (click)="openCreateBetForm('tab1',i, 'back', eachItem)">
+                                <li *ngIf="eachItem.back;else blankBackLay"
+                                    [class.active]="(eachItem.createBetFormActive == createBetFormActive && eachItem.viewMode == 'tab1')"
+                                    rel="tab1"
+                                    (click)="openCreateBetForm('tab1',eachItem.back, 'back', item, eachItem)">
                                     <div class="bet-button back">
                                         <div class="price">{{eachItem.back}}</div>
                                         <div class="market-volume">298,208</div>
                                     </div>
                                 </li>
-                                <li *ngIf="eachItem.lay;else blankBackLay" [class.active]="item.viewMode == 'tab2'"
-                                    rel="tab2" (click)="openCreateBetForm('tab2',i, 'lay', eachItem)">
+                                <li *ngIf="eachItem.lay;else blankBackLay"
+                                    [class.active]="(eachItem.createBetFormActive == createBetFormActive && eachItem.viewMode == 'tab2')"
+                                    rel="tab2" (click)="openCreateBetForm('tab2',eachItem.lay, 'lay', item, eachItem)">
                                     <div class="bet-button lay">
                                         <div class="price">{{eachItem.lay}}</div>
                                         <div class="market-volume">298,208</div>
                                     </div>
                                 </li>
-                                <ng-template #blankBackLay>
-                                    <li>
-                                        <div class="bet-button back has-no-runner">
-                                            -
-                                        </div>
-                                    </li>
-                                </ng-template>
                             </ng-template>
                         </ul>
-                        <ng-template #suspendMatch>
-                            <ul class="main-ul">
-                                <li>
-                                    <div class="market-odds">
-                                        <div class="suspended">suspended</div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </ng-template>
                     </div>
-                    <app-bet-place-from *ngIf="item.createBetFormActive && createBetFormActive"
+                    <app-bet-place-from
+                        *ngIf="(item.createBetFormActive && createBetFormActive && item.createBetFormActive == createBetFormActive)"
                         (betCancelled)="canceBet()" [selectedItem]="selectedItem">
                     </app-bet-place-from>
                 </li>
@@ -511,3 +499,20 @@
         </div>
     </div>
 </div>
+
+<ng-template #suspendMatch>
+    <ul class="main-ul">
+        <li>
+            <div class="market-odds">
+                <div class="suspended">suspended</div>
+            </div>
+        </li>
+    </ul>
+</ng-template>
+<ng-template #blankBackLay>
+    <li>
+        <div class="bet-button back has-no-runner">
+            -
+        </div>
+    </li>
+</ng-template>

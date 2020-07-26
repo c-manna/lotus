@@ -8,9 +8,8 @@ import { MatAccordion } from '@angular/material/expansion';
 })
 export class DashboardComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  createBetFormActive: boolean = false;
+  createBetFormActive: any;
   constructor() { }
-  viewMode = '';
   selectedItem: any = {};
   dataList = [{
     id: 1,
@@ -37,20 +36,16 @@ export class DashboardComponent implements OnInit {
 
   canceBet() {
     console.log("canceBet");
-    this.createBetFormActive = false;
-    this.viewMode = '';
+    this.createBetFormActive = 0;
   }
 
-  openCreateBetForm(viewMode, index, type, value) {
-    this.createBetFormActive = false;
-    this.dataList.forEach((item) => {
-      if (item['viewMode']) item['viewMode'] = false;
-      if (item['createBetFormActive']) item['createBetFormActive'] = false;
-    });
-    this.selectedItem = { type: type, ...value };
-    this.dataList[index]['viewMode'] = viewMode;
-    this.dataList[index]['createBetFormActive'] = true;
-    this.createBetFormActive = true;
+  openCreateBetForm(viewMode, value, type, item, eachItem) {
+    let currentTime = Date.now();
+    this.selectedItem = { type: type, ...item, value: value };
+    eachItem['viewMode'] = viewMode;
+    item['createBetFormActive'] = currentTime;
+    eachItem['createBetFormActive'] = currentTime;
+    this.createBetFormActive = currentTime;
   }
 
 }
