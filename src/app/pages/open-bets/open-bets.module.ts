@@ -11,6 +11,7 @@ import { SharedModule } from '@shared/shared.module';
     CommonModule,
     OpenBetsRoutingModule,
     SharedModule
-  ]
+  ],
+  exports: [OpenBetsComponent]
 })
 export class OpenBetsModule { }
