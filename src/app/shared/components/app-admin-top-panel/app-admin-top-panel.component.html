@@ -9,8 +9,10 @@
 
    
     <div class="header-left">
-        <button class="menu-icon" (click)="toggleDrawer()"></button>
-        <button class="back-icon" (click)="backClicked()"></button>
+        <button *ngIf="url[1]=='dashboard';else elsePart" class="menu-icon" (click)="toggleDrawer()"></button>
+        <ng-template #elsePart>
+            <button class="back-icon" (click)="backClicked()"></button>
+        </ng-template>
         <div class="logo">
 
         </div>
