@@ -7,16 +7,17 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SharedCoreModule } from '@shared/core';
 import { BetPlaceFromComponent } from '@shared/components/bet-place-from/bet-place-from.component';
 import { BetplaceConfirmationPopupComponent } from '@shared/components/betplace-confirmation-popup/betplace-confirmation-popup.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [BetPlaceFromComponent,BetplaceConfirmationPopupComponent],
+  declarations: [BetPlaceFromComponent, BetplaceConfirmationPopupComponent],
   imports: [
     FormsModule,
     CommonModule,
     SharedComponentsModule,
     NgMaterialModule,
     RxReactiveFormsModule,
+    ReactiveFormsModule,
     SharedCoreModule
   ],
   exports: [
@@ -24,7 +25,7 @@ import { FormsModule } from '@angular/forms';
     NgMaterialModule,
     RxReactiveFormsModule,
     SharedCoreModule,
-    BetPlaceFromComponent,BetplaceConfirmationPopupComponent
+    BetPlaceFromComponent, BetplaceConfirmationPopupComponent
   ],
   providers: [AuthGuard]
 })

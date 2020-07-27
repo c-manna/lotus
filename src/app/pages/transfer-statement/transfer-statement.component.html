@@ -1,30 +1,28 @@
 <div class="transfarStatement bg-img">
     <h2 class="page-title">Open Bets</h2>
+    <form [formGroup]="filterForm">
+        <div class="datePicker">
+            <mat-form-field color="accent" appearance="fill">
+                <input matInput [matDatepicker]="picker1" (click)="picker1.open()" readonly="readonly"
+                    placeholder="Select Date" formControlName="startDate">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
 
-    <div class="datePicker">
-        <mat-form-field color="accent" appearance="fill">
-            <!-- <mat-label>Inherited calendar color</mat-label> -->
-            <input matInput [matDatepicker]="picker1" placeholder="Select Date">
-            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-            <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field color="accent" appearance="fill">
-            <!-- <mat-label>Custom calendar color</mat-label> -->
-            <input matInput [matDatepicker]="picker2" placeholder="Select Date">
-            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2 color="primary"></mat-datepicker>
-        </mat-form-field>
-    </div>
-    <div class="select-box icon">
-        <select name="cars" id="cars">
-            <option value="volvo">Option 1</option>
-            <option value="saab">Option 2</option>
-            <option value="mercedes">Option 3</option>
-            <option value="audi">Option 4</option>
-        </select>
-    </div>
-    <button class="submit-btn">Submit</button>
+            <mat-form-field color="accent" appearance="fill">
+                <input matInput [matDatepicker]="picker2" (click)="picker2.open()" readonly="readonly"
+                    placeholder="Select Date" formControlName="endDate">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2 color="primary"></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="select-box icon">
+            <select placeholder="Select a option" formControlName="option">
+                <option *ngFor="let item of options" value="{{item.name}}">{{item.name}}</option>
+            </select>
+        </div>
+        <button class="submit-btn" (click)="formSubmit($event)">Submit</button>
+    </form>
     <div class="show-search">
         <div class="show-left">
             <h4>Show</h4>

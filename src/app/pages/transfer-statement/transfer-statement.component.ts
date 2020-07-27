@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-transfer-statement',
@@ -6,10 +7,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./transfer-statement.component.scss']
 })
 export class TransferStatementComponent implements OnInit {
-
-  constructor() { }
+  filterForm: FormGroup;
+  options = [{ name: "volvo" }, { name: "saab" }, { name: "mercedes" }, { name: "audi" }]
+  constructor(
+    private _fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.createFilterForm();
+  }
+
+  createFilterForm() {
+    this.filterForm = this._fb.group({
+      startDate: [""],
+      endDate: [""],
+      option: [""]
+    });
+  }
+
+  formSubmit(e) {
+    e.preventDefault();
+    console.log("formSubmit==", this.filterForm)
   }
 
 }
