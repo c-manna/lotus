@@ -25,9 +25,8 @@ export class TransferStatementComponent implements OnInit {
     });
   }
 
-  formSubmit(e) {
-    e.preventDefault();
-    console.log("formSubmit==", this.filterForm)
+  formSubmit() {
+    console.log("formSubmit==", this.filterForm.value)
   }
 
 }

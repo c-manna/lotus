@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 
 import { LoginGuard } from '@shared/services/auth';
-import { SigninComponent } from '@app/pages/sessions';
+import { SigninComponent } from '@app/pages/sessions/index';
 
 export const SessionsRoutes: Routes = [
   {

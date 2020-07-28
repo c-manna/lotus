@@ -29,20 +29,20 @@ const routes: Routes = [
         loadChildren: () => import('./pages/open-bets/open-bets.module').then(m => m.OpenBetsModule)
       },
       {
-        path: 'betting-profit-and-loss', 
+        path: 'betting-profit-and-loss',
         loadChildren: () => import('./pages/betting-profit-and-loss/betting-profit-and-loss.module').then(m => m.BettingProfitAndLossModule)
       },
-      { 
-        path: 'transfer-statement', 
-        loadChildren: () => import('./pages/transfer-statement/transfer-statement.module').then(m => m.TransferStatementModule) 
+      {
+        path: 'transfer-statement',
+        loadChildren: () => import('./pages/transfer-statement/transfer-statement.module').then(m => m.TransferStatementModule)
       },
-      { 
-        path: 'rule-and-regulation', 
-        loadChildren: () => import('./pages/rule-and-regulation/rule-and-regulation.module').then(m => m.RuleAndRegulationModule) 
+      {
+        path: 'rule-and-regulation',
+        loadChildren: () => import('./pages/rule-and-regulation/rule-and-regulation.module').then(m => m.RuleAndRegulationModule)
       },
-      { 
-        path: 'settings', 
-        loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule) 
+      {
+        path: 'settings',
+        loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule)
       }
     ]
   }

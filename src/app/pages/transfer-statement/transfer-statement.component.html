@@ -21,7 +21,7 @@
                 <option *ngFor="let item of options" value="{{item.name}}">{{item.name}}</option>
             </select>
         </div>
-        <button class="submit-btn" (click)="formSubmit($event)">Submit</button>
+        <button class="submit-btn" (click)="formSubmit()">Submit</button>
     </form>
     <div class="show-search">
         <div class="show-left">
@@ -41,3 +41,18 @@
         </div>
     </div>
 </div>
+
+
+<!-- <form [formGroup]="filterForm">
+    <input type="text" formControlName="endDate">
+    <button class="submit-btn" (click)="formSubmit($event)">Submit</button>
+</form> -->
+
+<!-- <div>
+    <form [formGroup]="filterForm">
+        <input type="text" formControlName="startDate">
+        <input type="text" formControlName="endDate">
+        <input type="text" formControlName="option">
+        <button class="submit-btn" (click)="formSubmit($event)">Submit</button>
+    </form>
+</div> -->

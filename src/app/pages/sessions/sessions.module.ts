@@ -1,17 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from "@angular/router";
 
 import { SharedModule } from '@shared/shared.module';
-import { SigninComponent } from '@app/pages/sessions';
+import { SigninComponent } from '@app/pages/sessions/index';
 import { SessionsRoutes } from '@app/pages/sessions/sessions.routing';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
     SharedModule,
     RouterModule.forChild(SessionsRoutes)
   ],

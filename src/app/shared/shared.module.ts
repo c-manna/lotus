@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedComponentsModule } from '@shared/components/shared-components.module';
 import { AuthGuard } from './services/auth/auth.guard';
 import { NgMaterialModule } from './ng-material/ng-material.module';
-import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
+// import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SharedCoreModule } from '@shared/core';
 import { BetPlaceFromComponent } from '@shared/components/bet-place-from/bet-place-from.component';
 import { BetplaceConfirmationPopupComponent } from '@shared/components/betplace-confirmation-popup/betplace-confirmation-popup.component';
@@ -16,14 +16,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     SharedComponentsModule,
     NgMaterialModule,
-    RxReactiveFormsModule,
     ReactiveFormsModule,
+    // RxReactiveFormsModule,
     SharedCoreModule
   ],
   exports: [
     SharedComponentsModule,
     NgMaterialModule,
-    RxReactiveFormsModule,
+    ReactiveFormsModule,
+    // RxReactiveFormsModule,
     SharedCoreModule,
     BetPlaceFromComponent, BetplaceConfirmationPopupComponent
   ],

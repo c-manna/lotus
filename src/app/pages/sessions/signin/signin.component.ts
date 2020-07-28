@@ -34,7 +34,7 @@ export class SigninComponent implements OnInit {
     const reqData = this.loginForm.value;
     // this._apiService.ApiCall(reqData, `${environment.apiUrl}signin`, 'post').subscribe(result => {
     //     if (result.success) {
-        this.router.navigate(["dashboard"]);
+    this.router.navigate(["dashboard"]);
     //     }
     //   }, err => {   }
     // );
