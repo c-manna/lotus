@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { SnakebarService } from '@app/shared/services/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +10,7 @@ import { MatAccordion } from '@angular/material/expansion';
 export class DashboardComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   createBetFormActive: any;
-  constructor() { }
+  constructor(private _snakebarService: SnakebarService) { }
   selectedItem: any = {};
   dataList = [{
     id: 1,
@@ -32,6 +33,7 @@ export class DashboardComponent implements OnInit {
   }]
 
   ngOnInit(): void {
+    this._snakebarService.success("hi");
   }
 
   canceBet() {

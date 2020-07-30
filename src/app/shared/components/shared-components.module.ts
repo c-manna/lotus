@@ -2,9 +2,17 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdminLayoutComponent, AuthLayoutComponent, AdminFooterPanelComponent, AdminLeftPanelComponent, AdminRightsidePanelComponent, AppAdminTopPanelComponent } from '@shared/components';
+import {
+  AdminLayoutComponent,
+  AuthLayoutComponent,
+  AdminFooterPanelComponent,
+  AdminLeftPanelComponent,
+  AdminRightsidePanelComponent,
+  AppAdminTopPanelComponent
+} from '@shared/components';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDrawer } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const components = [
   AdminLayoutComponent,
@@ -20,11 +28,12 @@ const components = [
     CommonModule,
     FormsModule,
     RouterModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatSnackBarModule
   ],
   declarations: components,
   entryComponents: [],
   providers: [MatDrawer],
-  exports: [components]
+  exports: components
 })
 export class SharedComponentsModule { }
