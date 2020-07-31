@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
-import { SnakebarService } from '@app/shared/services/common.service';
+import { SnakebarService, LoadingService } from '@app/shared/services/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +10,7 @@ import { SnakebarService } from '@app/shared/services/common.service';
 export class DashboardComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   createBetFormActive: any;
-  constructor(private _snakebarService: SnakebarService) { }
+  constructor(private _snakebarService: SnakebarService, private _loadingService: LoadingService) { }
   selectedItem: any = {};
   dataList = [{
     id: 1,
@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   }]
 
   ngOnInit(): void {
-    this._snakebarService.success("hi");
+    this._snakebarService.show("success", "hi");
   }
 
   canceBet() {
@@ -42,6 +42,10 @@ export class DashboardComponent implements OnInit {
   }
 
   openCreateBetForm(viewMode, value, type, item, eachItem) {
+    this._loadingService.show();
+    setTimeout(() => {
+      // this._loadingService.hide();
+    }, 5000);
     let currentTime = Date.now();
     this.selectedItem = { type: type, ...item, value: value };
     eachItem['viewMode'] = viewMode;

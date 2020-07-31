@@ -4,7 +4,7 @@
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 // font-family: 'Lato', sans-serif;
-
+@import '~@angular/cdk/overlay-prebuilt.css';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Lato', sans-serif; }
@@ -104,7 +104,14 @@ mat-expansion-panel{
 }
 
 
-
+ng2-loading-spinner {
+  .backdrop {
+    position: fixed !important;
+  }
+  .wrapper {
+    position: fixed !important;
+  }
+}
 
   
 

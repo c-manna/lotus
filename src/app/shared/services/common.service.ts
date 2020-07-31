@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ComponentFactoryResolver } from '@angular/core';
 import {
   MatSnackBar, MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { SnackBarComponent } from "../../shared/components/snack-bar/snack-bar.component";
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { LoadingComponent } from "../../shared/components/loading/loading.component";
+import { ComponentPortal } from '@angular/cdk/portal';
 
 @Injectable({
   providedIn: 'root'
@@ -16,34 +19,55 @@ export class CommonService {
 
 
 
+type horizontalPosition = 'start' | 'center' | 'end' | 'left' | 'right';
+type verticalPosition = 'top' | 'bottom';
+type snackBarType = 'success' | 'error' | 'warning';
+interface options {
+  horizontalPosition?: horizontalPosition,
+  verticalPosition?: verticalPosition,
+  duration?: number
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class SnakebarService {
-
   constructor(
     private _snackBar: MatSnackBar
   ) { }
 
-  success(msg: String) {
-    let horizontalPosition: MatSnackBarHorizontalPosition = 'center',// 'start' | 'center' | 'end' | 'left' | 'right';
-      verticalPosition: MatSnackBarVerticalPosition = 'top'; //'top' | 'bottom'
+  show(type: snackBarType, msg: String, options?: options) {
     this._snackBar.openFromComponent(SnackBarComponent, {
-      duration: 500000,
-      horizontalPosition: horizontalPosition,
-      verticalPosition: verticalPosition,
-      data: { msg: msg, type: 'success' }
+      duration: (options && options.duration) ? options.duration : 5000,
+      horizontalPosition: (options && options.horizontalPosition) ? options.horizontalPosition : 'center',
+      verticalPosition: (options && options.verticalPosition) ? options.verticalPosition : 'top',
+      data: { msg: msg, type: type }
     });
+  }
+}
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LoadingService {
+  overlayRef: OverlayRef;
+  constructor(
+    private overlay: Overlay,
+    private componentFactoryResolver: ComponentFactoryResolver
+  ) { }
+
+  show() {
+    this.overlayRef = this.overlay.create({
+      hasBackdrop: true,
+      positionStrategy: this.overlay.position().global().centerHorizontally().centerVertically()
+    });
+    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(LoadingComponent);
+    this.overlayRef.attach<LoadingComponent>(new ComponentPortal(componentFactory.componentType));
   }
 
-  error(msg: String) {
-    let horizontalPosition: MatSnackBarHorizontalPosition = 'center',// 'start' | 'center' | 'end' | 'left' | 'right';
-      verticalPosition: MatSnackBarVerticalPosition = 'top'; //'top' | 'bottom'
-    this._snackBar.openFromComponent(SnackBarComponent, {
-      duration: 500000,
-      horizontalPosition: horizontalPosition,
-      verticalPosition: verticalPosition,
-      data: { msg: msg, type: 'error' }
-    });
+  hide() {
+    this.overlayRef.detach();
   }
+
 }
