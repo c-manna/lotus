@@ -1,11 +1,7 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
-import { environment } from '@env/environment';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { APIService, DataService, SideNavService } from '@shared/services';
-import { Subscription } from "rxjs";
-import { filter } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-admin-rightside-panel',
@@ -14,20 +10,26 @@ import { filter } from 'rxjs/operators';
 })
 export class AdminRightsidePanelComponent implements OnInit {
 
-  constructor( private ds: DataService,
+  constructor(private ds: DataService,
     private apiService: APIService,
-    private router: Router,
-    private toolbarService: SideNavService) { 
+    private _router: Router,
+    private toolbarService: SideNavService,
+    private _cookieService: CookieService
+  ) {
   }
 
   ngOnInit() {
 
   }
 
-  closeNav(){
+  closeNav() {
     this.toolbarService.close();
   }
+
   /* Logout Admin user */
   logout() {
+    this.closeNav();
+    this._cookieService.deleteAll();
+    this._router.navigate(["/"]);
   }
 }

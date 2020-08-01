@@ -31,14 +31,14 @@
         <li [routerLink]="['/transfer-statement']" (click)="closeNav()">
             <p class="transfar-statement">Transfer Statement</p>
         </li>
-      
-        <li  [routerLink]="['/rule-and-regulation']" (click)="closeNav()">
+
+        <li [routerLink]="['/rule-and-regulation']" (click)="closeNav()">
             <p class="rule-regulation">Rules & Regulations</p>
         </li>
         <li class="setting" [routerLink]="['/settings']" (click)="closeNav()">
             <p class="setting-icon">Settings</p>
         </li>
-        <li (click)="closeNav()">
+        <li (click)="logout()">
             <p class="signout">Sign Out</p>
         </li>
     </ul>
