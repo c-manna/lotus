@@ -83,6 +83,9 @@ export class BetPlaceFromComponent implements OnInit {
         // display loader
       }
     }
+    else if(this.stakeValue==0){
+      
+    }
   }
 
 }
