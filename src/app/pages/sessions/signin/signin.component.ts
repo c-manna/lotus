@@ -56,8 +56,6 @@ export class SigninComponent implements OnInit {
     );
   }
 
-  ngOnDestroy() {
-
-  }
+  ngOnDestroy() {}
 
 }
