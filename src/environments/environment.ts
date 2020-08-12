@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8000/',
+  apiUrl: 'http://172.105.38.170:8000/',
   siteroot: '',
-  api_timeout : 300000
+  api_timeout: 300000
 };
 
 /*
