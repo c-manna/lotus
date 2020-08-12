@@ -24,6 +24,7 @@
     "@rxweb/reactive-form-validators": "^2.0.0",
     "ngx-cookie-service": "^3.0.4",
     "rxjs": "~6.5.5",
+    "socket.io-client": "^2.3.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },

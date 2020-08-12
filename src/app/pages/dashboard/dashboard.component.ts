@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { SnakebarService, LoadingService } from '@app/shared/services/common.service';
 import { CookieService } from 'ngx-cookie-service';
+import { SocketService } from '@app/shared/services/socket.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +15,8 @@ export class DashboardComponent implements OnInit {
   constructor(
     private _snakebarService: SnakebarService,
     private _loadingService: LoadingService,
-    private _cookieService: CookieService
+    private _cookieService: CookieService,
+    private _socketService: SocketService
   ) { }
   selectedItem: any = {};
   dataList = [{
@@ -38,6 +40,7 @@ export class DashboardComponent implements OnInit {
   }]
 
   ngOnInit(): void {
+    this._socketService.getBalance("2750231N007");
     console.log(JSON.parse(this._cookieService.get("user")));
     // this._snakebarService.show("success", "hi");
   }
