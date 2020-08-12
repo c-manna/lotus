@@ -11,6 +11,8 @@ export class MarketLiveSectionComponent implements OnInit {
   @Input('fancyMatch') fancyMatch: any;
   createBetFormActive: any;
   selectedItem: any;
+  details:any={};
+  openBetPlaceDialog=false;
   constructor() { }
 
   ngOnInit(): void {
@@ -18,12 +20,17 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   canceBet() {
+    this.openBetPlaceDialog=false;
     console.log("canceBet");
     this.createBetFormActive = 0;
     // this.viewMode = '';
   }
 
-  openCreateBetForm(viewMode, value, type, item) {
+  openCreateBetForm(viewMode, value, type, item,market_type,runnerName) {
+    console.log(this.matchesDetails)
+    this.details.marketId=this.matchesDetails[0].marketId;
+    this.details.market_type=market_type;
+    this.details.runnerName=runnerName
     let currentTime = Date.now();
     this.selectedItem = { type: type, ...item, value: value };
     item['viewMode'] = viewMode;

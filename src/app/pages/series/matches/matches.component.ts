@@ -38,6 +38,10 @@ export class MatchesComponent implements OnInit {
     });
   }
 
+  setEventName(data){
+    this.ds.changeEventDetails(data);
+  }
+
   getMatches(id) {
     this.competitionId = id;
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID='+id+'&competitionId=' + id, 'get').subscribe(

@@ -1,6 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BetplaceConfirmationPopupComponent } from '../betplace-confirmation-popup/betplace-confirmation-popup.component';
+import { APIService, DataService } from '@shared/services';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-bet-place-from',
@@ -10,16 +12,33 @@ import { BetplaceConfirmationPopupComponent } from '../betplace-confirmation-pop
 export class BetPlaceFromComponent implements OnInit {
   @Output() betCancelled: any = new EventEmitter();
   @Input('selectedItem') selectedItem: any;
+  @Input('details') details: any;
+
   inputData: number;
   stakeValue: number = 0;
   viewMode = '';
   calculatedValue: any = 0;
   checkBoxConfirmation: boolean;
+  eventData: any;
+  eventDeatils:any;
 
+  constructor(
+    private ds: DataService,
+    private apiService: APIService,
+    public dialog: MatDialog) {
 
-  constructor(public dialog: MatDialog) { }
+  }
 
   ngOnInit(): void {
+    console.log(this.details);
+    this.ds.event$.subscribe(event => {
+      this.eventData = event;
+    });
+
+    this.ds.eventDeatils$.subscribe(event => {
+      this.eventDeatils = event;
+      console.log(event)
+    });
   }
 
   canceBet() {
@@ -83,9 +102,34 @@ export class BetPlaceFromComponent implements OnInit {
         // display loader
       }
     }
-    else if(this.stakeValue==0){
-      
+    else if (this.stakeValue == 0) {
+
     }
+  }
+
+  insertBet() {
+    let param = {
+      market_id: this.details.marketId,
+      match_id: this.eventDeatils.event.id,
+      market_type: this.details.market_type,
+      description: this.eventDeatils.event.name,
+      event_name: this.eventData.name,
+      odd: this.selectedItem.type=='back'?0:1,
+      place_odd: this.inputData,
+      stake: this.stakeValue,
+      runner_name: this.details.runnerName,
+      user_ip: ''
+    };
+
+    this.apiService.ApiCall(param, environment.apiUrl + 'place-bet', 'get').subscribe(
+      result => {
+        if (result.success) {
+          console.log(result)
+        }
+      },
+      err => {
+      }
+    );
   }
 
 }

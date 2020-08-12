@@ -22,9 +22,17 @@ export class DataService {
     localStorage.setItem('event', JSON.stringify(data));
   }
 
+  private eventDeatils = new BehaviorSubject<any>(null);
+  eventDeatils$ = this.eventDeatils.asObservable();
+  changeEventDetails(data) {
+    this.eventDeatils.next(data);
+    localStorage.setItem('eventDeatils', JSON.stringify(data));
+  }
+
   constructor(private router: Router) {
     this.event.next(JSON.parse(localStorage.getItem('event')));
     this.breadCrumb.next(JSON.parse(localStorage.getItem('breadCrumb')));
+    this.eventDeatils.next(JSON.parse(localStorage.getItem('eventDeatils')));
   }
 
 
