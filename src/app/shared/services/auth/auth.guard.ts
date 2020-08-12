@@ -16,12 +16,13 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-    // let user_id = this.cookieService.get('user_id'); 
-    // if(user_id == undefined ||  user_id == null ||  user_id ==""){
-    //   this.cookieService.delete( 'token','/', environment.siteroot  );
-    // }
+    let user_id = this.cookieService.get('user'); 
+    if(user_id == undefined ||  user_id == null ||  user_id ==""){
+      this.cookieService.delete( 'token','/', environment.siteroot  );
+    }
 
-    let admin_token = JSON.parse(this.cookieService.get('token'));
+    let admin_token = this.cookieService.get('token');
+    console.log(admin_token)
     if (admin_token == undefined || admin_token == null || admin_token == "") {
       this.router.navigate(['/']);
       return false;
