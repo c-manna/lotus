@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService, DataService } from '@shared/services';
+import { APIService, SnakebarService, LoadingService, DataService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -19,6 +19,8 @@ export class SeriesComponent implements OnInit {
   panelOpenState: boolean = false;
 
   constructor(
+    private _loadingService: LoadingService,
+    private _snakebarService: SnakebarService,
     private ds: DataService,
     private apiService: APIService,
     private router: Router,
@@ -49,12 +51,14 @@ export class SeriesComponent implements OnInit {
   }
 
   getSeries(id) {
+    this._loadingService.show();
     this.eventId = id;
     this.apiService.ApiCall('', environment.apiUrl + 'event-competition?eventID=' + id, 'get').subscribe(
       result => {
         if (result.success) {
           this.series = result.data;
-          console.log(this.series)
+          this._loadingService.hide();
+          //console.log(this.series)
         } else {
           this.series = [];
         }

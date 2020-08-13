@@ -3,7 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { APIService } from '@shared/services';
-import { LoadingService, SnakebarService } from '@app/shared/services/common.service';
+import { LoadingService, SnakebarService } from '@app/shared/services';
 import { CookieService } from 'ngx-cookie-service';
 
 

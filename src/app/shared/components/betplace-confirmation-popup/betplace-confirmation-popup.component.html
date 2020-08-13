@@ -1,7 +1,7 @@
 <div>
  <p>Want to place the bet?</p>
  <div>
-  <button (click)="cancelClick();">No Thanks</button>
-  <button (click)="okClick();">Ok</button>
+  <button [mat-dialog-close]="false">No Thanks</button>
+  <button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
  </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService, DataService, SideNavService } from '@shared/services';
+import { APIService, DataService, SideNavService,LoadingService, SnakebarService } from '@shared/services';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,6 +12,8 @@ export class AdminLeftPanelComponent implements OnInit {
   events = [];
 
   constructor(
+    private _loadingService: LoadingService,
+    private _snakebarService: SnakebarService,
     private ds: DataService,
     private apiService: APIService,
     private router: Router,
@@ -25,10 +27,16 @@ export class AdminLeftPanelComponent implements OnInit {
   }
 
   getEvents(){
+    if(this.router.url=='/dashboard'){
+      this._loadingService.show();
+    }
     this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
       result => {
         if(result.success){
           this.events = result.data;
+          if(this.router.url=='/dashboard'){
+            this._loadingService.hide();
+          }
         }       
       },
       err => {

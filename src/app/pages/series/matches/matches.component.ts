@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService, DataService } from '@shared/services';
+import { SnakebarService, LoadingService, APIService, DataService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -17,6 +17,8 @@ export class MatchesComponent implements OnInit {
   menuHeader:any;
   available = false;
   constructor(
+    private _loadingService: LoadingService,
+    private _snakebarService: SnakebarService,
     private ds: DataService,
     private apiService: APIService,
     private router: Router,
@@ -43,12 +45,14 @@ export class MatchesComponent implements OnInit {
   }
 
   getMatches(id) {
+    this._loadingService.show();
     this.competitionId = id;
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID='+id+'&competitionId=' + id, 'get').subscribe(
       result => {
         if (result.success) {
           this.available = false;
           this.matches = result.data;
+          this._loadingService.hide();
         }
         else{
           this.available = true;

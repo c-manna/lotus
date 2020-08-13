@@ -26,10 +26,11 @@ export class MarketLiveSectionComponent implements OnInit {
     // this.viewMode = '';
   }
 
-  openCreateBetForm(viewMode, value, type, item,market_type,runnerName,index) {
-    //console.log(this.matchesDetails)
+  openCreateBetForm(viewMode, value, type, item,runnerName,index) {
+    console.log(this.matchesDetails)
     this.details.marketId=this.matchesDetails[0].marketId;
-    this.details.market_type=market_type;
+    this.details.market_start_time = this.matchesDetails[0].marketStartTime;
+    this.details.market_type= this.matchesDetails[0].marketName;
     this.details.runnerName=runnerName;
     this.details.index = index;
     let currentTime = Date.now();

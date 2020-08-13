@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService, DataService } from '@shared/services';
+import { SnakebarService, LoadingService, APIService, DataService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
@@ -137,6 +137,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }];
 
   constructor(
+    private _loadingService: LoadingService,
+    private _snakebarService: SnakebarService,
     private ds: DataService,
     public platform: Platform,
     private apiService: APIService,
@@ -170,6 +172,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
 
   getMatchDetails(id) {
+    this._loadingService.show();
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-match?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matcheventID=' + id, 'get').subscribe(
       result => {
         if (result.success) {
@@ -177,6 +180,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.getFancy(id);
           this.getMatchOdds(result.data[0].marketId);
           this.getOddsFromInterval(result.data[0].marketId);
+          this._loadingService.hide();
         }
       },
       err => {
