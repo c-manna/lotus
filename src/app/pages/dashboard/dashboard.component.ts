@@ -3,6 +3,8 @@ import { MatAccordion } from '@angular/material/expansion';
 import { SnakebarService, LoadingService } from '@app/shared/services/common.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SocketService } from '@app/shared/services/socket.service';
+import { APIService } from '@app/shared/services/api.service';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +14,14 @@ import { SocketService } from '@app/shared/services/socket.service';
 export class DashboardComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   createBetFormActive: any;
+  eventId = 1;
+  dataList1: any = [];
   constructor(
     private _snakebarService: SnakebarService,
     private _loadingService: LoadingService,
     private _cookieService: CookieService,
-    private _socketService: SocketService
+    private _apiService: APIService,
+    // private _socketService: SocketService
   ) { }
   selectedItem: any = {};
   dataList = [{
@@ -40,9 +45,26 @@ export class DashboardComponent implements OnInit {
   }]
 
   ngOnInit(): void {
-    this._socketService.getBalance("2750231N007");
+    // this._socketService.getBalance("2750231N007");
     console.log(JSON.parse(this._cookieService.get("user")));
+    this.getInPlay();
     // this._snakebarService.show("success", "hi");
+  }
+
+  getInPlay() {
+    this._apiService.ApiCall({}, `${environment.apiUrl}fetch-inplay?eventID=${this.eventId}`, 'get').subscribe(res => {
+      this._loadingService.hide();
+      if (res.success) {
+        this.dataList1 = res.result;
+      } else {
+        this._loadingService.hide();
+        this._snakebarService.show("error", res.message);
+      }
+    }, err => {
+      this._loadingService.hide();
+      this._snakebarService.show("error", err.message);
+    }
+    );
   }
 
   canceBet() {

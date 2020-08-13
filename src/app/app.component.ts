@@ -9,10 +9,10 @@ import { SocketService } from '@app/shared/services/socket.service';
 export class AppComponent implements OnInit {
   title = 'lotus';
 
-  constructor(private _socketService: SocketService) { }
+  // constructor(private _socketService: SocketService) { }
 
   ngOnInit() {
     let userId = "2750231N007";
-    this._socketService.connectSocket(userId);
+    // this._socketService.connectSocket(userId);
   }
 }

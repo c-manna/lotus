@@ -6,7 +6,8 @@
         <div class="toggle-button">
             <label class="switch">
                 <div> Tap to turn on one click betting</div>
-                <input type="checkbox" [(ngModel)]="settingData.oneClickBet" (change)="upDateOneClickBetting()">
+                <input type="checkbox" [checked]="(settingData.one_click_betting == 1)? true: false"
+                    (change)="upDateOneClickBetting()">
                 <span class="slider round">
                     <span class="text-span"></span>
                 </span>
@@ -15,87 +16,127 @@
 
         <div class="shake-group-wrapper">
             <div class="stakes-group">
-                <div class="stake" [ngClass]="{'readonly active' : settingData.oneClickStake==500}"
-                    (click)="changeOneClickStake(500)">
+                <div *ngIf="!buttonProperty.oneClick" class="stake"
+                    [ngClass]="{'readonly active' : settingData.one_click_op1==settingData.one_click_default}"
+                    (click)="changeOneClickStake(settingData.one_click_op1)">
                     <div class="wrapper">
-                        <p>500</p>
-                        <span *ngIf="settingData.oneClickStake==500">Active Stake</span>
+                        <p>{{settingData.one_click_op1}}</p>
+                        <span *ngIf="settingData.one_click_op1==settingData.one_click_default">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake" [ngClass]="{'readonly active' : settingData.oneClickStake==1000}"
-                    (click)="changeOneClickStake(1000)">
+                <input *ngIf="buttonProperty.oneClick" type="number" class="input-stake"
+                    [(ngModel)]="settingData.one_click_op1">
+
+                <div *ngIf="!buttonProperty.oneClick" class="stake"
+                    [ngClass]="{'readonly active' : settingData.one_click_op2==settingData.one_click_default}"
+                    (click)="changeOneClickStake(settingData.one_click_op2)">
                     <div class="wrapper">
-                        <p>1000</p>
-                        <span *ngIf="settingData.oneClickStake==1000">Active Stake</span>
+                        <p>{{settingData.one_click_op2}}</p>
+                        <span *ngIf="settingData.one_click_op2==settingData.one_click_default">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake" [ngClass]="{'readonly active' : settingData.oneClickStake==1500}"
-                    (click)="changeOneClickStake(1500)">
+                <input *ngIf="buttonProperty.oneClick" type="number" class="input-stake"
+                    [(ngModel)]="settingData.one_click_op2">
+
+                <div *ngIf="!buttonProperty.oneClick" class="stake"
+                    [ngClass]="{'readonly active' : settingData.one_click_op3==settingData.one_click_default}"
+                    (click)="changeOneClickStake(settingData.one_click_op3)">
                     <div class="wrapper">
-                        <p>1500</p>
-                        <span *ngIf="settingData.oneClickStake==1500">Active Stake</span>
+                        <p>{{settingData.one_click_op3}}</p>
+                        <span *ngIf="settingData.one_click_op3==settingData.one_click_default">Active Stake</span>
                     </div>
                 </div>
 
+                <input *ngIf="buttonProperty.oneClick" type="number" class="input-stake"
+                    [(ngModel)]="settingData.one_click_op3">
             </div>
-            <button class="disable-class" (click)="editOneClickStake()">Edit</button>
+            <button *ngIf="!buttonProperty.oneClick" class="disable-class"
+                (click)="buttonProperty.oneClick=true">Edit</button>
+            <button *ngIf="buttonProperty.oneClick" class="disable-class" (click)="editOneClickStake()">Save</button>
         </div>
 
         <h2 class="page-title title-class">Edit Casino Stakes</h2>
         <div class="shake-group-wrapper">
             <div class="stakes-group">
-                <div class="stake" [ngClass]="{'readonly active' : settingData.casinoStakes==500}"
-                    (click)="changeCasinoStakes(500)">
+                <div *ngIf="!buttonProperty.casinoStake" class="stake"
+                    [ngClass]="{'readonly active' : settingData.edit_casino_stakes_op1==settingData.casino_stakes_default}"
+                    (click)="changeCasinoStakes(settingData.edit_casino_stakes_op1)">
                     <div class="wrapper">
-                        <p>500</p>
-                        <span *ngIf="settingData.casinoStakes==500">Active Stake</span>
+                        <p>{{settingData.edit_casino_stakes_op1}}</p>
+                        <span *ngIf="settingData.edit_casino_stakes_op1==settingData.casino_stakes_default">Active
+                            Stake</span>
                     </div>
                 </div>
-                <div class="stake" [ngClass]="{'readonly active' : settingData.casinoStakes==1000}"
-                    (click)="changeCasinoStakes(1000)">
+                <input *ngIf="buttonProperty.casinoStake" type="number" class="input-stake"
+                    [(ngModel)]="settingData.edit_casino_stakes_op1">
+
+                <div *ngIf="!buttonProperty.casinoStake" class="stake"
+                    [ngClass]="{'readonly active' : settingData.edit_casino_stakes_op2==settingData.casino_stakes_default}"
+                    (click)="changeCasinoStakes(settingData.edit_casino_stakes_op2)">
                     <div class="wrapper">
-                        <p>1000</p>
-                        <span *ngIf="settingData.casinoStakes==1000">Active Stake</span>
+                        <p>{{settingData.edit_casino_stakes_op2}}</p>
+                        <span *ngIf="settingData.edit_casino_stakes_op2==settingData.casino_stakes_default">Active
+                            Stake</span>
                     </div>
                 </div>
-                <div class="stake" [ngClass]="{'readonly active' : settingData.casinoStakes==1500}"
-                    (click)="changeCasinoStakes(1500)">
+                <input *ngIf="buttonProperty.casinoStake" type="number" class="input-stake"
+                    [(ngModel)]="settingData.edit_casino_stakes_op2">
+
+                <div *ngIf="!buttonProperty.casinoStake" class="stake"
+                    [ngClass]="{'readonly active' : settingData.edit_casino_stakes_op3==settingData.casino_stakes_default}"
+                    (click)="changeCasinoStakes(settingData.edit_casino_stakes_op3)">
                     <div class="wrapper">
-                        <p>1500</p>
-                        <span *ngIf="settingData.casinoStakes==1500">Active Stake</span>
+                        <p>{{settingData.edit_casino_stakes_op3}}</p>
+                        <span *ngIf="settingData.edit_casino_stakes_op3==settingData.casino_stakes_default">Active
+                            Stake</span>
                     </div>
                 </div>
+                <input *ngIf="buttonProperty.casinoStake" type="number" class="input-stake"
+                    [(ngModel)]="settingData.edit_casino_stakes_op3">
 
             </div>
-            <button (click)="editCasinoStakes()">Edit</button>
+            <button *ngIf="!buttonProperty.casinoStake" (click)="buttonProperty.casinoStake=true">Edit</button>
+            <button *ngIf="buttonProperty.casinoStake" (click)="editCasinoStakes()">Save</button>
         </div>
         <h2 class="page-title title-class">Edit Stakes</h2>
         <div class="shake-group-wrapper">
             <div class="stakes-group">
-                <div class="stake" [ngClass]="{'readonly active' : settingData.stakes==500}"
-                    (click)="changeStakes(500)">
+                <div *ngIf="!buttonProperty.stake" class="stake"
+                    [ngClass]="{'readonly active' : settingData.edit_stake_op1==settingData.stake_default}"
+                    (click)="changeStakes(settingData.edit_stake_op1)">
                     <div class="wrapper">
-                        <p>500</p>
-                        <span *ngIf="settingData.stakes==500">Active Stake</span>
+                        <p>{{settingData.edit_stake_op1}}</p>
+                        <span *ngIf="settingData.edit_stake_op1==settingData.stake_default">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake" [ngClass]="{'readonly active' : settingData.stakes==1000}"
-                    (click)="changeStakes(1000)">
+                <input *ngIf="buttonProperty.stake" type="number" class="input-stake"
+                    [(ngModel)]="settingData.edit_stake_op1">
+
+                <div *ngIf="!buttonProperty.stake" class="stake"
+                    [ngClass]="{'readonly active' : settingData.edit_stake_op2==settingData.stake_default}"
+                    (click)="changeStakes(settingData.edit_stake_op2)">
                     <div class="wrapper">
-                        <p>1000</p>
-                        <span *ngIf="settingData.stakes==1000">Active Stake</span>
+                        <p>{{settingData.edit_stake_op2}}</p>
+                        <span *ngIf="settingData.edit_stake_op2==settingData.stake_default">Active Stake</span>
                     </div>
                 </div>
-                <div class="stake" [ngClass]="{'readonly active' : settingData.stakes==1500}"
-                    (click)="changeStakes(1500)">
+                <input *ngIf="buttonProperty.stake" type="number" class="input-stake"
+                    [(ngModel)]="settingData.edit_stake_op2">
+
+                <div *ngIf="!buttonProperty.stake" class="stake"
+                    [ngClass]="{'readonly active' : settingData.edit_stake_op3==settingData.stake_default}"
+                    (click)="changeStakes(settingData.edit_stake_op3)">
                     <div class="wrapper">
-                        <p>1500</p>
-                        <span *ngIf="settingData.stakes==1500">Active Stake</span>
+                        <p>{{settingData.edit_stake_op3}}</p>
+                        <span *ngIf="settingData.edit_stake_op3==settingData.stake_default">Active Stake</span>
                     </div>
                 </div>
+                <input *ngIf="buttonProperty.stake" type="number" class="input-stake"
+                    [(ngModel)]="settingData.edit_stake_op3">
 
             </div>
-            <button (click)="editStakes()">Edit</button>
+            <button *ngIf="!buttonProperty.stake" (click)="buttonProperty.stake=true">Edit</button>
+            <button *ngIf="buttonProperty.stake" (click)="editStakes()">Save</button>
         </div>
     </div>
 
@@ -120,19 +161,21 @@
                 <ul>
                     <li>
                         <label class="checkbox_container">System time - (GMT +00:00)
-                            <input type="radio" checked="checked" name="radio">
+                            <input type="radio" [checked]="settingData.time_setting==1" name="radio"
+                                (click)="changeTime(1)">
                             <span class="checkmark"></span>
                         </label>
                     </li>
                     <li>
                         <label class="checkbox_container">Your device time - (GMT +05:30)
-                            <input type="radio" checked="checked" name="radio">
-                            <span class="checkmark"></span>
+                            <input type="radio" [checked]="settingData.time_setting==2" name="radio"
+                                (click)="changeTime(2)"> <span class="checkmark"></span>
                         </label>
                     </li>
                     <li>
                         <label class="checkbox_container">India Standard time - (GMT +05:30)
-                            <input type="radio" checked="checked" name="radio">
+                            <input type="radio" [checked]="settingData.time_setting==3" name="radio"
+                                (click)="changeTime(3)">
                             <span class="checkmark"></span>
                         </label>
                     </li>

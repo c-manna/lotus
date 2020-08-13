@@ -29,7 +29,7 @@ export class SigninComponent implements OnInit {
 
   userForm() {
     this.loginForm = this._fb.group({
-      user: ["dynamic007", [Validators.required]],
+      user: ["PUNTER001", [Validators.required]],
       password: ["111111", [Validators.required]]
     });
   }
@@ -56,6 +56,6 @@ export class SigninComponent implements OnInit {
     );
   }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 
 }
