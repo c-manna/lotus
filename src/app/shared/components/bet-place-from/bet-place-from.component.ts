@@ -21,6 +21,7 @@ export class BetPlaceFromComponent implements OnInit {
   checkBoxConfirmation: boolean;
   eventData: any;
   eventDeatils:any;
+  matchOdds:any= [];
 
   constructor(
     private ds: DataService,
@@ -30,14 +31,21 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.details);
+    //console.log(this.details);
+    //console.log(this.selectedItem);
     this.ds.event$.subscribe(event => {
       this.eventData = event;
     });
 
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
-      console.log(event)
+      //console.log(event)
+    });
+
+    this.ds.matchOdds$.subscribe(data => {
+      this.matchOdds = data;
+      //console.log(this.matchOdds[0].runners[this.details.index])
+      console.log('last odd',this.selectedItem.type=='back'?this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price:this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price)
     });
   }
 
@@ -116,6 +124,7 @@ export class BetPlaceFromComponent implements OnInit {
       event_name: this.eventData.name,
       odd: this.selectedItem.type=='back'?0:1,
       place_odd: this.inputData,
+      last_odd: this.selectedItem.type=='back'?this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price:this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price,
       stake: this.stakeValue,
       runner_name: this.details.runnerName,
       user_ip: ''

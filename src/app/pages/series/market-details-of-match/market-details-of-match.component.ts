@@ -176,7 +176,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.matchesDetails = result.data;
           this.getFancy(id);
           this.getMatchOdds(result.data[0].marketId);
-          //this.getOddsFromInterval(result.data[0].marketId);
+          this.getOddsFromInterval(result.data[0].marketId);
         }
       },
       err => {
@@ -200,6 +200,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       result => {
         if (result.success) {
           this.matchOdds = result["data"];
+          this.ds.changeMatchOdds(result["data"]);
         }
       },
       err => {

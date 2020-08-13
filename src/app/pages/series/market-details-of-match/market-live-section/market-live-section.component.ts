@@ -16,21 +16,22 @@ export class MarketLiveSectionComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails);
+    //console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails);
   }
 
   canceBet() {
     this.openBetPlaceDialog=false;
-    console.log("canceBet");
+    //console.log("canceBet");
     this.createBetFormActive = 0;
     // this.viewMode = '';
   }
 
-  openCreateBetForm(viewMode, value, type, item,market_type,runnerName) {
-    console.log(this.matchesDetails)
+  openCreateBetForm(viewMode, value, type, item,market_type,runnerName,index) {
+    //console.log(this.matchesDetails)
     this.details.marketId=this.matchesDetails[0].marketId;
     this.details.market_type=market_type;
-    this.details.runnerName=runnerName
+    this.details.runnerName=runnerName;
+    this.details.index = index;
     let currentTime = Date.now();
     this.selectedItem = { type: type, ...item, value: value };
     item['viewMode'] = viewMode;
