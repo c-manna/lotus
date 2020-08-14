@@ -13,7 +13,7 @@ export class MarketLiveSectionComponent implements OnInit {
   selectedItem: any;
   details:any={};
   openBetPlaceDialog=false;
-  profile_and_loss:any[];
+  profile_and_loss:any=[];
 
   constructor() { }
 
