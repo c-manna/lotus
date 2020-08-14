@@ -32,6 +32,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.market_start_time = this.matchesDetails[0].marketStartTime;
     this.details.market_type= this.matchesDetails[0].marketName;
     this.details.runnerName=runnerName;
+    this.details.runners=this.matchesDetails[0].runners;
     this.details.index = index;
     let currentTime = Date.now();
     this.selectedItem = { type: type, ...item, value: value };

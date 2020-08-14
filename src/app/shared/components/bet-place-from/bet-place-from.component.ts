@@ -139,10 +139,11 @@ export class BetPlaceFromComponent implements OnInit {
       last_odd: this.selectedItem.type=='back'?this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price:this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price,
       stake: this.stakeValue,
       runner_name: this.details.runnerName,
+      runners: this.details.runners,
       market_start_time: this.details.market_start_time,
       market_end_time: "",
       user_ip: this.ipAddress,
-      selection_id: ""
+      selection_id: "",
     };
 
     console.log(param);

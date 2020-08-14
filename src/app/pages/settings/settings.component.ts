@@ -113,12 +113,12 @@ export class SettingsComponent implements OnInit {
   }
 
   changeCasinoStakes(data) {
-    this.settingData.casino_stakes_default = data;
+    this.settingData.edit_casino_stakes_default = data;
     this.updateSetting(this.settingData);
   }
 
   changeStakes(data) {
-    this.settingData.stake_default = data;
+    this.settingData.edit_stake_default = data;
     this.updateSetting(this.settingData);
   }
 
