@@ -38,8 +38,9 @@ export class SeriesComponent implements OnInit {
   ngOnInit(): void {
     this.ds.event$.subscribe(event => {
       this.eventData = event;
-      console.log(this.eventData)
+      //console.log(this.eventData)
     });
+    this.inPlayMatches(this.route.snapshot.params['id']);
   }
 
   togglePanel() {
@@ -61,6 +62,20 @@ export class SeriesComponent implements OnInit {
           //console.log(this.series)
         } else {
           this.series = [];
+        }
+      },
+      err => {
+      }
+    );
+  }
+
+  inPlayMatches(eventId){
+    let param = {};
+
+    this.apiService.ApiCall(param, environment.apiUrl + 'fetch-inplay/?eventID='+eventId, 'get').subscribe(
+      result => {
+        if (result.success) {
+          console.log(result);
         }
       },
       err => {

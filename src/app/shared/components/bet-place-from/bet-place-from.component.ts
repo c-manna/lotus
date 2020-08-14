@@ -13,7 +13,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Output() betCancelled: any = new EventEmitter();
   @Input('selectedItem') selectedItem: any;
   @Input('details') details: any;
-
+  @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number = 0;
   viewMode = '';
@@ -23,7 +23,7 @@ export class BetPlaceFromComponent implements OnInit {
   eventDeatils:any;
   matchOdds:any= [];
   ipAddress;
-
+  returnExposure:any;
   constructor(
     private ipService: IpService,
     private ds: DataService,
@@ -92,11 +92,16 @@ export class BetPlaceFromComponent implements OnInit {
   calculateValue() {
     if (this.selectedItem.type === 'back') {
       this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
+      this.returnExposure.value= Math.abs(this.calculatedValue);
     } else {
       this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
+      this.returnExposure.value= -Math.abs(this.calculatedValue);
     }
     if (this.stakeValue.toString() == '') {
       this.calculatedValue = 0.00;
+    }else{
+      this.returnExposure.index=this.details.index;
+      this.profit_and_liability.emit(this.returnExposure);
     }
   }
 
@@ -124,7 +129,7 @@ export class BetPlaceFromComponent implements OnInit {
     setTimeout(()=>{
       this.insertBet();
       this._loadingService.hide();
-    }, 5000);
+    }, 1000);
   }
 
   insertBet() {
@@ -144,11 +149,17 @@ export class BetPlaceFromComponent implements OnInit {
       market_end_time: "",
       user_ip: this.ipAddress,
       selection_id: "",
+      user_id: '8349711Z001',
+      p_and_l:0,
+      bet_status:0,
+      market_status:0,
+      bet_id:"111",
+      settled_time: "2020-08-14T11:00:00.000Z",
     };
 
     console.log(param);
 
-    this.apiService.ApiCall(param, environment.apiUrl + 'place-bet', 'post').subscribe(
+    this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
       result => {
         this.canceBet();
         if (result.success) {
