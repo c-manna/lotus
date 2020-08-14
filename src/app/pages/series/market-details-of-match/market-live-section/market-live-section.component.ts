@@ -13,6 +13,8 @@ export class MarketLiveSectionComponent implements OnInit {
   selectedItem: any;
   details:any={};
   openBetPlaceDialog=false;
+  profile_and_loss:any[];
+
   constructor() { }
 
   ngOnInit(): void {
@@ -24,6 +26,15 @@ export class MarketLiveSectionComponent implements OnInit {
     //console.log("canceBet");
     this.createBetFormActive = 0;
     // this.viewMode = '';
+  }
+  set_profit_loss(data){
+    console.log(data);
+    for(let i=0;i<this.matchesDetails[0].runners.length;i++){
+      if(data.index==i)
+        this.profile_and_loss[i]=data.value;
+      else
+        this.profile_and_loss[i]=data.stake;
+    }
   }
 
   openCreateBetForm(viewMode, value, type, item,runnerName,index) {

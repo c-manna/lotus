@@ -122,7 +122,9 @@
         <ul>
             <ng-template [ngIf]="1" *ngFor="let item of matchOdds[0].runners;let i= index">
                 <li>
-                    <div class="title">{{matchesDetails[0].runners[i].runnerName}}</div>
+                    <div class="title">{{matchesDetails[0].runners[i].runnerName}}
+                        <span *ngIf="profile_and_loss">{{profile_and_loss[i]}}</span>
+                    </div>
                     <div class="bet-btn-wrapper">
                         <ng-container *ngIf="i%3!=0;then activeMatch;else suspendMatch"></ng-container>
                         <ng-template #activeMatch>
@@ -146,7 +148,7 @@
                     </div>
                 </li>
             </ng-template>
-            <app-bet-place-from *ngIf="openBetPlaceDialog" (betCancelled)="canceBet()" [selectedItem]="selectedItem"
+            <app-bet-place-from *ngIf="openBetPlaceDialog" (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()" [selectedItem]="selectedItem"
                 [details]="details">
             </app-bet-place-from>
         </ul>

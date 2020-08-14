@@ -23,7 +23,7 @@ export class BetPlaceFromComponent implements OnInit {
   eventDeatils:any;
   matchOdds:any= [];
   ipAddress;
-  returnExposure:any;
+  returnExposure:any={};
   constructor(
     private ipService: IpService,
     private ds: DataService,
@@ -92,10 +92,12 @@ export class BetPlaceFromComponent implements OnInit {
   calculateValue() {
     if (this.selectedItem.type === 'back') {
       this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
-      this.returnExposure.value= Math.abs(this.calculatedValue);
+      this.returnExposure.value = Math.abs(this.calculatedValue);
+      this.returnExposure.stake = -Math.abs(this.stakeValue);
     } else {
       this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
       this.returnExposure.value= -Math.abs(this.calculatedValue);
+      this.returnExposure.stake = Math.abs(this.stakeValue);
     }
     if (this.stakeValue.toString() == '') {
       this.calculatedValue = 0.00;
