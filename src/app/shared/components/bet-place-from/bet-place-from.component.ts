@@ -18,12 +18,14 @@ export class BetPlaceFromComponent implements OnInit {
   stakeValue: number = 0;
   viewMode = '';
   calculatedValue: any = 0;
-  checkBoxConfirmation: boolean=false;
+  checkBoxConfirmation: boolean = true;
   eventData: any;
-  eventDeatils:any;
-  matchOdds:any= [];
+  eventDeatils: any;
+  matchOdds: any = [];
   ipAddress;
-  returnExposure:any={};
+  returnExposure: any = {};
+  previousData: any;
+
   constructor(
     private ipService: IpService,
     private ds: DataService,
@@ -39,10 +41,7 @@ export class BetPlaceFromComponent implements OnInit {
     //console.log(this.selectedItem);
     this.ds.event$.subscribe(event => {
       this.eventData = event;
-    });
-
-    this.ds.eventDeatils$.subscribe(event => {
-      this.eventDeatils = event;
+      console.log(this.eventData)
     });
 
     this.ds.matchOdds$.subscribe(data => {
@@ -51,11 +50,30 @@ export class BetPlaceFromComponent implements OnInit {
     this.getIP();
   }
 
-  getIP()  
-  {  
-    this.ipService.getIPAddress().subscribe((res:any)=>{  
-      this.ipAddress=res.ip;  
-    });  
+  getExposure() {
+    let param: any = {};
+    param.user_id = '8349711Z001';
+    param.match_id = this.eventDeatils.event.id;
+    this._loadingService.show();
+    this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
+      result => {
+        if (result.success) {
+          this._loadingService.hide();
+          console.log('exposure', result);
+          this.previousData = result.result[result.result.length - 1];
+          console.log(this.previousData)
+        }
+      },
+      err => {
+        this._loadingService.hide();
+      }
+    );
+  }
+
+  getIP() {
+    this.ipService.getIPAddress().subscribe((res: any) => {
+      this.ipAddress = res.ip;
+    });
   }
 
   canceBet() {
@@ -63,6 +81,10 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    this.ds.eventDeatils$.subscribe(event => {
+      this.eventDeatils = event;
+      this.getExposure();
+    });
     this.stakeValue = 0;
     this.calculatedValue = 0;
     this.selectedItem = changes.selectedItem.currentValue;
@@ -96,19 +118,22 @@ export class BetPlaceFromComponent implements OnInit {
       this.returnExposure.stake = -Math.abs(this.stakeValue);
     } else {
       this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
-      this.returnExposure.value= -Math.abs(this.calculatedValue);
+      this.returnExposure.value = -Math.abs(this.calculatedValue);
       this.returnExposure.stake = Math.abs(this.stakeValue);
     }
     if (this.stakeValue.toString() == '') {
       this.calculatedValue = 0.00;
-    }else{
-      this.returnExposure.index=this.details.index;
+    } else {
+      this.returnExposure.index = this.details.index;
       this.profit_and_liability.emit(this.returnExposure);
     }
   }
 
   betPlace() {
-    if (this.calculatedValue > 0) {
+    let total_balance = this.previousData.net_exposure + this.previousData.available_balance;
+    let liability = this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
+    console.log('liability', liability, 'tot', total_balance, 'net_exposure', this.previousData.net_exposure, 'exposure_limit', this.previousData.exposure_limit)
+    if (((liability + this.previousData.net_exposure) <= total_balance) && ((liability + this.previousData.net_exposure) <= this.previousData.exposure_limit)) {
       if (this.checkBoxConfirmation) {
         const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
           width: '250px',
@@ -116,7 +141,7 @@ export class BetPlaceFromComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-          if(result)
+          if (result)
             this.loader();
         });
       }
@@ -124,14 +149,27 @@ export class BetPlaceFromComponent implements OnInit {
         this.loader();
       }
     }
+    else {
+      if ((liability + this.previousData.net_exposure) > total_balance)
+        this._snakebarService.show('error', 'insufficient funds');
+      if ((liability + this.previousData.net_exposure) > this.previousData.exposure_limit)
+        this._snakebarService.show('error', 'exposure limit cross');
+    }
   }
 
-  loader(){
+  loader() {
+    let EnentList = ["Cricket","Tennis","Football","Soccer"];
+    let loaderTime;
+    if(EnentList.indexOf(this.eventData.name)!== -1)
+      loaderTime = 5000;
+    else
+      loaderTime = 7000;
     this._loadingService.show();
-    setTimeout(()=>{
+    this.canceBet();
+    setTimeout(() => {
       this.insertBet();
       this._loadingService.hide();
-    }, 1000);
+    }, loaderTime);
   }
 
   insertBet() {
@@ -142,9 +180,9 @@ export class BetPlaceFromComponent implements OnInit {
       description: this.eventDeatils.event.name,
       event_name: this.eventData.name,
       event_id: this.eventData.eventType,
-      odd: this.selectedItem.type=='back'?0:1,
+      odd: this.selectedItem.type == 'back' ? 0 : 1,
       place_odd: this.inputData,
-      last_odd: this.selectedItem.type=='back'?this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price:this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price,
+      last_odd: this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price,
       stake: this.stakeValue,
       runner_name: this.details.runnerName,
       runners: this.details.runners,
@@ -153,10 +191,10 @@ export class BetPlaceFromComponent implements OnInit {
       user_ip: this.ipAddress,
       selection_id: "",
       user_id: '8349711Z001',
-      p_and_l:0,
-      bet_status:0,
-      market_status:0,
-      bet_id:"111",
+      p_and_l: 0,
+      bet_status: 0,
+      market_status: 0,
+      bet_id: "111",
       settled_time: "2020-08-14T11:00:00.000Z",
     };
 
@@ -164,13 +202,15 @@ export class BetPlaceFromComponent implements OnInit {
 
     this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
       result => {
-        this.canceBet();
         if (result.success) {
-          
-          console.log(result)
+          this._snakebarService.show('success', result.message);
+        }
+        else{
+          this._snakebarService.show('error', result.message);
         }
       },
       err => {
+        this._snakebarService.show('error', err);
       }
     );
   }
