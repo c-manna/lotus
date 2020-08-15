@@ -141,6 +141,7 @@ export class BetPlaceFromComponent implements OnInit {
       market_type: this.details.market_type,
       description: this.eventDeatils.event.name,
       event_name: this.eventData.name,
+      event_id: this.eventData.eventType,
       odd: this.selectedItem.type=='back'?0:1,
       place_odd: this.inputData,
       last_odd: this.selectedItem.type=='back'?this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price:this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price,
