@@ -1,0 +1,136 @@
+
+.page-title{
+ font-weight: 700;
+ margin-top: 0;
+ font-size: 18px;
+ padding: 4px 4px 4px 6px;
+ margin-bottom: 1rem;
+}
+// .search-section{
+//  display: flex;
+//  justify-content: space-between;
+//  padding-bottom: 15px;
+//  input{
+//      width: 30%;
+//      border: 1px solid #000;
+//      font-weight: 700;
+//      text-align: center;
+//      background-color: transparent;
+//      height: 30px;
+//      font-size: 12px;
+//  }
+//  button{
+//      width: 30%;
+//      background-color: #2f8230;
+//      border: 0;
+//  }
+// }
+.accordian-section{
+ margin-left: -5px;
+ margin-right: -5px;
+ .mat-expansion-panel-header{
+     padding: 8px 5px 8px 13px !important;
+     height: auto;
+     font-weight: 400;
+     font-size: 14px;
+     color: #fff;
+     background-color: #0f2327;
+     mat-panel-title{
+         color: #fff;
+         display: flex;
+         justify-content: space-between;
+         margin-right: 0;
+         p{
+             margin: 0;
+         }
+         div{
+             font-size: 14px;
+             color: #fff;
+             font-weight: 400;
+             span{
+                 color: #2f8230;
+             }
+         }
+     }
+ }
+ .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover{
+     background-color: #0f2327;
+ }
+ .mat-accordion .mat-expansion-panel{
+     border-radius: 0;
+     margin-bottom: 16px;
+ }
+
+}
+::ng-deep.mat-expansion-panel-content{
+ font-family: 'Lato', sans-serif;
+ .mat-expansion-panel-body{
+    padding: 0;
+     p{
+         margin: 0;
+         padding: 8px 12px;
+         font-size: 14px;
+         color: #000;
+         background-color: #fff;
+     }
+     ul{
+         padding: 0;
+         margin: 0;
+         list-style: none;
+         li{
+             padding: 12px 12px ;
+             background-color: #fff;
+             margin-bottom: 4px;
+             display: flex;
+             div{
+                 font-size: 14px;
+                 color: #000;
+                 font-weight: 700;
+                 span{
+                     font-weight: 400;
+                     display: inline-block;
+                 }
+             }
+             .link-div{
+                 color: #3c8fc5;
+                 font-size: 16px;
+                 margin-bottom: 10px;
+                 width: 100%;
+                 overflow: hidden;
+                 text-overflow: ellipsis;
+                 white-space: nowrap;
+             }
+             .left-side{
+                 flex: 1;
+                 width: 64%;
+             }
+             .right-side{
+                 width: 36%;
+                 padding-left: 10px;
+                 div{
+                     display: flex;
+                     span{
+                         font-weight: 700;
+                         &:first-child{
+                             width: 60%;
+                             text-align: right;
+                         }
+                         &:last-child{
+                             text-align: right;
+                             width: 40%;
+                         }
+                         &.color_green{
+                             color: #2f8230;
+                         }
+                     }
+                 }
+             }
+         }
+     }
+ }
+ 
+}
+.mat-expansion-panel{
+ background: transparent;
+ box-shadow: none;
+}

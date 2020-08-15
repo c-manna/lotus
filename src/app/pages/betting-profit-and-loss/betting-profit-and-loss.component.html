@@ -1,70 +1,62 @@
 <div class="bg-img">
     <h2 class="page-title">Betting Profit & Loss</h2>
     <div class="search-section">
-        <input type="text" placeholder="From">
-        <input type="text" placeholder="To">
-        <button>Search</button>
+        <mat-form-field color="accent" appearance="fill" class="calendar-select">
+            <input matInput [matDatepicker]="picker1" (dateChange)="startDateChange($event)" (click)="picker1.open()"
+                readonly="readonly" placeholder="Select Date">
+            <!-- <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle> -->
+            <mat-datepicker #picker1></mat-datepicker>
+            <div *ngIf="inputError.startDate && submit">Start date required</div>
+        </mat-form-field>
+
+        <mat-form-field color="accent" appearance="fill" class="calendar-select">
+            <input matInput [matDatepicker]="picker2" (dateChange)="endDateChange($event)" (click)="picker2.open()"
+                readonly="readonly" placeholder="Select Date">
+            <!-- <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle> -->
+            <mat-datepicker #picker2 color="primary"></mat-datepicker>
+        </mat-form-field>
+        <div *ngIf="inputError.endDate && submit">End date required</div>
+        <button (click)="searchData()">Search</button>
     </div>
     <div class="accordian-section">
-        <mat-accordion [multi]="true" >
-            <mat-expansion-panel >
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                   <p>8th July 2020</p>
-                   <div>P&L: <span>80.00</span></div>
-                </mat-panel-title>
-               
-              </mat-expansion-panel-header>
-              <p>You have no unmatched bets</p>
-            </mat-expansion-panel>
-            <mat-expansion-panel >
+        <mat-accordion [multi]="true">
+            <p *ngIf="!profitLossBet.length">You have no Matched bets</p>
+            <mat-expansion-panel *ngFor="let item of profitLossBet">
                 <mat-expansion-panel-header>
-                <mat-panel-title>
-                    <p>4th July 2020</p>
-                    <div>P&L: <span>80.00</span></div>
-                </mat-panel-title>
-                
+                    <mat-panel-title>
+                        <p>{{item.item}}</p>
+                        <div>P&L: <span>{{calculateProfitLoss(item.value)}}</span></div>
+                    </mat-panel-title>
+
                 </mat-expansion-panel-header>
-                <!-- <p>You have no Matched bets</p> -->
+
                 <ul>
-                    <li>
+                    <li *ngFor="let k of objectKeys(item.eachBet)">
                         <div class="left-side">
-                            <div class="link-div">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
-                       
-                        <div>Start time: <span>10/7/2020 06:45:57</span></div>
-                        <div>Settled time: <span>10/7/2020 06:45:57</span></div>
+                            <div class="link-div"
+                                [routerLink]="['/betting-profit-and-loss', item.eachBet[k][0].market_id]">
+                                {{item.eachBet[k][0].description}}
+                            </div>
+
+                            <div>Start time:
+                                <span>{{item.eachBet[k][0].market_start_time | date: 'dd/MM/yyyy  hh:mm:ss'}}</span>
+                            </div>
+                            <div>Settled time:
+                                <span>{{ item.eachBet[k][0].settled_time | date: 'dd/MM/yyyy  hh:mm:ss'}}</span></div>
                         </div>
                         <div class="right-side">
                             <div>
                                 <span>Comm:</span>
-                                <span>0.00</span>
+                                <span>{{calculateComission(item.eachBet[k])}}</span>
                             </div>
                             <div>
                                 <span>Net Win:</span>
-                                <span class="color_green">80.00</span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="left-side">
-                            <div class="link-div">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
-                       
-                        <div>Start time: <span>10/7/2020 06:45:57</span></div>
-                        <div>Settled time: <span>10/7/2020 06:45:57</span></div>
-                        </div>
-                        <div class="right-side">
-                            <div>
-                                <span>Comm:</span>
-                                <span>0.00</span>
-                            </div>
-                            <div>
-                                <span>Net Win:</span>
-                                <span class="color_green">80.00</span>
+                                <span class="color_green">{{calculateNetWin(item.eachBet[k])}}</span>
                             </div>
                         </div>
                     </li>
                 </ul>
             </mat-expansion-panel>
-          </mat-accordion>
+        </mat-accordion>
     </div>
 </div>

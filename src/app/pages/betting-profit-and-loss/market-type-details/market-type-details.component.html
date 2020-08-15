@@ -1,0 +1,52 @@
+<div class="bg-img">
+ <h2 class="page-title">Betting Profit & Loss</h2>
+ <div class="accordian-section">
+  <!-- <p>You have no Matched bets</p> -->
+  <mat-accordion [multi]="true">
+   <mat-expansion-panel>
+    <mat-expansion-panel-header>
+     <mat-panel-title>
+      <p>{{headingData.description}}-{{headingData.market_type}}</p>
+      <!-- <div>P&L: <span>80.00</span></div> -->
+     </mat-panel-title>
+
+    </mat-expansion-panel-header>
+    <ul>
+     <li *ngFor="let item of marketData">
+      <div class="left-side">
+       <div class="link-div">Selection: {{item.runner_name}}</div>
+
+       <div>Bet ID: <span>{{item.bet_id}}</span></div>
+       <div>Placed: <span>{{item.bet_time | date: 'dd/MM/yyyy  hh:mm:ss'}}</span></div>
+       <!-- <div>Settled time: <span>{{item.settled_time  | date: 'dd/MM/yyyy  hh:mm:ss'}}</span></div> -->
+      </div>
+      <div class="right-side">
+       <div>
+        <span>Status:</span>
+        <span>{{(item.p_and_l == 0) ? 'WON' : 'LOST'}}</span>
+       </div>
+       <div>
+        <span>Profit/Loss:</span>
+        <span class="color_green">{{(item.p_and_l == 0) ? '' : '-'}} {{item.amount}}</span>
+       </div>
+      </div>
+      <!-- <div>
+       <div>TYPE {{(item.odd == 0) ? 'Back' : 'Lay'}}</div>
+       <div>ODDS {{item.placed_odd}}</div>
+       <div>STAKE {{item.stake}}</div>
+      </div> -->
+     </li>
+    </ul>
+    <div>
+     <div>Back subtotal: {{calculatedData.backSubtotal}}</div>
+     <div>Lay subtotal: {{calculatedData.laySubtotal}}</div>
+     <div>Market subtotal: {{calculatedData.marketSubtotal}}</div>
+     <div>Comission: {{calculatedData.commision}}</div>
+     <hr />
+     <div>Net Market Total: {{calculatedData.netMarket}}</div>
+     <hr />
+    </div>
+   </mat-expansion-panel>
+  </mat-accordion>
+ </div>
+</div>

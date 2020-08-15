@@ -43,7 +43,7 @@ export class SigninComponent implements OnInit {
       if (result.success) {
         this._snakebarService.show("success", result.message);
         this._cookieService.set("token", JSON.stringify(result['token']));
-        this._cookieService.set("user", JSON.stringify(result['data'][0]));
+        this._cookieService.set("user", JSON.stringify(result['data']));
         this.router.navigate(["dashboard"]);
       } else {
         this._loadingService.hide();
