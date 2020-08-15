@@ -35,6 +35,12 @@ export class DataService {
     this.matchOdds.next(data);
   }
 
+  private settingData = new BehaviorSubject<any>(null);
+  settingData$ = this.settingData.asObservable();
+  changeSettingData(data) {
+    this.settingData.next(data);
+  }
+
   constructor(private router: Router) {
     this.event.next(JSON.parse(localStorage.getItem('event')));
     this.breadCrumb.next(JSON.parse(localStorage.getItem('breadCrumb')));

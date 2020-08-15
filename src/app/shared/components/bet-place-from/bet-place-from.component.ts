@@ -24,6 +24,7 @@ export class BetPlaceFromComponent implements OnInit {
   matchOdds: any = [];
   ipAddress;
   returnExposure: any = {};
+  settingData: any = {};
   previousData: any;
 
   constructor(
@@ -84,6 +85,10 @@ export class BetPlaceFromComponent implements OnInit {
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
       this.getExposure();
+    });
+    this.ds.settingData$.subscribe(data => {
+      this.settingData = data;
+      console.log(this.settingData)
     });
     this.stakeValue = 0;
     this.calculatedValue = 0;

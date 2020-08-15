@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DataService } from '@shared/services';
 
 @Component({
   selector: 'app-market-live-section',
@@ -14,11 +15,16 @@ export class MarketLiveSectionComponent implements OnInit {
   details:any={};
   openBetPlaceDialog=false;
   profile_and_loss:any=[];
+  settingData: any = {};
 
-  constructor() { }
+  constructor(private ds: DataService) { }
 
   ngOnInit(): void {
     //console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails);
+    /* this.ds.settingData$.subscribe(data => {
+      this.settingData = data;
+      console.log(this.settingData)
+    }); */
   }
 
   canceBet() {
