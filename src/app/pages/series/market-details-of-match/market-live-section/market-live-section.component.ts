@@ -45,6 +45,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.openBetPlaceDialog=false;
     //console.log("canceBet");
     this.createBetFormActive = 0;
+    this.profile_and_loss = [];
     // this.viewMode = '';
   }
   set_profit_loss(data){

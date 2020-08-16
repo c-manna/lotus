@@ -89,6 +89,7 @@ export class BetPlaceFromComponent implements OnInit {
                 this._snakebarService.show('error', 'insufficient funds');
               if ((liability + this.previousData.net_exposure) > this.previousData.exposure_limit)
                 this._snakebarService.show('error', 'exposure limit cross');
+              this.profit_and_liability.emit([]);
             }
           }
         }
