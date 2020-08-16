@@ -49,10 +49,10 @@ export class MatchesComponent implements OnInit {
     this.competitionId = id;
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID='+id+'&competitionId=' + id, 'get').subscribe(
       result => {
+        this._loadingService.hide();
         if (result.success) {
           this.available = false;
           this.matches = result.data;
-          this._loadingService.hide();
         }
         else{
           this.available = true;
