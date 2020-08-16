@@ -1,7 +1,46 @@
-<div>
- <p>Want to place the bet?</p>
- <div>
-  <button [mat-dialog-close]="false">No Thanks</button>
-  <button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
- </div>
+<!-- <div>
+    <p>Want to place the bet?</p>
+    <div>
+        <button [mat-dialog-close]="false">No Thanks</button>
+        <button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
+    </div>
+</div> -->
+
+<div class="dialog-content">
+    <h1>{{data.description}}</h1>
+    <div class="content-container">
+
+        <h2>{{data.selectionType=='back'?'Backing':'Laying'}} <strong>{{data.runner_name}}</strong></h2>
+        <ul>
+            <li>
+                <p>Odds</p>
+                <p><em>{{data.odds}}</em></p>
+            </li>
+            <li>
+                <p>Stake</p>
+                <p><em>{{data.stake}}</em></p>
+            </li>
+            <li>
+                <p>{{data.selectionType=='back'?'Profit:' : 'Liability:'}}</p>
+                <p><em>{{data.p_and_l}}</em></p>
+            </li>
+        </ul>
+
+        <div class="input-buttons">
+            <button [mat-dialog-close]="false" analytics-on=""
+                class="-large button button-md button-default button-default-md button-md-cta-secondary"
+                color="cta-secondary" ion-button="" type="button"><span class="button-inner">Cancel</span>
+                <div class="button-effect"></div>
+            </button>
+            <button [mat-dialog-close]="true" cdkFocusInitial analytics-on=""
+                class="-large button button-md button-default button-default-md button-md-cta-primary"
+                color="cta-primary" ion-button="" type="button"><span class="button-inner">
+                    <span class="content action">Place Bet</span>
+                    <span class="content info">{{data.selectionType=='back'?'Profit:' : 'Liability:'}}: {{data.p_and_l}}</span>
+                </span>
+                <div class="button-effect"></div>
+            </button>
+        </div>
+
+    </div>
 </div>

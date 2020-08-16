@@ -13,6 +13,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Output() betCancelled: any = new EventEmitter();
   @Input('selectedItem') selectedItem: any;
   @Input('details') details: any;
+  @Input('settingData') settingData: any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number = 0;
@@ -24,7 +25,6 @@ export class BetPlaceFromComponent implements OnInit {
   matchOdds: any = [];
   ipAddress;
   returnExposure: any = {};
-  settingData: any = {};
   previousData: any;
 
   constructor(
@@ -63,6 +63,34 @@ export class BetPlaceFromComponent implements OnInit {
           console.log('exposure', result);
           this.previousData = result.result[result.result.length - 1];
           console.log(this.previousData)
+          console.log(this.settingData)
+          if (this.settingData.one_click_betting == 1) {
+            if (this.settingData.one_click_default == 1)
+              this.addStakeValue(this.settingData.one_click_op1);
+            else if (this.settingData.one_click_default == 2)
+              this.addStakeValue(this.settingData.one_click_op2);
+            else
+              this.addStakeValue(this.settingData.one_click_op3);
+            let total_balance = this.previousData.net_exposure + this.previousData.available_balance;
+            let liability = this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value);
+            if (((liability + this.previousData.net_exposure) <= total_balance) && ((liability + this.previousData.net_exposure) <= this.previousData.exposure_limit)) {
+              const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
+                width: '100%',
+                data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+              });
+
+              dialogRef.afterClosed().subscribe(result => {
+                if (result)
+                  this.loader();
+              });
+            }
+            else {
+              if ((liability + this.previousData.net_exposure) > total_balance)
+                this._snakebarService.show('error', 'insufficient funds');
+              if ((liability + this.previousData.net_exposure) > this.previousData.exposure_limit)
+                this._snakebarService.show('error', 'exposure limit cross');
+            }
+          }
         }
       },
       err => {
@@ -85,10 +113,6 @@ export class BetPlaceFromComponent implements OnInit {
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
       this.getExposure();
-    });
-    this.ds.settingData$.subscribe(data => {
-      this.settingData = data;
-      console.log(this.settingData)
     });
     this.stakeValue = 0;
     this.calculatedValue = 0;
@@ -141,8 +165,8 @@ export class BetPlaceFromComponent implements OnInit {
     if (((liability + this.previousData.net_exposure) <= total_balance) && ((liability + this.previousData.net_exposure) <= this.previousData.exposure_limit)) {
       if (this.checkBoxConfirmation) {
         const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
-          width: '250px',
-          data: {}
+          width: '100%',
+          data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -163,9 +187,9 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   loader() {
-    let EnentList = ["Cricket","Tennis","Football","Soccer"];
+    let EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
     let loaderTime;
-    if(EnentList.indexOf(this.eventData.name)!== -1)
+    if (EnentList.indexOf(this.eventData.name) !== -1)
       loaderTime = 5000;
     else
       loaderTime = 7000;
@@ -210,7 +234,7 @@ export class BetPlaceFromComponent implements OnInit {
         if (result.success) {
           this._snakebarService.show('success', result.message);
         }
-        else{
+        else {
           this._snakebarService.show('error', result.message);
         }
       },

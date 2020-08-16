@@ -149,7 +149,7 @@
                 </li>
             </ng-template>
             <app-bet-place-from *ngIf="openBetPlaceDialog" (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()" [selectedItem]="selectedItem"
-                [details]="details">
+                [details]="details" [settingData]="settingData">
             </app-bet-place-from>
         </ul>
     </div>

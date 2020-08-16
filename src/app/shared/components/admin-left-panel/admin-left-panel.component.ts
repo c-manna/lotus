@@ -18,7 +18,6 @@ export class AdminLeftPanelComponent implements OnInit {
     private apiService: APIService,
     private router: Router,
     private toolbarService: SideNavService) {
-    this.getSettingData();
     this.router.events.subscribe(event => {
     });
   }
@@ -51,19 +50,6 @@ export class AdminLeftPanelComponent implements OnInit {
 
   closeNav() {
     this.toolbarService.close();
-  }
-
-  getSettingData() {
-    this.apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
-      this._loadingService.hide();
-      if (res.success) {
-        this.ds.changeSettingData(res.data);
-      } else {
-        this._snakebarService.show("error", res.message);
-      }
-    }, err => {
-      this._snakebarService.show("error", err.message);
-    });
   }
 
 }

@@ -1,0 +1,12 @@
+.bet-confirm.back>.dialog-content {
+    border-color: var(--back-background);
+    border-bottom-width: 7px;
+}
+modal-dialog>.dialog-content {
+    background: var(--white);
+    width: calc(100% - 4px);
+    border: 1px solid var(--modal-border);
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 11px;
+}

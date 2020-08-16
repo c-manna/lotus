@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService } from '@shared/services';
-
+import { DataService, APIService } from '@shared/services';
+import { environment } from '@env/environment';
 @Component({
   selector: 'app-market-live-section',
   templateUrl: './market-live-section.component.html',
@@ -17,7 +17,9 @@ export class MarketLiveSectionComponent implements OnInit {
   profile_and_loss:any=[];
   settingData: any = {};
 
-  constructor(private ds: DataService) { }
+  constructor(private ds: DataService,
+    private apiService: APIService,
+    ) { }
 
   ngOnInit(): void {
     //console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails);
@@ -25,6 +27,18 @@ export class MarketLiveSectionComponent implements OnInit {
       this.settingData = data;
       console.log(this.settingData)
     }); */
+    this.getSettingData();
+  }
+
+  getSettingData() {
+    this.apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
+      if (res.success) {
+        this.settingData=res.data;
+        //this.ds.changeSettingData(res.data);
+      } else {
+      }
+    }, err => {
+    });
   }
 
   canceBet() {

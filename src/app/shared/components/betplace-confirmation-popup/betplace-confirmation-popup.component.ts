@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -6,11 +6,17 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './betplace-confirmation-popup.component.html',
   styleUrls: ['./betplace-confirmation-popup.component.scss']
 })
-export class BetplaceConfirmationPopupComponent {
+export class BetplaceConfirmationPopupComponent implements OnInit{
 
   constructor(
     public dialogRef: MatDialogRef<BetplaceConfirmationPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+  ) {
+    console.log(data);
+   }
+
+  ngOnInit(){
+
+  }
 
 }
