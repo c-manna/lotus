@@ -103,6 +103,7 @@ export class BetPlaceFromComponent implements OnInit {
   getIP() {
     this.ipService.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
+      console.log(this.ipAddress)
     });
   }
 
@@ -211,7 +212,7 @@ export class BetPlaceFromComponent implements OnInit {
       event_name: this.eventData.name,
       event_id: this.eventData.eventType,
       odd: this.selectedItem.type == 'back' ? 0 : 1,
-      place_odd: this.inputData,
+      place_odd: this.inputData.toFixed(2),
       last_odd: this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price,
       stake: this.stakeValue,
       runner_name: this.details.runnerName,
