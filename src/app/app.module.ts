@@ -5,12 +5,12 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CookieService } from 'ngx-cookie-service';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedModule } from '@shared/shared.module';
-
+import { AuthInterceptor } from '@shared/services/auth'
 @NgModule({
   declarations: [
-    AppComponent    
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -19,7 +19,9 @@ import { SharedModule } from '@shared/shared.module';
     HttpClientModule,
     SharedModule
   ],
-  providers: [ CookieService ],
+  providers: [CookieService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

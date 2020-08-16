@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService, APIService } from '@shared/services';
 import { environment } from '@env/environment';
+import { CookieService } from 'ngx-cookie-service';
+
 @Component({
   selector: 'app-market-live-section',
   templateUrl: './market-live-section.component.html',
@@ -19,6 +21,7 @@ export class MarketLiveSectionComponent implements OnInit {
 
   constructor(private ds: DataService,
     private apiService: APIService,
+    private _cookieService: CookieService
     ) { }
 
   ngOnInit(): void {
@@ -66,6 +69,8 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.runnerName=runnerName;
     this.details.runners=this.matchesDetails[0].runners;
     this.details.index = index;
+    let user = JSON.parse(this._cookieService.get("user"))
+    this.details.user_id = user.punter_id;
     let currentTime = Date.now();
     this.selectedItem = { type: type, ...item, value: value };
     item['viewMode'] = viewMode;

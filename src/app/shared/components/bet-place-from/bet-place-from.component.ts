@@ -53,7 +53,7 @@ export class BetPlaceFromComponent implements OnInit {
 
   getExposure() {
     let param: any = {};
-    param.user_id = '8349711Z001';
+    param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
     this._loadingService.show();
     this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
@@ -220,7 +220,7 @@ export class BetPlaceFromComponent implements OnInit {
       market_end_time: "",
       user_ip: this.ipAddress,
       selection_id: "",
-      user_id: '8349711Z001',
+      user_id: this.details.user_id,
       p_and_l: 0,
       bet_status: 0,
       market_status: 0,

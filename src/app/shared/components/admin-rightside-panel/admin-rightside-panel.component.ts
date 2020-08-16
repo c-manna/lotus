@@ -9,6 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./admin-rightside-panel.component.scss']
 })
 export class AdminRightsidePanelComponent implements OnInit {
+  user:any={};
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -19,7 +20,7 @@ export class AdminRightsidePanelComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.user=JSON.parse(this._cookieService.get("user"));
   }
 
   closeNav() {

@@ -46,7 +46,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // this._socketService.getBalance("2750231N007");
-    console.log(JSON.parse(this._cookieService.get("user")));
+    //console.log(JSON.parse(this._cookieService.get("user")));
     this.getInPlay();
     // this._snakebarService.show("success", "hi");
   }
