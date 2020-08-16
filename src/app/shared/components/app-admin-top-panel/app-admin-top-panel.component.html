@@ -1,13 +1,4 @@
-
-
-
-
-
 <div class="header">
-    
-
-
-   
     <div class="header-left">
         <button *ngIf="url[1]=='dashboard';else elsePart" class="menu-icon" (click)="toggleDrawer()"></button>
         <ng-template #elsePart>
@@ -18,7 +9,28 @@
         </div>
     </div>
     <div class="header-right">
-        <button class="search-icon"></button>
-        <button class="user-icon" (click)="toggleDrawer1()"></button>
+        <button class="search-icon" [routerLink]="['/search']"></button>
+        <button class="user-icon" (click)="toggleDrawer1()">
+            <div></div>
+            <span>4</span>
+        </button>
     </div>
 </div>
+
+
+
+<!-- <div class="header">
+    <div class="header-left">
+        <button *ngIf="url[1]=='dashboard';else elsePart" class="menu-icon" (click)="toggleDrawer()"></button>
+        <ng-template #elsePart>
+            <button class="back-icon" (click)="backClicked()"></button>
+        </ng-template>
+    </div>
+    <div class="header-right searchRight">
+        <div class="searchInput">
+            <input type="text" placeholder="Search Events">
+            <button class="search-icon"></button>
+        </div>
+
+    </div>
+</div> -->

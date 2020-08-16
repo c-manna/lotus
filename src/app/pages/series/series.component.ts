@@ -56,15 +56,16 @@ export class SeriesComponent implements OnInit {
     this.eventId = id;
     this.apiService.ApiCall('', environment.apiUrl + 'event-competition?eventID=' + id, 'get').subscribe(
       result => {
+        this._loadingService.hide();
         if (result.success) {
           this.series = result.data;
-          this._loadingService.hide();
           //console.log(this.series)
         } else {
           this.series = [];
         }
       },
       err => {
+        this._loadingService.hide();
       }
     );
   }

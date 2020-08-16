@@ -86,3 +86,32 @@
         }
     }
 }
+
+.searchRight{
+    flex: 1;
+    padding-left: 10px;
+    .searchInput{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        input{
+            flex: 1;
+            padding-right: 10px;
+            background-color: transparent;
+            border:0;
+            color: #fff;
+        }
+        ::-webkit-input-placeholder { /* Edge */
+            color: #fff;
+          }
+          
+          :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: #fff;
+          }
+          
+          ::placeholder {
+            color: #fff;
+          }
+    }
+   
+}

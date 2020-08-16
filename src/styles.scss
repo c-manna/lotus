@@ -113,6 +113,15 @@ ng2-loading-spinner {
   }
 }
 
+
+.custom-modalbox.cdk-overlay-pane{
+  max-width: 100%!important;
+  .mat-dialog-container{
+    padding: 11px!important;
+    border-bottom: 7px solid #a7d8fd;
+  }
+}
+
   
 
 

@@ -76,6 +76,7 @@ export class BetPlaceFromComponent implements OnInit {
             if (((liability + this.previousData.net_exposure) <= total_balance) && ((liability + this.previousData.net_exposure) <= this.previousData.exposure_limit)) {
               const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
                 width: '100%',
+                panelClass: 'custom-modalbox',
                 data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
               });
 
@@ -103,6 +104,7 @@ export class BetPlaceFromComponent implements OnInit {
   getIP() {
     this.ipService.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
+      console.log(this.ipAddress)
     });
   }
 
@@ -167,6 +169,7 @@ export class BetPlaceFromComponent implements OnInit {
       if (this.checkBoxConfirmation) {
         const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
           width: '100%',
+          panelClass: 'custom-modalbox',
           data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
         });
 
@@ -181,9 +184,9 @@ export class BetPlaceFromComponent implements OnInit {
     }
     else {
       if ((liability + this.previousData.net_exposure) > total_balance)
-        this._snakebarService.show('error', 'insufficient funds');
+        this._snakebarService.show('error', 'Insufficient funds');
       if ((liability + this.previousData.net_exposure) > this.previousData.exposure_limit)
-        this._snakebarService.show('error', 'exposure limit cross');
+        this._snakebarService.show('error', 'Exposure limit exceed');
     }
   }
 
@@ -211,7 +214,7 @@ export class BetPlaceFromComponent implements OnInit {
       event_name: this.eventData.name,
       event_id: this.eventData.eventType,
       odd: this.selectedItem.type == 'back' ? 0 : 1,
-      place_odd: this.inputData,
+      place_odd: this.inputData.toFixed(2),
       last_odd: this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price,
       stake: this.stakeValue,
       runner_name: this.details.runnerName,

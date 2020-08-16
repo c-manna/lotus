@@ -3,7 +3,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 import { AdminLayoutComponent, AuthLayoutComponent } from '@shared/components';
 import { AuthGuard } from '@shared/services/auth';
-
+import { SearchComponent } from './search/search.component'
 const routes: Routes = [
   {
     path: '',
@@ -43,7 +43,12 @@ const routes: Routes = [
       {
         path: 'settings',
         loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsModule)
-      }
+      },
+      {
+        path: 'search',
+        component: SearchComponent
+      },
+
     ]
   }
 ];
