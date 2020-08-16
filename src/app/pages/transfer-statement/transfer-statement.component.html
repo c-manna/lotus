@@ -17,21 +17,21 @@
             </mat-form-field>
         </div>
         <div class="select-box icon">
-            <select placeholder="Select a option" formControlName="option">
-                <option *ngFor="let item of options" value="{{item.name}}">{{item.name}}</option>
+            <select placeholder="Select a option" (change)="remarkChange($event)">
+                <option *ngFor="let item of remarkOptions;let i=index" value={{i}}>{{item.name}}</option>
             </select>
         </div>
-        <button class="submit-btn" (click)="formSubmit()">Submit</button>
+        <button class="submit-btn" (click)="submitButton()">Submit</button>
     </form>
     <div class="show-search">
         <div class="show-left">
             <h4>Show</h4>
             <div class="show-select icon">
-                <select name="cars" id="cars">
-                    <option value="volvo">25 Entries</option>
-                    <option value="saab">50 Entries</option>
-                    <option value="mercedes">75 Entries</option>
-                    <option value="audi">100 Entries</option>
+                <select name="cars" (change)="paginationChange($event)">
+                    <option value="25">25 Entries</option>
+                    <option value="50">50 Entries</option>
+                    <option value="75">75 Entries</option>
+                    <option value="100">100 Entries</option>
                 </select>
             </div>
         </div>
@@ -40,7 +40,7 @@
             <input type="text">
         </div>
     </div>
-    <div>Table
+    <div>
         <table>
             <thead>
                 <tr>
@@ -53,30 +53,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>11/10/2020</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>100</td>
-                    <td>Test</td>
+                <tr *ngFor="let item of newList;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{item.date | date: 'dd/MM/yyyy'}}</td>
+                    <td>{{(item.credit)? item.credit : '-'}}</td>
+                    <td>{{(item.debit) ? item.debit : '-'}}</td>
+                    <td>{{calculateBalance(item.debit, item.credit)}} </td>
+                    <td>{{item.remark}}</td>
                 </tr>
             </tbody>
+            <tbody *ngIf="!newList.length">No record found</tbody>
         </table>
+        <div *ngIf="newList.length">
+            <mat-paginator [length]="dataCount" [pageSize]="f.limit.value" (page)="paginationPageChange($event)">
+            </mat-paginator>
+        </div>
     </div>
 </div>
-
-
-<!-- <form [formGroup]="filterForm">
-    <input type="text" formControlName="endDate">
-    <button class="submit-btn" (click)="formSubmit($event)">Submit</button>
-</form> -->
-
-<!-- <div>
-    <form [formGroup]="filterForm">
-        <input type="text" formControlName="startDate">
-        <input type="text" formControlName="endDate">
-        <input type="text" formControlName="option">
-        <button class="submit-btn" (click)="formSubmit($event)">Submit</button>
-    </form>
-</div> -->

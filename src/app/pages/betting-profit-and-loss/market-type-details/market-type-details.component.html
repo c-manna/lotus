@@ -1,8 +1,8 @@
 <div class="bg-img">
  <h2 class="page-title">Betting Profit & Loss</h2>
  <div class="accordian-section">
-  <!-- <p>You have no Matched bets</p> -->
-  <mat-accordion [multi]="true">
+  <p *ngIf="!(marketData && marketData.length)">You have no Matched bets</p>
+  <mat-accordion [multi]="true" *ngIf="marketData && marketData.length">
    <mat-expansion-panel>
     <mat-expansion-panel-header>
      <mat-panel-title>

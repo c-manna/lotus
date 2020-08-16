@@ -11,7 +11,7 @@ import { environment } from '@env/environment';
 })
 export class MarketTypeDetailsComponent implements OnInit {
   marketType: any;
-  loading: boolean = false;
+  loading: boolean = true;
   marketData: any = [];
   headingData: any = {};
   commission: any = 0;
@@ -31,14 +31,17 @@ export class MarketTypeDetailsComponent implements OnInit {
   }
 
   getPunterCommision() {
-    this._apiService.ApiCall({}, environment.apiUrl + 'user-commision', 'get').subscribe(
+    this._loadingService.show();
+    this._apiService.ApiCall({}, environment.apiUrl + 'user-details', 'get').subscribe(
       result => {
+        this._loadingService.hide();
         if (result.success) {
           this.commission = result['data'].punter_commission;
           // console.log(this.commission)
           this.getBettingData();
         }
       }, err => {
+        this._loadingService.hide();
       });
   }
 

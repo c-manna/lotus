@@ -27,14 +27,17 @@ export class BettingProfitAndLossComponent implements OnInit {
   }
 
   getPunterCommision() {
-    this._apiService.ApiCall({}, environment.apiUrl + 'user-commision', 'get').subscribe(
+    this._loadingService.show();
+    this._apiService.ApiCall({}, environment.apiUrl + 'user-details', 'get').subscribe(
       result => {
+        this._loadingService.hide();
         if (result.success) {
           this.commission = result['data'].punter_commission;
           console.log(this.commission)
           this.getProfitLossBet('');
         }
       }, err => {
+        this._loadingService.hide();
       });
   }
 
