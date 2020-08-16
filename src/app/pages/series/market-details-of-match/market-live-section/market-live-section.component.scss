@@ -23,6 +23,16 @@
      color: #000000;
      font-weight: 700;
      font-size: 14px;
+     span{
+         display: block;
+         font-weight: normal;
+     }
+ }
+ .redColor{
+     color: #f00;
+ }
+ .greenColor{
+     color: lawngreen;
  }
  ul{
      padding: 0;

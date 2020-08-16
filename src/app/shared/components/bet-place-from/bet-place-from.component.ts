@@ -76,6 +76,7 @@ export class BetPlaceFromComponent implements OnInit {
             if (((liability + this.previousData.net_exposure) <= total_balance) && ((liability + this.previousData.net_exposure) <= this.previousData.exposure_limit)) {
               const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
                 width: '100%',
+                panelClass: 'custom-modalbox',
                 data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
               });
 
@@ -168,6 +169,7 @@ export class BetPlaceFromComponent implements OnInit {
       if (this.checkBoxConfirmation) {
         const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
           width: '100%',
+          panelClass: 'custom-modalbox',
           data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
         });
 

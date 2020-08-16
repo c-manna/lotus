@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { CookieService } from 'ngx-cookie-service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { SharedModule } from '@shared/shared.module';
-import { AuthInterceptor } from '@shared/services/auth'
+import { AuthInterceptor } from '@shared/services/auth';
+import { SearchComponent } from './search/search.component'
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

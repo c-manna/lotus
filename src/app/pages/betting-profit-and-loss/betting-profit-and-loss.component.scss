@@ -9,7 +9,8 @@
 .search-section{
     display: flex;
     justify-content: space-between;
-    padding-bottom: 15px;
+    padding-bottom: 0;
+    align-items: flex-start;
     input{
         width: 30%;
         border: 1px solid #000;
@@ -140,4 +141,15 @@
     input {
         width: 100%;
     }
+}
+
+::ng-deep.mat-form-field-appearance-fill .mat-form-field-infix{
+    padding: 0;
+}
+
+::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex{
+    padding: 0!important;
+}
+::ng-deep.mat-form-field-infix{
+    border-top: 0;
 }
