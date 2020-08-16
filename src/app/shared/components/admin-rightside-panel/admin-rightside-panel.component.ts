@@ -29,7 +29,8 @@ export class AdminRightsidePanelComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   closeNav() {
     this.toolbarService.close();
@@ -47,7 +48,6 @@ export class AdminRightsidePanelComponent implements OnInit {
     this.apiService.ApiCall(param, `${environment.apiUrl}getbalanceDetails`, 'post').subscribe(res => {
       if (res.success) {
         this.userBalance = res.result;
-        console.log(res.data)
       } else {
       }
     }, err => {

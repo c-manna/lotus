@@ -31,8 +31,9 @@ export class AdminLeftPanelComponent implements OnInit {
     if (this.router.url == '/dashboard') {
       this._loadingService.show();
     }
-    this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
+    this._routeListener = this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
       result => {
+        this._loadingService.hide();
         if (result.success) {
           this.events = result.data;
           if (this.router.url == '/dashboard') {
@@ -41,6 +42,7 @@ export class AdminLeftPanelComponent implements OnInit {
         }
       },
       err => {
+        this._loadingService.hide();
       }
     );
   }
