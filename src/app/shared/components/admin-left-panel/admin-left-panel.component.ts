@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { environment } from '@env/environment';
 import { APIService, DataService, SideNavService, LoadingService, SnakebarService } from '@shared/services';
 import { Router } from '@angular/router';
+import { BehaviorSubject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-left-panel',
@@ -10,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AdminLeftPanelComponent implements OnInit {
   events = [];
-
+  _routeListener: Subscription;
   constructor(
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService,
@@ -18,8 +19,8 @@ export class AdminLeftPanelComponent implements OnInit {
     private apiService: APIService,
     private router: Router,
     private toolbarService: SideNavService) {
-    this.router.events.subscribe(event => {
-    });
+/*     this.router.events.subscribe(event => {
+    }); */
   }
 
   ngOnInit() {
@@ -51,5 +52,7 @@ export class AdminLeftPanelComponent implements OnInit {
   closeNav() {
     this.toolbarService.close();
   }
-
+  ngOnDestroy() {
+    this._routeListener.unsubscribe();
+  }
 }
