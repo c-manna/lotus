@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest,HttpHandler, HttpEvent, HttpInterceptor} from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // add authorization header with jwt token if available
-    let admin_token: any = this.cookieService.get('token');
+    let admin_token: any = JSON.parse(this.cookieService.get('token'));
     if (admin_token) {
       request = request.clone({
         setHeaders: {
