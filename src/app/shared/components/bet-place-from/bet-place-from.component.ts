@@ -182,9 +182,9 @@ export class BetPlaceFromComponent implements OnInit {
     }
     else {
       if ((liability + this.previousData.net_exposure) > total_balance)
-        this._snakebarService.show('error', 'insufficient funds');
+        this._snakebarService.show('error', 'Insufficient funds');
       if ((liability + this.previousData.net_exposure) > this.previousData.exposure_limit)
-        this._snakebarService.show('error', 'Insufficient available balance');
+        this._snakebarService.show('error', 'Exposure limit exceed');
     }
   }
 
@@ -219,8 +219,7 @@ export class BetPlaceFromComponent implements OnInit {
       runners: this.details.runners,
       market_start_time: this.details.market_start_time,
       market_end_time: "",
-      //user_ip: this.ipAddress,
-      user_ip: '192.168.0.1',
+      user_ip: this.ipAddress,
       selection_id: "",
       user_id: this.details.user_id,
       p_and_l: 0,
