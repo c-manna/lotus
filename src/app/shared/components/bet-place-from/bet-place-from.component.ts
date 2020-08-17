@@ -26,6 +26,7 @@ export class BetPlaceFromComponent implements OnInit {
   ipAddress;
   returnExposure: any = {};
   previousData: any;
+  previousBet: any;
 
   constructor(
     private ipService: IpService,
@@ -62,6 +63,7 @@ export class BetPlaceFromComponent implements OnInit {
           this._loadingService.hide();
           console.log('exposure', result);
           this.previousData = result.result[result.result.length - 1];
+          this.previousBet = result.result;
           console.log(this.previousData)
           console.log(this.settingData)
           if (this.settingData.one_click_betting == 1) {
@@ -206,7 +208,42 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   insertBet() {
-    let param = {
+    let previousBet: any = this.previousBet;//.all_teams_exposure_data;
+    let currentBet: any = [];
+    let currentRunnerName = this.details.runnerName;
+    let odd = this.selectedItem.type == 'back' ? 0 : 1;
+    let all_amount: any = [];
+    let net_exposure;
+    for (let i = 0; i < this.details.runners.length; i++) {
+      let team_details: any = {};
+      if (currentRunnerName == this.details.runners[i].runnerName) {
+        team_details = {
+          odd_type: odd,
+          team_name: currentRunnerName,
+          amount: odd == 0 ? Math.abs(this.calculatedValue) : -Math.abs(this.stakeValue)
+        }
+      } else {
+        team_details = {
+          odd_type: odd == 0 ? 1 : odd,
+          team_name: this.details.runners[i].runnerName,
+          amount: odd == 0 ? -Math.abs(this.stakeValue) : Math.abs(this.calculatedValue)
+        }
+      }
+      all_amount.push(team_details.amount)
+      currentBet.push(team_details)
+    }
+    if (this.previousBet[0].all_teams_exposure_data != undefined) {
+      for (let i = 0; i < this.previousBet.length; i++) {
+        for (let j = 0; j < this.previousBet[i].all_teams_exposure_data.length; j++) {
+          //amount.push(this.previousBet[i].all_teams_exposure_data[j].amount);
+        }
+      }
+    } else {
+      net_exposure = this.min(all_amount);
+    }
+
+    console.log(net_exposure)
+    /* let param = {
       market_id: this.details.marketId,
       match_id: this.eventDeatils.event.id,
       market_type: this.details.market_type,
@@ -229,6 +266,7 @@ export class BetPlaceFromComponent implements OnInit {
       market_status: 0,
       bet_id: "111",
       settled_time: "2020-08-14T11:00:00.000Z",
+      master_id: this.details.punter_belongs_to
     };
 
     console.log(param);
@@ -245,7 +283,13 @@ export class BetPlaceFromComponent implements OnInit {
       err => {
         this._snakebarService.show('error', err);
       }
-    );
+    ); */
+  }
+
+  min(input) {
+    if (toString.call(input) !== "[object Array]")
+      return false;
+    return Math.min.apply(null, input);
   }
 
 }
