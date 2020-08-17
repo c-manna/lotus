@@ -71,6 +71,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.index = index;
     let user = JSON.parse(this._cookieService.get("user"))
     this.details.user_id = user.punter_id;
+    this.details.punter_belongs_to=user.punter_belongs_to;
     let currentTime = Date.now();
     this.selectedItem = { type: type, ...item, value: value };
     item['viewMode'] = viewMode;
