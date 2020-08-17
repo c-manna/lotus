@@ -19,7 +19,6 @@ export class AuthInterceptor implements HttpInterceptor {
     // add authorization header with jwt token if available
     let admin_token: any = JSON.parse(this.cookieService.get('token') ? this.cookieService.get('token') : null);
     if (admin_token && request.url != 'http://api.ipify.org/?format=json') {
-      console.log(request.url)
       //if (this.isValidRequestForInterceptor(request.url)) {
       request = request.clone({
         setHeaders: {
