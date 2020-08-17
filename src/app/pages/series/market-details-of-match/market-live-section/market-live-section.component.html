@@ -123,7 +123,7 @@
             <ng-template [ngIf]="1" *ngFor="let item of matchOdds[0].runners;let i= index">
                 <li>
                     <div class="title">{{matchesDetails[0].runners[i].runnerName}}
-                        <span *ngIf="profile_and_loss" class="redColor">{{profile_and_loss[i]}}</span>
+                        <span *ngIf="profile_and_loss" [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <div class="bet-btn-wrapper">
                         <ng-container *ngIf="matchOdds[0].runners.length>0;then activeMatch;else suspendMatch">
