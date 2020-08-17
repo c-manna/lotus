@@ -180,7 +180,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.matchesDetails = result.data;
           this.getFancy(id);
           this.getMatchOdds(result.data[0].marketId);
-          //this.getOddsFromInterval(result.data[0].marketId);
+          this.getOddsFromInterval(result.data[0].marketId);
         }
       },
       err => {
@@ -200,6 +200,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
 
   getMatchOdds(marketID) {
+    console.log('interval')
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
         if (result.success) {

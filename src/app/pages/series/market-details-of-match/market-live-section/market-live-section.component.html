@@ -126,7 +126,7 @@
                         <span *ngIf="profile_and_loss" class="redColor">{{profile_and_loss[i]}}</span>
                     </div>
                     <div class="bet-btn-wrapper">
-                        <ng-container *ngIf="(i+1)%matchOdds[0].runners.length!=0;then activeMatch;else suspendMatch"></ng-container>
+                        <ng-container *ngIf="matchOdds[0].runners.length>0;then activeMatch;else suspendMatch"></ng-container>
                         <ng-template #activeMatch>
                             <div *ngIf="(item.ex.availableToLay[0] && item.ex.availableToLay[0].price); else blankBackLay"
                                 class="bet-button back"

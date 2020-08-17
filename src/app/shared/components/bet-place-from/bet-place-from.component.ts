@@ -48,6 +48,7 @@ export class BetPlaceFromComponent implements OnInit {
 
     this.ds.matchOdds$.subscribe(data => {
       this.matchOdds = data;
+      console.log(this.matchOdds)
     });
     this.getIP();
   }
@@ -220,13 +221,13 @@ export class BetPlaceFromComponent implements OnInit {
         team_details = {
           odd_type: odd,
           team_name: currentRunnerName,
-          amount: odd == 0 ? Math.abs(this.calculatedValue) : -Math.abs(this.stakeValue)
+          amount: odd == 0 ? this.returnExposure.value : this.returnExposure.stake
         }
       } else {
         team_details = {
           odd_type: odd == 0 ? 1 : odd,
           team_name: this.details.runners[i].runnerName,
-          amount: odd == 0 ? -Math.abs(this.stakeValue) : Math.abs(this.calculatedValue)
+          amount: odd == 0 ? this.returnExposure.stake : this.returnExposure.value
         }
       }
       all_amount.push(team_details.amount)
@@ -235,15 +236,23 @@ export class BetPlaceFromComponent implements OnInit {
     if (this.previousBet[0].all_teams_exposure_data != undefined) {
       for (let i = 0; i < this.previousBet.length; i++) {
         for (let j = 0; j < this.previousBet[i].all_teams_exposure_data.length; j++) {
-          //amount.push(this.previousBet[i].all_teams_exposure_data[j].amount);
+          all_amount[i]=all_amount[i] + this.previousBet[i].all_teams_exposure_data[j].amount;
         }
       }
+      console.log(all_amount)
+      net_exposure = this.min(all_amount);
     } else {
       net_exposure = this.min(all_amount);
     }
 
-    console.log(net_exposure)
-    /* let param = {
+    console.log(net_exposure,all_amount)
+    let last_odd;
+    if(this.matchOdds.length>0){
+      last_odd = this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price
+    }else{
+      last_odd = this.inputData.toFixed(2)
+    }
+    let param = {
       market_id: this.details.marketId,
       match_id: this.eventDeatils.event.id,
       market_type: this.details.market_type,
@@ -252,7 +261,7 @@ export class BetPlaceFromComponent implements OnInit {
       event_id: this.eventData.eventType,
       odd: this.selectedItem.type == 'back' ? 0 : 1,
       place_odd: this.inputData.toFixed(2),
-      last_odd: this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price,
+      last_odd: last_odd,
       stake: this.stakeValue,
       runner_name: this.details.runnerName,
       runners: this.details.runners,
@@ -266,7 +275,8 @@ export class BetPlaceFromComponent implements OnInit {
       market_status: 0,
       bet_id: "111",
       settled_time: "2020-08-14T11:00:00.000Z",
-      master_id: this.details.punter_belongs_to
+      master_id: this.details.punter_belongs_to,
+      net_exposure: net_exposure
     };
 
     console.log(param);
@@ -283,7 +293,7 @@ export class BetPlaceFromComponent implements OnInit {
       err => {
         this._snakebarService.show('error', err);
       }
-    ); */
+    );
   }
 
   min(input) {
