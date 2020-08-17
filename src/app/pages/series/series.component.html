@@ -7,15 +7,10 @@
     </div>
     <ul class="match-list">
       <li *ngFor="let item of inplayData">
-        <div>{{item.match_name}}</div><span
-          [routerLink]="['/series/'+eventId+'/matches/'+item.competetion_id+'/match-details/'+item.inPlay_data.marketId]"></span>
+        <div
+          [routerLink]="['/series/'+eventId+'/matches/'+item.competetion_id+'/match-details/'+item.inPlay_data.marketId]">
+          {{item.match_name}}</div><span></span>
       </li>
-      <!-- <li>
-        <div>Birmingham v Charlton</div><span></span>
-      </li>
-      <li>
-        <div>Nottm Forest v Swansea</div><span></span>
-      </li> -->
     </ul>
   </div>
   <div class="section-1">
@@ -59,11 +54,6 @@
             </li>
           </ul>
         </mat-expansion-panel>
-
-
-
-
-
         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
           <mat-expansion-panel-header>
             <div class="title">
