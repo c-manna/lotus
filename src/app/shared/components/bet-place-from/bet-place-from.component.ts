@@ -56,11 +56,11 @@ export class BetPlaceFromComponent implements OnInit {
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
-    this._loadingService.show();
+    //this._loadingService.show();
     this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
       result => {
         if (result.success) {
-          this._loadingService.hide();
+          //this._loadingService.hide();
           console.log('exposure', result);
           this.previousData = result.result[result.result.length - 1];
           this.previousBet = result.result;
@@ -268,17 +268,19 @@ export class BetPlaceFromComponent implements OnInit {
       runner_name: this.details.runnerName,
       runners: this.details.runners,
       market_start_time: this.details.market_start_time,
-      market_end_time: "",
+      market_end_time: null,
       user_ip: this.ipAddress,
-      selection_id: "",
+      selection_id: null,
       user_id: this.details.user_id,
-      p_and_l: 0,
+      p_and_l: null,
       bet_status: 0,
       market_status: 0,
       bet_id: "111",
-      settled_time: "2020-08-14T11:00:00.000Z",
+      settled_time: null,
       master_id: this.details.punter_belongs_to,
-      net_exposure: net_exposure
+      net_exposure: net_exposure,
+      amount: null,
+      available_balance: (this.previousData.available_balance-this.stakeValue)
     };
 
     console.log(param);
