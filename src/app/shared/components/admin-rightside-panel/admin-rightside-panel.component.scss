@@ -156,7 +156,9 @@
                     background-size: cover;
                 }
                 &.balance-info:before{
-
+                    background-image: url(../../../../assets/images/transfarStatement.png);
+                    height: 16px;
+                    width: 18px;
                 }
                 &.open-bets:before{
                     background-image: url(../../../../assets/icons/open-bets.svg);
@@ -207,3 +209,5 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+
+ 

@@ -122,6 +122,29 @@ ng2-loading-spinner {
   }
 }
 
+
+
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
+
+// dynamic color class 
+.red-Color{
+  color: #f00;
+}
+.green-Color{
+  color: #46bf20;
+}
+.red-background{
+background-color: #f00;
+}
+.green-background{
+  background-color: #46bf20;
+}
+
   
 
 

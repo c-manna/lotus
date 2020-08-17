@@ -28,12 +28,7 @@
          font-weight: normal;
      }
  }
- .redColor{
-     color: #f00;
- }
- .greenColor{
-     color: lawngreen;
- }
+
  ul{
      padding: 0;
      margin: 0;
@@ -122,4 +117,8 @@
          }
      }
  }
+}
+
+.switch{
+    border-radius: 0;
 }

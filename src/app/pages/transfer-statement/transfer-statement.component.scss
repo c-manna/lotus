@@ -99,3 +99,7 @@
     pointer-events: none;
     }
 }
+
+::ng-deep.mat-form-field-wrapper{
+    width: 100%;
+}
