@@ -200,7 +200,6 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
 
   getMatchOdds(marketID) {
-    console.log('interval')
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
         if (result.success) {

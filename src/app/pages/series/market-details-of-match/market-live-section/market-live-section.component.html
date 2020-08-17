@@ -128,7 +128,7 @@
                     <div class="bet-btn-wrapper">
                         <ng-container *ngIf="matchOdds[0].runners.length>0;then activeMatch;else suspendMatch"></ng-container>
                         <ng-template #activeMatch>
-                            <div *ngIf="(item.ex.availableToLay[0] && item.ex.availableToLay[0].price); else blankBackLay"
+                            <div *ngIf="item.ex.availableToBack.length>0; else blankBackLay"
                                 class="bet-button back"
                                 (click)="openCreateBetForm('tab1',item.ex.availableToBack[0].price, 'back', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true">
                                 <div class="price" *ngIf="item.ex.availableToBack.length>0">
@@ -136,7 +136,7 @@
                                 </div>
                                 <div class="market-volume">298,288</div>
                             </div>
-                            <div *ngIf="(item.ex.availableToBack[0] && item.ex.availableToBack[0].price); else blankBackLay"
+                            <div *ngIf="item.ex.availableToLay.length>0; else blankBackLay"
                                 class="bet-button lay"
                                 (click)="openCreateBetForm('tab2',item.ex.availableToLay[0].price, 'lay', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true">
                                 <div class="price" *ngIf="item.ex.availableToLay.length>0">

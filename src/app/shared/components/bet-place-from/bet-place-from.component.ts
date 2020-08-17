@@ -48,7 +48,6 @@ export class BetPlaceFromComponent implements OnInit {
 
     this.ds.matchOdds$.subscribe(data => {
       this.matchOdds = data;
-      console.log(this.matchOdds)
     });
     this.getIP();
   }
@@ -197,7 +196,7 @@ export class BetPlaceFromComponent implements OnInit {
     let EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
     let loaderTime;
     if (EnentList.indexOf(this.eventData.name) !== -1)
-      loaderTime = 5000;
+      loaderTime = 1000;
     else
       loaderTime = 7000;
     this._loadingService.show();
@@ -209,7 +208,6 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   insertBet() {
-    let previousBet: any = this.previousBet;//.all_teams_exposure_data;
     let currentBet: any = [];
     let currentRunnerName = this.details.runnerName;
     let odd = this.selectedItem.type == 'back' ? 0 : 1;
@@ -221,33 +219,37 @@ export class BetPlaceFromComponent implements OnInit {
         team_details = {
           odd_type: odd,
           team_name: currentRunnerName,
-          amount: odd == 0 ? this.returnExposure.value : this.returnExposure.stake
+          amount: this.returnExposure.value
         }
       } else {
         team_details = {
           odd_type: odd == 0 ? 1 : odd,
           team_name: this.details.runners[i].runnerName,
-          amount: odd == 0 ? this.returnExposure.stake : this.returnExposure.value
+          amount: this.returnExposure.stake
         }
       }
       all_amount.push(team_details.amount)
       currentBet.push(team_details)
     }
-    if (this.previousBet[0].all_teams_exposure_data != undefined) {
+    console.log('current exposure',all_amount)
+    console.log('previous exposure',this.previousBet[0].all_teams_exposure_data)
+    if (this.previousBet[0].all_teams_exposure_data) {
       for (let i = 0; i < this.previousBet.length; i++) {
         for (let j = 0; j < this.previousBet[i].all_teams_exposure_data.length; j++) {
-          all_amount[i]=all_amount[i] + this.previousBet[i].all_teams_exposure_data[j].amount;
+          all_amount[j]=all_amount[j] + this.previousBet[i].all_teams_exposure_data[j].amount;
         }
       }
-      console.log(all_amount)
+      console.log('total calculation',all_amount)
       net_exposure = this.min(all_amount);
     } else {
       net_exposure = this.min(all_amount);
     }
 
-    console.log(net_exposure,all_amount)
+    if(net_exposure>=0){
+      net_exposure = 0;
+    }
     let last_odd;
-    if(this.matchOdds.length>0){
+    if(this.matchOdds){
       last_odd = this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price
     }else{
       last_odd = this.inputData.toFixed(2)
