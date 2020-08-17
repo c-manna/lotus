@@ -123,21 +123,20 @@
             <ng-template [ngIf]="1" *ngFor="let item of matchOdds[0].runners;let i= index">
                 <li>
                     <div class="title">{{matchesDetails[0].runners[i].runnerName}}
-                        <span *ngIf="profile_and_loss" class="redColor">{{profile_and_loss[i]}}</span>
+                        <span *ngIf="profile_and_loss" [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <div class="bet-btn-wrapper">
-                        <ng-container *ngIf="matchOdds[0].runners.length>0;then activeMatch;else suspendMatch"></ng-container>
+                        <ng-container *ngIf="matchOdds[0].runners.length>0;then activeMatch;else suspendMatch">
+                        </ng-container>
                         <ng-template #activeMatch>
-                            <div *ngIf="item.ex.availableToBack.length>0; else blankBackLay"
-                                class="bet-button back"
+                            <div *ngIf="item.ex.availableToBack.length>0; else blankBackLay" class="bet-button back"
                                 (click)="openCreateBetForm('tab1',item.ex.availableToBack[0].price, 'back', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true">
                                 <div class="price" *ngIf="item.ex.availableToBack.length>0">
                                     {{item.ex.availableToBack[0].price}}
                                 </div>
                                 <div class="market-volume">298,288</div>
                             </div>
-                            <div *ngIf="item.ex.availableToLay.length>0; else blankBackLay"
-                                class="bet-button lay"
+                            <div *ngIf="item.ex.availableToLay.length>0; else blankBackLay" class="bet-button lay"
                                 (click)="openCreateBetForm('tab2',item.ex.availableToLay[0].price, 'lay', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true">
                                 <div class="price" *ngIf="item.ex.availableToLay.length>0">
                                     {{item.ex.availableToLay[0].price}}
@@ -147,10 +146,11 @@
                         </ng-template>
                     </div>
                 </li>
+                <app-bet-place-from *ngIf="openBetPlaceDialog&&this.details.index==i" (profit_and_liability)="set_profit_loss($event)"
+                    (betCancelled)="canceBet()" [selectedItem]="selectedItem" [details]="details"
+                    [settingData]="settingData">
+                </app-bet-place-from>
             </ng-template>
-            <app-bet-place-from *ngIf="openBetPlaceDialog" (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()" [selectedItem]="selectedItem"
-                [details]="details" [settingData]="settingData">
-            </app-bet-place-from>
         </ul>
     </div>
 </div>
