@@ -4,6 +4,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 import { AdminLayoutComponent, AuthLayoutComponent } from '@shared/components';
 import { AuthGuard } from '@shared/services/auth';
 import { SearchComponent } from './search/search.component'
+import { MyMarketModule } from './pages/my-market/my-market.module';
 const routes: Routes = [
   {
     path: '',
@@ -47,8 +48,10 @@ const routes: Routes = [
       {
         path: 'search',
         component: SearchComponent
-      },
-
+      }, {
+        path: 'my-market',
+        loadChildren: () => import('./pages/my-market/my-market.module').then(m => MyMarketModule)
+      }
     ]
   }
 ];

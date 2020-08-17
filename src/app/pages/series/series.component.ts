@@ -14,9 +14,10 @@ export class SeriesComponent implements OnInit {
   eventId;
   counter = 0;
   _routeListener: Subscription;
-  eventData:any;
-  EnentList = ["Cricket","Tennis","Football","Soccer"];
+  eventData: any;
+  EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
   panelOpenState: boolean = false;
+  inplayData: any = [];
 
   constructor(
     private _loadingService: LoadingService,
@@ -45,9 +46,9 @@ export class SeriesComponent implements OnInit {
 
   togglePanel() {
     this.panelOpenState = !this.panelOpenState
-}
+  }
 
-  setHeaderData(data){
+  setHeaderData(data) {
     this.ds.changeBread(data);
   }
 
@@ -70,13 +71,14 @@ export class SeriesComponent implements OnInit {
     );
   }
 
-  inPlayMatches(eventId){
+  inPlayMatches(eventId) {
     let param = {};
 
-    this.apiService.ApiCall(param, environment.apiUrl + 'fetch-inplay/?eventID='+eventId, 'get').subscribe(
+    this.apiService.ApiCall(param, environment.apiUrl + 'fetch-inplay/?eventID=' + eventId, 'get').subscribe(
       result => {
         if (result.success) {
           console.log(result);
+          this.inplayData = result["result"];
         }
       },
       err => {

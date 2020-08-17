@@ -1,20 +1,21 @@
 <div class="cricket-wrapper bg-img" *ngIf="EnentList.indexOf(eventData.name) !== -1;else elsePart">
   <h3>{{eventData.name}}</h3>
-  <div class="section-1">
+  <div class="section-1" *ngIf="inplayData && inplayData.length">
 
     <div class="in-play">
-      In-play (1)
+      In-play ({{inplayData.length}})
     </div>
     <ul class="match-list">
-      <li>
-        <div>AIK v Sirius</div><span></span>
+      <li *ngFor="let item of inplayData">
+        <div>{{item.match_name}}</div><span
+          [routerLink]="['/series/'+eventId+'/matches/'+item.competetion_id+'/match-details/'+item.inPlay_data.marketId]"></span>
       </li>
-      <li>
+      <!-- <li>
         <div>Birmingham v Charlton</div><span></span>
       </li>
       <li>
         <div>Nottm Forest v Swansea</div><span></span>
-      </li>
+      </li> -->
     </ul>
   </div>
   <div class="section-1">

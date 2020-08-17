@@ -12,19 +12,28 @@ import { environment } from '@env/environment';
 export class SettingsComponent implements OnInit {
   passwordForm: FormGroup;
   passwordFormSubmit: boolean = false;
-  // settingData: any = { oneClickBet: true, oneClickStake: 1500, stakes: 500, casinoStakes: 1000 };
   buttonProperty = {
     oneClick: false,
     casinoStake: false,
     stake: false
   };
   settingData: any = {};
+  selectedTime: any = new Date();
+  timeInterval: any;
   constructor(
     private _fb: FormBuilder,
     private _snakebarService: SnakebarService,
     private _loadingService: LoadingService,
     private _apiService: APIService
-  ) { }
+  ) {
+    this.timeInterval = setInterval(() => {
+      if (this.settingData && this.settingData.time_setting && this.settingData.time_setting == 1) {
+        this.selectedTime = new Date(new Date().setHours(new Date().getHours() - 5)).setMinutes(new Date().getMinutes() - 30);
+      } else {
+        this.selectedTime = new Date();
+      }
+    }, 1000)
+  }
 
   get f() {
     return this.passwordForm.controls;
@@ -33,6 +42,10 @@ export class SettingsComponent implements OnInit {
   ngOnInit(): void {
     this.ceatePasswordForm();
     this.getSettingData();
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.timeInterval);
   }
 
 
