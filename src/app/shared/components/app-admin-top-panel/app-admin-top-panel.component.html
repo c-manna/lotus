@@ -12,7 +12,7 @@
         <button class="search-icon" [routerLink]="['/search']"></button>
         <button class="user-icon" (click)="toggleDrawer1()">
             <div></div>
-            <span>4</span>
+            <span *ngIf="balanceInfo">{{balanceInfo.available_balance}}</span>
         </button>
     </div>
 </div>

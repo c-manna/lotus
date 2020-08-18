@@ -33,7 +33,7 @@ export class AdminRightsidePanelComponent implements OnInit {
     this.user = JSON.parse(this._cookieService.get("user"));
     this.getBalanceInterval = setInterval(() => {
       this.getUserBalance();
-    }, 5000);
+    }, 2000);
   }
 
   closeNav() {
@@ -54,6 +54,7 @@ export class AdminRightsidePanelComponent implements OnInit {
     this.apiService.ApiCall(param, `${environment.apiUrl}getbalanceDetails`, 'post').subscribe(res => {
       if (res.success) {
         this.userBalance = res.result;
+        this.ds.changeBalanceInfo(res.result);
       } else {
       }
     }, err => {

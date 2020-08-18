@@ -43,7 +43,7 @@ export class BetPlaceFromComponent implements OnInit {
     //console.log(this.selectedItem);
     this.ds.event$.subscribe(event => {
       this.eventData = event;
-      console.log(this.eventData)
+      //console.log(this.eventData)
     });
 
     this.ds.matchOdds$.subscribe(data => {

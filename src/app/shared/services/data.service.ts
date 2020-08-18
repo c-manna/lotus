@@ -41,6 +41,12 @@ export class DataService {
     this.settingData.next(data);
   }
 
+  private balanceInfo = new BehaviorSubject<any>(null);
+  balanceInfo$ = this.balanceInfo.asObservable();
+  changeBalanceInfo(data) {
+    this.balanceInfo.next(data);
+  }
+
   constructor(private router: Router) {
     this.event.next(JSON.parse(localStorage.getItem('event')));
     this.breadCrumb.next(JSON.parse(localStorage.getItem('breadCrumb')));

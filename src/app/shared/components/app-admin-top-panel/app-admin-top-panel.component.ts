@@ -3,6 +3,7 @@ import { SideNavService } from '@shared/services';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
+import { DataService } from '@shared/services';
 
 @Component({
   selector: 'app-app-admin-top-panel',
@@ -11,7 +12,10 @@ import { BehaviorSubject, Subscription } from 'rxjs';
 })
 export class AppAdminTopPanelComponent implements OnInit {
   url;
+  balanceInfo = {};
+
   constructor(
+    private ds: DataService,
     private router: Router,
     private route: ActivatedRoute,
     private _location: Location,
@@ -24,6 +28,10 @@ export class AppAdminTopPanelComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ds.balanceInfo$.subscribe(data => {
+      this.balanceInfo = data;
+      console.log(this.balanceInfo)
+    });
   }
 
   toggleDrawer() {
