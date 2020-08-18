@@ -127,7 +127,7 @@
                         <span *ngIf="profile_and_loss"
                             [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
-                    <div class="bet-btn-wrapper">
+                    <div class="bet-btn-wrapper" *ngIf="i<matchesDetails[0].runners.length">
                         <ng-container *ngIf="matchOdds[0].runners.length>0;then activeMatch;else suspendMatch">
                         </ng-container>
                         <ng-template #activeMatch>
