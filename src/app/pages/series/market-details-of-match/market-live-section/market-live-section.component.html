@@ -122,8 +122,10 @@
         <ul>
             <ng-template [ngIf]="1" *ngFor="let item of matchOdds[0].runners;trackBy: trackByFn;let i= index">
                 <li>
-                    <div class="title" *ngIf="i<matchesDetails[0].runners.length">{{matchesDetails[0].runners[i].runnerName}}
-                        <span *ngIf="profile_and_loss" [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
+                    <div class="title" *ngIf="i<matchesDetails[0].runners.length">
+                        {{matchesDetails[0].runners[i].runnerName}}
+                        <span *ngIf="profile_and_loss"
+                            [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <div class="bet-btn-wrapper">
                         <ng-container *ngIf="matchOdds[0].runners.length>0;then activeMatch;else suspendMatch">
@@ -146,9 +148,9 @@
                         </ng-template>
                     </div>
                 </li>
-                <app-bet-place-from *ngIf="openBetPlaceDialog&&this.details.index==i" (profit_and_liability)="set_profit_loss($event)"
-                    (betCancelled)="canceBet()" [selectedItem]="selectedItem" [details]="details"
-                    [settingData]="settingData">
+                <app-bet-place-from *ngIf="openBetPlaceDialog&&this.details.index==i"
+                    (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()"
+                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData">
                 </app-bet-place-from>
             </ng-template>
         </ul>

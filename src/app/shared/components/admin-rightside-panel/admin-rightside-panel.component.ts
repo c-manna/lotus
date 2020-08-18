@@ -14,8 +14,8 @@ export class AdminRightsidePanelComponent implements OnInit {
   user: any = {};
   userBalance: any = {};
   _routeListener: Subscription;
-  getBalanceInterval:any;
-  
+  getBalanceInterval: any;
+
   constructor(private ds: DataService,
     private apiService: APIService,
     private _router: Router,
@@ -32,7 +32,7 @@ export class AdminRightsidePanelComponent implements OnInit {
   ngOnInit() {
     this.user = JSON.parse(this._cookieService.get("user"));
     this.getBalanceInterval = setInterval(() => {
-      this.getUserBalance();
+      // this.getUserBalance();
     }, 2000);
   }
 
@@ -46,7 +46,7 @@ export class AdminRightsidePanelComponent implements OnInit {
     this.closeNav();
     this._cookieService.deleteAll();
     this._router.navigate(["/"]);
-   
+
   }
   getUserBalance() {
     let param: any = {};

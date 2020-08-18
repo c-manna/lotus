@@ -8,7 +8,7 @@ import { MarketDetailsOfMatchComponent } from './market-details-of-match/market-
 const routes: Routes = [
   { path: '', component: SeriesComponent },
   { path: 'matches/:id', component: MatchesComponent },
-  { path: 'matches/:id/match-details/:id', component: MarketDetailsOfMatchComponent }
+  { path: 'matches/:competitionId/match-details/:id', component: MarketDetailsOfMatchComponent }
 ];
 
 @NgModule({
