@@ -10,12 +10,11 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   styleUrls: ['./matches.component.scss']
 })
 export class MatchesComponent implements OnInit {
-  matches = [];
+  matches: any = [];
   _routeListener: Subscription;
   eventId;
   competitionId;
-  menuHeader:any;
-  available = false;
+  menuHeader: any;
   constructor(
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService,
@@ -40,22 +39,20 @@ export class MatchesComponent implements OnInit {
     });
   }
 
-  setEventName(data){
+  setEventName(data) {
     this.ds.changeEventDetails(data);
   }
 
   getMatches(id) {
     this._loadingService.show();
     this.competitionId = id;
-    this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID='+id+'&competitionId=' + id, 'get').subscribe(
+    this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID=' + id + '&competitionId=' + id, 'get').subscribe(
       result => {
         this._loadingService.hide();
         if (result.success) {
-          this.available = false;
           this.matches = result.data;
         }
-        else{
-          this.available = true;
+        else {
         }
       },
       err => {

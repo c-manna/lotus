@@ -18,7 +18,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       { "selectionId": 7337, "runnerName": "Sri Lanka", "handicap": 0, "sortPriority": 2 },
       { "selectionId": 60443, "runnerName": "The Draw", "handicap": 0, "sortPriority": 3 }]
   }];
-  _routeListener: Subscription;
+  // _routeListener: Subscription;
   eventId;
   competitionId;
   menuHeader = [];
@@ -225,7 +225,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this._routeListener.unsubscribe();
+    // this._routeListener.unsubscribe();
     clearInterval(this.getOddsInterval);
   }
 
