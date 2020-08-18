@@ -285,7 +285,7 @@ export class BetPlaceFromComponent implements OnInit {
       bet_id: "111",
       settled_time: null,
       master_id: this.details.punter_belongs_to,
-      net_exposure: net_exposure,
+      net_exposure: Math.abs(net_exposure),
       amount: null,
       available_balance: (this.previousData.available_balance-this.stakeValue)
     };
