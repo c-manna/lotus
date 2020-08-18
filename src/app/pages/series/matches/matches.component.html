@@ -5,8 +5,7 @@
         <div class="date-section">
             <div class="date">12th July 2020</div>
             <ul>
-                <li *ngFor="let item of matches"
-                    [routerLink]="['/series/'+eventId+'/matches/'+competitionId+'/match-details/'+item.event.id]"
+                <li *ngFor="let item of matches" [routerLink]="['match-details/'+item.event.id]"
                     (click)="setEventName(item)">
                     {{item.event.name}}
                 </li>

@@ -9,10 +9,11 @@ export class MarketTabComponent implements OnInit {
   @Input() matchOdds: any;
   @Input() matchesDetails: any;
   @Input('fancyMatch') fancyMatch: any;
+  @Input('bookMakerMatch') bookMakerMatch: any;
   constructor() { }
 
   ngOnInit(): void {
-    console.log("matchOdds==", this.matchOdds, this.matchesDetails);
+    console.log("matchOdds==", this.matchOdds, this.matchesDetails, this.bookMakerMatch);
   }
 
 }

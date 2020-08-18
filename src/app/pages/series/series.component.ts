@@ -13,7 +13,6 @@ export class SeriesComponent implements OnInit {
   series = [];
   eventId;
   counter = 0;
-  _routeListener: Subscription;
   eventData: any;
   EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
   panelOpenState: boolean = false;
@@ -26,14 +25,10 @@ export class SeriesComponent implements OnInit {
     private apiService: APIService,
     private router: Router,
     private route: ActivatedRoute) {
-    this._routeListener = this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        //console.log(event.urlAfterRedirects)
-        if (this.route.snapshot.params['id']) {
-          this.getSeries(this.route.snapshot.params['id']);
-        }
-      }
-    });
+    route.params.subscribe((params) => {
+      this.eventId = params["id"];
+      this.getSeries();
+    })
   }
 
   ngOnInit(): void {
@@ -41,7 +36,7 @@ export class SeriesComponent implements OnInit {
       this.eventData = event;
       //console.log(this.eventData)
     });
-    this.inPlayMatches(this.route.snapshot.params['id']);
+    this.inPlayMatches(this.eventId);
   }
 
   togglePanel() {
@@ -52,15 +47,13 @@ export class SeriesComponent implements OnInit {
     this.ds.changeBread(data);
   }
 
-  getSeries(id) {
+  getSeries() {
     this._loadingService.show();
-    this.eventId = id;
-    this.apiService.ApiCall('', environment.apiUrl + 'event-competition?eventID=' + id, 'get').subscribe(
+    this.apiService.ApiCall('', environment.apiUrl + 'event-competition?eventID=' + this.eventId, 'get').subscribe(
       result => {
         this._loadingService.hide();
         if (result.success) {
           this.series = result.data;
-          //console.log(this.series)
         } else {
           this.series = [];
         }
@@ -87,6 +80,5 @@ export class SeriesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this._routeListener.unsubscribe();
   }
 }

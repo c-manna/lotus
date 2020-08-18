@@ -12,6 +12,7 @@ export class MarketLiveSectionComponent implements OnInit {
   @Input() matchesDetails: any;
   @Input() matchOdds: any;
   @Input('fancyMatch') fancyMatch: any;
+  @Input('bookMakerMatch') bookMakerMatch: any;
   createBetFormActive: any;
   selectedItem: any;
   details: any = {};
@@ -25,7 +26,7 @@ export class MarketLiveSectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails);
+    console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails, this.bookMakerMatch);
     /* this.ds.settingData$.subscribe(data => {
       this.settingData = data;
       console.log(this.settingData)
