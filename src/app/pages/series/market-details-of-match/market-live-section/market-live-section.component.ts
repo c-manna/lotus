@@ -70,6 +70,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.runnerName=runnerName;
     this.details.runners=this.matchesDetails[0].runners;
     this.details.index = index;
+    this.details.counter = -1;
     let user = JSON.parse(this._cookieService.get("user"))
     this.details.user_id = user.punter_id;
     this.details.punter_belongs_to=user.punter_belongs_to;

@@ -30,7 +30,6 @@ export class AppAdminTopPanelComponent implements OnInit {
   ngOnInit(): void {
     this.ds.balanceInfo$.subscribe(data => {
       this.balanceInfo = data;
-      console.log(this.balanceInfo)
     });
   }
 

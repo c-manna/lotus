@@ -39,11 +39,17 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ds.eventDeatils$.subscribe(event => {
+      this.eventDeatils = event;
+      if(this.details.counter==-1){
+        this.getExposure();
+      }
+    });
     //console.log(this.details);
     //console.log(this.selectedItem);
     this.ds.event$.subscribe(event => {
       this.eventData = event;
-      //console.log(this.eventData)
+      console.log(this.eventData)
     });
 
     this.ds.matchOdds$.subscribe(data => {
@@ -56,17 +62,19 @@ export class BetPlaceFromComponent implements OnInit {
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
-    //this._loadingService.show();
+    /* if (this.settingData.one_click_betting == 1){
+      this._loadingService.show();
+    } */
     this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
       result => {
         if (result.success) {
-          //this._loadingService.hide();
           console.log('exposure', result);
           this.previousData = result.result[result.result.length - 1];
           this.previousBet = result.result;
           console.log(this.previousData)
           console.log(this.settingData)
-          if (this.settingData.one_click_betting == 1) {
+          if (this.settingData.one_click_betting == 1&&this.details.counter==-1) {
+            this.details.counter=0;
             if (this.settingData.one_click_default == 1)
               this.addStakeValue(this.settingData.one_click_op1);
             else if (this.settingData.one_click_default == 2)
@@ -96,9 +104,12 @@ export class BetPlaceFromComponent implements OnInit {
             }
           }
         }
+        this._loadingService.hide();
+        this.details.counter=0;
       },
       err => {
         this._loadingService.hide();
+        this.details.counter=0;
       }
     );
   }
@@ -115,10 +126,6 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.ds.eventDeatils$.subscribe(event => {
-      this.eventDeatils = event;
-      this.getExposure();
-    });
     this.stakeValue = 0;
     this.calculatedValue = 0;
     this.selectedItem = changes.selectedItem.currentValue;
