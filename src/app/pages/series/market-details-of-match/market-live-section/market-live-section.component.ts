@@ -44,6 +44,10 @@ export class MarketLiveSectionComponent implements OnInit {
     });
   }
 
+  trackByFn(index, entity) {
+    return entity.id;
+  }
+
   canceBet() {
     this.openBetPlaceDialog=false;
     //console.log("canceBet");

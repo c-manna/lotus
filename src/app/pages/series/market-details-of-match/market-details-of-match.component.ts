@@ -215,7 +215,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getOddsFromInterval(marketID) {
     this.getOddsInterval = setInterval(() => {
       this.getMatchOdds(marketID)
-    }, 5000);
+    }, 500);
   }
 
   ngOnDestroy() {
