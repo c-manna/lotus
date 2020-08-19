@@ -14,6 +14,7 @@ export class MatchesComponent implements OnInit {
   eventId;
   competitionId;
   menuHeader: any;
+  newData: any = {};
   constructor(
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService,
@@ -45,6 +46,7 @@ export class MatchesComponent implements OnInit {
         this._loadingService.hide();
         if (result.success) {
           this.matches = result.data;
+          this.groupData();
         }
         else {
         }
@@ -52,6 +54,25 @@ export class MatchesComponent implements OnInit {
       err => {
       }
     );
+  }
+
+  groupData() {
+    let newData = {};
+    this.matches.forEach(item => {
+      let date = new Date(item.event.openDate);
+      let day = date.getDate();
+      let month = date.getMonth() + 1;
+      let year = date.getFullYear();
+      let key = day + '_' + month;
+      let newDate = new Date(month + '/' + day + '/' + year);
+      if (!newData[key]) newData[key] = { data: [], date: newDate };
+      newData[key]['data'].push(item);
+    });
+    this.newData = newData;
+  }
+
+  objectKeys(obj) {
+    return Object.keys(obj);
   }
 
   ngOnDestroy() {

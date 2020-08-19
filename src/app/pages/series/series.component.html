@@ -7,8 +7,7 @@
     </div>
     <ul class="match-list">
       <li *ngFor="let item of inplayData">
-        <div
-          [routerLink]="['/series/'+eventId+'/matches/'+item.competetion_id+'/match-details/'+item.inPlay_data.marketId]">
+        <div [routerLink]="['/series/'+eventId+'/matches/'+item.competetion_id+'/match-details/'+item.match_id]">
           {{item.match_name}}</div><span></span>
       </li>
     </ul>

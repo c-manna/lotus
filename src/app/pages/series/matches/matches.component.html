@@ -1,4 +1,4 @@
-<div class="competition-detail bg-img">
+<!-- <div class="competition-detail bg-img">
     <h2 class="page-title">{{menuHeader.competition.name}}</h2>
     <p *ngIf="!(matches && matches.length)" class="empty-report">No competitions available</p>
     <div class="section">
@@ -8,6 +8,22 @@
                 <li *ngFor="let item of matches" [routerLink]="['match-details/'+item.event.id]"
                     (click)="setEventName(item)">
                     {{item.event.name}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div> -->
+
+<div class="competition-detail bg-img">
+    <h2 class="page-title">{{menuHeader.competition.name}}</h2>
+    <p *ngIf="!(matches && matches.length)" class="empty-report">No competitions available</p>
+    <div class="section" *ngFor="let item of objectKeys(newData)">
+        <div class="date-section">
+            <div class="date">{{newData[item].date | date: 'mediumDate'}}</div>
+            <ul>
+                <li *ngFor="let eachItem of newData[item].data" [routerLink]="['match-details/'+eachItem.event.id]"
+                    (click)="setEventName(item)">
+                    {{eachItem.event.name}}
                 </li>
             </ul>
         </div>

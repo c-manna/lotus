@@ -97,6 +97,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
       result => {
         if (result.success) {
+          console.log("got result");
           this.bookMakerMatch = result["data"];
         }
       }, err => {
