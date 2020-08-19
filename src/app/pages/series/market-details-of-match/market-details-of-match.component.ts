@@ -21,6 +21,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getOddsInterval: any;
   fancyMatch: any = [];
   bookMakerMatch: any = [];
+  getFancyInterval: any;
 
   constructor(
     private _loadingService: LoadingService,
@@ -36,6 +37,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       this.matchId = params["matchId"];
       this.getMatchDetails();
       this.getFancy();
+      //this.getFancyFromInterval();
     });
   }
 
@@ -60,7 +62,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         if (result.success) {
           this.matchesDetails = result.data;
           this.getMatchOdds(result.data[0].marketId);
-          this.getOddsFromInterval(result.data[0].marketId);
+          //this.getOddsFromInterval(result.data[0].marketId);
         }
       }, err => {
       }
@@ -68,7 +70,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
   getFancy() {
-    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID==' + this.matchId, 'get').subscribe(
+    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
       result => {
         this.fancyMatch = result['data'];
       },
@@ -107,8 +109,15 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     }, 500);
   }
 
+  getFancyFromInterval() {
+    this.getFancyInterval = setInterval(() => {
+      this.getFancy()
+    }, 500);
+  }
+
   ngOnDestroy() {
     clearInterval(this.getOddsInterval);
+    clearInterval(this.getFancyInterval);
   }
 
 }
