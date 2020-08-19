@@ -21,7 +21,7 @@ export class MatchesComponent implements OnInit {
     private apiService: APIService,
     private router: Router,
     private route: ActivatedRoute) {
-    route.params.subscribe((params) => {
+    this.route.params.subscribe((params) => {
       this.eventId = params['id'];
       this.competitionId = params['competitionId'];
       this.getMatches();
