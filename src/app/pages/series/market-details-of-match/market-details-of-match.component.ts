@@ -37,7 +37,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       this.matchId = params["matchId"];
       this.getMatchDetails();
       this.getFancy();
-      //this.getFancyFromInterval();
+      this.getFancyFromInterval();
     });
   }
 
@@ -62,7 +62,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         if (result.success) {
           this.matchesDetails = result.data;
           this.getMatchOdds(result.data[0].marketId);
-          //this.getOddsFromInterval(result.data[0].marketId);
+          this.getOddsFromInterval(result.data[0].marketId);
         }
       }, err => {
       }

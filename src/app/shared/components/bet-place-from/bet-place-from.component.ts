@@ -59,9 +59,11 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   getExposure() {
+    console.log(this.eventDeatils)
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
+    
     /* if (this.settingData.one_click_betting == 1){
       this._loadingService.show();
     } */
