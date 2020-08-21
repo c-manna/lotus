@@ -275,18 +275,18 @@ export class BetPlaceFromComponent implements OnInit {
       runner_name: this.details.runnerName,
       runners: this.details.runners,
       market_start_time: this.details.market_start_time,
-      market_end_time: null,
+      market_end_time: 0,
       user_ip: this.ipAddress,
-      selection_id: null,
+      selection_id: 0,
       user_id: this.details.user_id,
-      p_and_l: null,
+      p_and_l: 0,
       bet_status: 0,
       market_status: 0,
       bet_id: "111",
-      settled_time: null,
+      settled_time: 0,
       master_id: this.details.punter_belongs_to,
       net_exposure: Math.abs(net_exposure),
-      amount: null,
+      amount: 0,
       available_balance: (this.previousData.available_balance-this.stakeValue)
     };
 
