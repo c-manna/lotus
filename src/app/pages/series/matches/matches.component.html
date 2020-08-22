@@ -22,7 +22,7 @@
             <div class="date">{{newData[item].date | date: 'mediumDate'}}</div>
             <ul>
                 <li *ngFor="let eachItem of newData[item].data" [routerLink]="['match-details/'+eachItem.event.id]"
-                    (click)="setEventName(item)">
+                    (click)="setEventName(eachItem)">
                     {{eachItem.event.name}}
                 </li>
             </ul>
