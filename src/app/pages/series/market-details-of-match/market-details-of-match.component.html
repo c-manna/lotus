@@ -33,7 +33,7 @@
                 <span>Live</span>
             </li>
             <li [class.active]="viewMode == 'tab4'" rel="tab4" (click)="viewMode ='tab4'">
-                <span>Open bets(0)</span>
+                <span>Open bets({{openBetList.length}})</span>
             </li>
         </ul>
         <div class="tab-slider--container " [ngSwitch]="viewMode">
@@ -51,7 +51,7 @@
                 </app-live-tab>
             </div>
             <div id="tab4" class="tab-slider--body bg-img" *ngSwitchCase="'tab4'">
-                <app-open-bets></app-open-bets>
+                <app-open-bets *ngIf="marketId" [marketId]="marketId"></app-open-bets>
             </div>
         </div>
     </div>

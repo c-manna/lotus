@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SnakebarService, LoadingService } from '@app/shared/services/common.service';
 import { environment } from '@env/environment';
 import { APIService } from '@app/shared/services/api.service';
@@ -9,6 +9,7 @@ import { APIService } from '@app/shared/services/api.service';
   styleUrls: ['./open-bets.component.scss']
 })
 export class OpenBetsComponent implements OnInit {
+  @Input('marketId') marketId: any;
   openBetList: any = [];
   matchBet: any = [];
   unmatchBet: any = [];
@@ -27,7 +28,7 @@ export class OpenBetsComponent implements OnInit {
 
   getOpenBets() {
     if (this.loading) this._loadingService.show();
-    this.apiService.ApiCall({}, environment.apiUrl + 'open-bet', 'get').subscribe(
+    this.apiService.ApiCall({}, environment.apiUrl + 'open-bet' + ((this.marketId) ? '?market_id=' + this.marketId : ''), 'get').subscribe(
       result => {
         if (this.loading) this._loadingService.hide();
         if (result.success) {

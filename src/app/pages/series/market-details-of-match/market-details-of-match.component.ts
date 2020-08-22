@@ -23,6 +23,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   bookMakerMatch: any = [];
   getFancyInterval: any;
   getBookMakerInterval: any;
+  marketId: any;
+  openBetList: any = [];
 
   constructor(
     private _loadingService: LoadingService,
@@ -62,6 +64,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         if (result.success) {
           this.matchesDetails = result.data;
           this.getMatchOdds(result.data[0].marketId);
+          this.marketId = result.data[0].marketId;
+          this.getOpenBets();
           //this.getOddsFromInterval(result.data[0].marketId);
           this.getBookMaker('29932183');
           //this.getBooMakerFromInterval(result.data[0].marketId);
@@ -104,6 +108,16 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         }
       }, err => {
       });
+  }
+
+  getOpenBets() {
+    this.apiService.ApiCall({}, environment.apiUrl + 'open-bet' + '?market_id=' + this.marketId, 'get').subscribe(
+      result => {
+        if (result.success) {
+          this.openBetList = result['data'];
+        }
+      }, err => { }
+    );
   }
 
   getOddsFromInterval(marketID) {
