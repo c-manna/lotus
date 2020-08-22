@@ -40,7 +40,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       this.matchId = params["matchId"];
       this.getMatchDetails();
       this.getFancy();
-      this.getFancyFromInterval();
+      //this.getFancyFromInterval();
     });
   }
 
@@ -65,7 +65,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.matchesDetails = result.data;
           this.getMatchOdds(result.data[0].marketId);
           //this.getOddsFromInterval(result.data[0].marketId);
-          this.getBookMaker(result.data[0].marketId);
+          this.getBookMaker('29932183');
           //this.getBooMakerFromInterval(result.data[0].marketId);
         }
       }, err => {
@@ -98,12 +98,11 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
   getBookMaker(market_id) {
-    let param:any = {};
-    param.market_id = market_id;
-    this.apiService.ApiCall(param, environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
+    this.apiService.ApiCall('', environment.apiUrl + 'get-bookmaker/' + market_id, 'get').subscribe(
       result => {
         if (result.success) {
-          this.bookMakerMatch = result["data"];
+          this.bookMakerMatch = result.data[0];
+          console.log(this.bookMakerMatch)
         }
       }, err => {
       });
