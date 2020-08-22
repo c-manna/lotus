@@ -53,7 +53,7 @@
             </div>
         </div>
         <ul>
-            <ng-template [ngIf]="1" *ngFor="let item of bookMakerMatch;trackBy: trackByFn;let i= index">
+            <ng-template [ngIf]="1" *ngFor="let item of bookMakerMatch.runners;trackBy: trackByFn;let i= index">
                 <li>
                     <div class="title" *ngIf="i<matchesDetails[0].runners.length">
                         {{matchesDetails[0].runners[i].runnerName}}

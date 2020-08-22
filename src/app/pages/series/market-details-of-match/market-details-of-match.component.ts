@@ -4,7 +4,6 @@ import { SnakebarService, LoadingService, APIService, DataService } from '@share
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
-import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-market-details-of-match',
@@ -26,7 +25,6 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getBookMakerInterval: any;
 
   constructor(
-    private _cookieService: CookieService,
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService,
     private ds: DataService,
