@@ -174,7 +174,7 @@ export class BetPlaceFromComponent implements OnInit {
 
   betPlace() {
     let total_balance = this.previousData.net_exposure + this.previousData.available_balance;
-    let liability = this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
+    let liability = this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value);
     console.log('liability', liability, 'tot', total_balance, 'net_exposure', this.previousData.net_exposure, 'exposure_limit', this.previousData.exposure_limit)
     if (((liability + this.previousData.net_exposure) <= total_balance) && ((liability + this.previousData.net_exposure) <= this.previousData.exposure_limit)) {
       if (this.checkBoxConfirmation) {
@@ -289,7 +289,7 @@ export class BetPlaceFromComponent implements OnInit {
       master_id: this.details.punter_belongs_to,
       net_exposure: Math.abs(net_exposure),
       amount: 0,
-      available_balance: (this.previousData.available_balance-this.stakeValue)
+      liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
     };
 
     console.log(param);
