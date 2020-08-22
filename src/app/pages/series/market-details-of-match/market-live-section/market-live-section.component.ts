@@ -12,7 +12,7 @@ export class MarketLiveSectionComponent implements OnInit {
   @Input() matchesDetails: any;
   @Input() matchOdds: any;
   @Input('fancyMatch') fancyMatch: any;
-  @Input('bookMakerMatch') bookMakerMatch: any;
+  @Input() bookMakerMatch: any;
   createBetFormActive: any;
   selectedItem: any;
   details: any = {};
@@ -31,7 +31,12 @@ export class MarketLiveSectionComponent implements OnInit {
       this.settingData = data;
       console.log(this.settingData)
     }); */
+    console.log(this.bookMakerMatch)
     this.getSettingData();
+  }
+
+  ngOnChanges() {
+    console.log("ngOnChanges==", this.bookMakerMatch)
   }
 
   getSettingData() {

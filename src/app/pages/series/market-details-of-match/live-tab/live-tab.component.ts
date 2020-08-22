@@ -10,6 +10,7 @@ export class LiveTabComponent implements OnInit {
   @Input() matchOdds: any;
   @Input() matchesDetails: any;
   @Input('fancyMatch') fancyMatch: any;
+  @Input('bookMakerMatch') bookMakerMatch: any;
   public innerWidth: any;
   liveMatch = "tab1"
   constructor() { }

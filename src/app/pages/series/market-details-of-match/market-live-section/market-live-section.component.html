@@ -44,57 +44,40 @@
         </ul>
     </div>
     <!-- Book Maker start -->
-    <!-- <div class="market-group">
+    <div class="market-group">
         <div class="heading">
-            <div class="title">Over/Under 3.5 Goals</div>
+            <div class="title">Bookmaker</div>
             <div class="markets__action">
                 <div>Back</div>
                 <div>Lay</div>
             </div>
         </div>
         <ul>
-            <li>
-                <div class="title">Almeria</div>
-                <div class="bet-btn-wrapper"> -->
-                    <!-- <div class="bet-button back">
-                  <div class="price">2.66</div>
-                  <div class="market-volume">298,288</div>
-              </div>
-              <div class="bet-button lay">
-                  <div class="price">2.66</div>
-                  <div class="market-volume">298,288</div>
-              </div> -->
-<!--                     <div class="suspended">suspended</div>
-                </div>
-            </li>
-            <li>
-                <div class="title">Almeria</div>
-                <div class="bet-btn-wrapper">
-                    <div class="bet-button back">
-                        <div class="price">2.66</div>
-                        <div class="market-volume">298,288</div>
+            <ng-template [ngIf]="1" *ngFor="let item of bookMakerMatch;trackBy: trackByFn;let i= index">
+                <li>
+                    <div class="title" *ngIf="i<matchesDetails[0].runners.length">
+                        {{matchesDetails[0].runners[i].runnerName}}
+                        <span *ngIf="profile_and_loss"
+                            [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
-                    <div class="bet-button lay">
-                        <div class="price">2.66</div>
-                        <div class="market-volume">298,288</div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="title">Almeria</div>
-                <div class="bet-btn-wrapper">
-                    <div class="bet-button back">
-                        <div class="price">2.66</div>
-                        <div class="market-volume">298,288</div>
-                    </div>
-                    <div class="bet-button lay">
-                        <div class="price">2.66</div>
-                        <div class="market-volume">298,288</div>
-                    </div>
-                </div>
-            </li>
+                    <!-- <ng-container *ngIf="bookMakerMatch.length>0;then activeMatch;else suspendMatch">
+                    </ng-container> -->
+                    <ng-template #activeMatch>
+                        <div class="bet-btn-wrapper">
+                            <div class="bet-button back">
+                                <div class="price">2.66</div>
+                                <div class="market-volume">298,288</div>
+                            </div>
+                            <div class="bet-button lay">
+                                <div class="price">2.66</div>
+                                <div class="market-volume">298,288</div>
+                            </div>
+                        </div>
+                    </ng-template>                  
+                </li>
+            </ng-template>
         </ul>
-    </div> -->
+    </div>
     <!-- Book Maker end -->
     <div *ngIf="fancyMatch && fancyMatch.length" class="market-group fancy">
         <div class="heading">
