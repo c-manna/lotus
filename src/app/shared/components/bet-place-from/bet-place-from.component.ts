@@ -25,8 +25,8 @@ export class BetPlaceFromComponent implements OnInit {
   matchOdds: any = [];
   ipAddress;
   returnExposure: any = {};
-  previousData: any;
   previousBet: any;
+  balanceInfo:any = {};
 
   constructor(
     private ipService: IpService,
@@ -41,9 +41,10 @@ export class BetPlaceFromComponent implements OnInit {
   ngOnInit(): void {
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
-      if(this.details.counter==-1){
         this.getExposure();
-      }
+    });
+    this.ds.balanceInfo$.subscribe(data => {
+      this.balanceInfo = data;
     });
     //console.log(this.details);
     //console.log(this.selectedItem);
@@ -64,28 +65,20 @@ export class BetPlaceFromComponent implements OnInit {
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
     
-    /* if (this.settingData.one_click_betting == 1){
-      this._loadingService.show();
-    } */
     this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
       result => {
         if (result.success) {
-          console.log('exposure', result);
-          this.previousData = result.result[result.result.length - 1];
           this.previousBet = result.result;
-          console.log(this.previousData)
-          console.log(this.settingData)
-          if (this.settingData.one_click_betting == 1&&this.details.counter==-1) {
-            this.details.counter=0;
+          if (this.settingData.one_click_betting == 1) {
             if (this.settingData.one_click_default == 1)
               this.addStakeValue(this.settingData.one_click_op1);
             else if (this.settingData.one_click_default == 2)
               this.addStakeValue(this.settingData.one_click_op2);
             else
               this.addStakeValue(this.settingData.one_click_op3);
-            let total_balance = this.previousData.net_exposure + this.previousData.available_balance;
+            let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
             let liability = this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value);
-            if (((liability + this.previousData.net_exposure) <= total_balance) && ((liability + this.previousData.net_exposure) <= this.previousData.exposure_limit)) {
+            if (((liability + this.balanceInfo.net_exposure) <= total_balance) && ((liability + this.balanceInfo.net_exposure) <= this.balanceInfo.balance_limit)) {
               const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
                 width: '100%',
                 panelClass: 'custom-modalbox',
@@ -98,20 +91,18 @@ export class BetPlaceFromComponent implements OnInit {
               });
             }
             else {
-              if ((liability + this.previousData.net_exposure) > total_balance)
+              if ((liability + this.balanceInfo.net_exposure) > total_balance)
                 this._snakebarService.show('error', 'insufficient funds');
-              if ((liability + this.previousData.net_exposure) > this.previousData.exposure_limit)
+              if ((liability + this.balanceInfo.net_exposure) > this.balanceInfo.balance_limit)
                 this._snakebarService.show('error', 'exposure limit cross');
               this.profit_and_liability.emit([]);
             }
           }
         }
         this._loadingService.hide();
-        this.details.counter=0;
       },
       err => {
         this._loadingService.hide();
-        this.details.counter=0;
       }
     );
   }
@@ -173,10 +164,10 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   betPlace() {
-    let total_balance = this.previousData.net_exposure + this.previousData.available_balance;
+    let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
     let liability = this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value);
-    console.log('liability', liability, 'tot', total_balance, 'net_exposure', this.previousData.net_exposure, 'exposure_limit', this.previousData.exposure_limit)
-    if (((liability + this.previousData.net_exposure) <= total_balance) && ((liability + this.previousData.net_exposure) <= this.previousData.exposure_limit)) {
+    console.log('liability', liability, 'tot', total_balance, 'net_exposure', this.balanceInfo.net_exposure, 'exposure_limit', this.balanceInfo.balance_limit)
+    if (((liability + this.balanceInfo.net_exposure) <= total_balance) && ((liability + this.balanceInfo.net_exposure) <= this.balanceInfo.balance_limit)) {
       if (this.checkBoxConfirmation) {
         const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
           width: '100%',
@@ -194,9 +185,9 @@ export class BetPlaceFromComponent implements OnInit {
       }
     }
     else {
-      if ((liability + this.previousData.net_exposure) > total_balance)
+      if ((liability + this.balanceInfo.net_exposure) > total_balance)
         this._snakebarService.show('error', 'Insufficient funds');
-      if ((liability + this.previousData.net_exposure) > this.previousData.exposure_limit)
+      if ((liability + this.balanceInfo.net_exposure) > this.balanceInfo.balance_limit)
         this._snakebarService.show('error', 'Exposure limit exceed');
     }
   }
