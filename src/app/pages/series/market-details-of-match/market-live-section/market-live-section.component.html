@@ -44,7 +44,8 @@
         </ul>
     </div>
     <!-- Book Maker start -->
-    <div class="market-group">
+    <div class="market-group"
+        *ngIf="matchesDetails && matchesDetails.length && bookMakerMatch && bookMakerMatch.runners && bookMakerMatch.runners.length">
         <div class="heading">
             <div class="title">Bookmaker</div>
             <div class="markets__action">
@@ -52,8 +53,9 @@
                 <div>Lay</div>
             </div>
         </div>
-        <ul><!-- bookMakerMatch.runners -->
-            <ng-template [ngIf]="matchesDetails.length>0" *ngFor="let item of matchesDetails[0].runners;trackBy: trackByFn;let i= index">
+        <ul>
+            <!-- bookMakerMatch.runners -->
+            <ng-template [ngIf]="1" *ngFor="let item of matchesDetails[0].runners;trackBy: trackByFn;let i= index">
                 <li>
                     <div class="title" *ngIf="i<matchesDetails[0].runners.length">
                         {{matchesDetails[0].runners[i].runnerName}}
@@ -73,7 +75,7 @@
                                 <div class="market-volume">298,288</div>
                             </div>
                         </div>
-                    </ng-template>                  
+                    </ng-template>
                 </li>
             </ng-template>
         </ul>
