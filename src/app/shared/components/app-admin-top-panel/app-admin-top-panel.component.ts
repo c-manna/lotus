@@ -12,7 +12,7 @@ import { DataService } from '@shared/services';
 })
 export class AppAdminTopPanelComponent implements OnInit {
   url;
-  balanceInfo = {};
+  balanceInfo:any = {};
 
   constructor(
     private ds: DataService,

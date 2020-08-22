@@ -66,17 +66,21 @@
                     </ng-container>
                     <ng-template #activeMatch>
                         <div class="bet-btn-wrapper">
-                            <div class="bet-button back">
+                            <div (click)="openCreateBetForm('tab1',bookMakerMatch.runners[i].back, 'back', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true" class="bet-button back">
                                 <div class="price">{{bookMakerMatch.runners[i].back}}</div>
                                 <div class="market-volume">298,288</div>
                             </div>
-                            <div class="bet-button lay">
+                            <div (click)="openCreateBetForm('tab1',bookMakerMatch.runners[i].lay, 'back', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true" class="bet-button lay">
                                 <div class="price">{{bookMakerMatch.runners[i].lay}}</div>
                                 <div class="market-volume">298,288</div>
                             </div>
                         </div>
                     </ng-template>
                 </li>
+                <app-bet-place-from *ngIf="openBetPlaceDialog&&this.details.index==i"
+                    (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()"
+                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData">
+                </app-bet-place-from>
             </ng-template>
         </ul>
     </div>
