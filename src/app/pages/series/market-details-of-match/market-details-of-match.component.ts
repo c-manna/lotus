@@ -4,6 +4,7 @@ import { SnakebarService, LoadingService, APIService, DataService } from '@share
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-market-details-of-match',
@@ -22,8 +23,10 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   fancyMatch: any = [];
   bookMakerMatch: any = [];
   getFancyInterval: any;
+  getBookMakerInterval: any;
 
   constructor(
+    private _cookieService: CookieService,
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService,
     private ds: DataService,
@@ -43,7 +46,6 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHeaderData();
-    this.getBookMaker();
     console.log(this.matchOdds)
   }
 
@@ -62,7 +64,9 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         if (result.success) {
           this.matchesDetails = result.data;
           this.getMatchOdds(result.data[0].marketId);
-          this.getOddsFromInterval(result.data[0].marketId);
+          //this.getOddsFromInterval(result.data[0].marketId);
+          this.getBookMaker(result.data[0].marketId);
+          //this.getBooMakerFromInterval(result.data[0].marketId);
         }
       }, err => {
       }
@@ -93,11 +97,12 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     );
   }
 
-  getBookMaker() {
-    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
+  getBookMaker(market_id) {
+    let param:any = {};
+    param.market_id = market_id;
+    this.apiService.ApiCall(param, environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
       result => {
         if (result.success) {
-          console.log("got result");
           this.bookMakerMatch = result["data"];
         }
       }, err => {
@@ -107,6 +112,12 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getOddsFromInterval(marketID) {
     this.getOddsInterval = setInterval(() => {
       this.getMatchOdds(marketID)
+    }, 500);
+  }
+
+  getBooMakerFromInterval(marketID) {
+    this.getBookMakerInterval = setInterval(() => {
+      this.getBookMaker(marketID);
     }, 500);
   }
 
