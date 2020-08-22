@@ -52,24 +52,24 @@
                 <div>Lay</div>
             </div>
         </div>
-        <ul>
-            <ng-template [ngIf]="1" *ngFor="let item of bookMakerMatch.runners;trackBy: trackByFn;let i= index">
+        <ul><!-- bookMakerMatch.runners -->
+            <ng-template [ngIf]="matchesDetails.length>0" *ngFor="let item of matchesDetails[0].runners;trackBy: trackByFn;let i= index">
                 <li>
                     <div class="title" *ngIf="i<matchesDetails[0].runners.length">
                         {{matchesDetails[0].runners[i].runnerName}}
                         <span *ngIf="profile_and_loss"
                             [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
-                    <!-- <ng-container *ngIf="bookMakerMatch.length>0;then activeMatch;else suspendMatch">
-                    </ng-container> -->
+                    <ng-container *ngIf="matchesDetails[0].runners.length>0;then activeMatch;else suspendMatch">
+                    </ng-container>
                     <ng-template #activeMatch>
                         <div class="bet-btn-wrapper">
                             <div class="bet-button back">
-                                <div class="price">2.66</div>
+                                <div class="price">{{bookMakerMatch.runners[i].back}}</div>
                                 <div class="market-volume">298,288</div>
                             </div>
                             <div class="bet-button lay">
-                                <div class="price">2.66</div>
+                                <div class="price">{{bookMakerMatch.runners[i].lay}}</div>
                                 <div class="market-volume">298,288</div>
                             </div>
                         </div>

@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./market-live-section.component.scss']
 })
 export class MarketLiveSectionComponent implements OnInit {
-  @Input() matchesDetails: any;
+  @Input() matchesDetails: any=[];
   @Input() matchOdds: any;
   @Input('fancyMatch') fancyMatch: any;
   @Input() bookMakerMatch: any;
