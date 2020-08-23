@@ -64,7 +64,8 @@ export class BetPlaceFromComponent implements OnInit {
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
-
+    param.event_id ='';
+    param.market_type = '';
     this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
       result => {
         if (result.success) {
@@ -76,9 +77,6 @@ export class BetPlaceFromComponent implements OnInit {
               this.addStakeValue(this.settingData.one_click_op2);
             else
               this.addStakeValue(this.settingData.one_click_op3);
-            let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
-            let liability = this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value);
-            /* if (((liability + this.balanceInfo.net_exposure) <= total_balance) && ((liability + this.balanceInfo.net_exposure) <= this.balanceInfo.balance_limit)) { */
             const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
               width: '100%',
               panelClass: 'custom-modalbox',
@@ -89,14 +87,6 @@ export class BetPlaceFromComponent implements OnInit {
               if (result)
                 this.loader();
             });
-            /* }
-            else {
-              if ((liability + this.balanceInfo.net_exposure) > total_balance)
-                this._snakebarService.show('error', 'insufficient funds');
-              if ((liability + this.balanceInfo.net_exposure) > this.balanceInfo.balance_limit)
-                this._snakebarService.show('error', 'exposure limit cross');
-              this.profit_and_liability.emit([]);
-            } */
           }
         }
         this._loadingService.hide();
@@ -164,17 +154,12 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   betPlace() {
-    let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
-    let liability = this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value);
-    console.log('liability', liability, 'tot', total_balance, 'net_exposure', this.balanceInfo.net_exposure, 'exposure_limit', this.balanceInfo.balance_limit)
-    /* if (((liability + this.balanceInfo.net_exposure) <= total_balance) && ((liability + this.balanceInfo.net_exposure) <= this.balanceInfo.balance_limit)) { */
     if (this.checkBoxConfirmation) {
       const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
         width: '100%',
         panelClass: 'custom-modalbox',
         data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
       });
-
       dialogRef.afterClosed().subscribe(result => {
         if (result)
           this.loader();
@@ -183,13 +168,6 @@ export class BetPlaceFromComponent implements OnInit {
     else {
       this.loader();
     }
-    /* }
-    else {
-      if ((liability + this.balanceInfo.net_exposure) > total_balance)
-        this._snakebarService.show('error', 'Insufficient funds');
-      if ((liability + this.balanceInfo.net_exposure) > this.balanceInfo.balance_limit)
-        this._snakebarService.show('error', 'Exposure limit exceed');
-    } */
   }
 
   loader() {
@@ -249,8 +227,11 @@ export class BetPlaceFromComponent implements OnInit {
       net_exposure = 0;
     }
     let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
-    console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit)
-    if (Math.abs(net_exposure) > total_balance) {
+    console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
+    if(this.stakeValue<1000){
+      this._snakebarService.show('error', 'Enter minimum stake value Rs: 1000 to play');
+    }
+    else if(Math.abs(net_exposure) > total_balance) {
       this._snakebarService.show('error', 'Insufficient funds');
     }
     else if (Math.abs(net_exposure) > this.balanceInfo.balance_limit) {

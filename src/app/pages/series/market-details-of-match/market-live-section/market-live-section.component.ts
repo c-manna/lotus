@@ -17,6 +17,7 @@ export class MarketLiveSectionComponent implements OnInit {
   selectedItem: any;
   details: any = {};
   openBetPlaceDialog = false;
+  openBetPlaceDialogForBookMaker = false;
   profile_and_loss: any = [];
   settingData: any = {};
 
