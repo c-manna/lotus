@@ -14,7 +14,6 @@ export class SeriesComponent implements OnInit {
   eventId;
   counter = 0;
   eventData: any;
-  EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
   panelOpenState: boolean = false;
   inplayData: any = [];
 
@@ -34,7 +33,6 @@ export class SeriesComponent implements OnInit {
   ngOnInit(): void {
     this.ds.event$.subscribe(event => {
       this.eventData = event;
-      //console.log(this.eventData)
     });
     this.inPlayMatches(this.eventId);
   }
@@ -66,12 +64,10 @@ export class SeriesComponent implements OnInit {
 
   inPlayMatches(eventId) {
     let param = {};
-
-    this.apiService.ApiCall(param, environment.apiUrl + 'fetch-inplay/?eventID=' + eventId, 'get').subscribe(
+    this.apiService.ApiCall(param, environment.apiUrl + 'inplay-match/?eventID=' + eventId, 'get').subscribe(
       result => {
         if (result.success) {
-          console.log(result);
-          this.inplayData = result["result"];
+          this.inplayData = result["data"]["inplay_data"];
         }
       },
       err => {

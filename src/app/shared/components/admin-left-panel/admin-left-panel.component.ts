@@ -10,7 +10,7 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   styleUrls: ['./admin-left-panel.component.scss'],
 })
 export class AdminLeftPanelComponent implements OnInit {
-  events = [];
+  events = [{ "eventType": "1", "name": "Soccer", "marketCount": 2492 }, { "eventType": "2", "name": "Tennis", "marketCount": 5578 }, { "eventType": "4", "name": "Cricket", "marketCount": 22 }, { "eventType": "7", "name": "Horse Racing", "marketCount": 831 }, { "eventType": "4339", "name": "Greyhound Racing", "marketCount": 298 }];
   _routeListener: Subscription;
   constructor(
     private _loadingService: LoadingService,
@@ -19,8 +19,8 @@ export class AdminLeftPanelComponent implements OnInit {
     private apiService: APIService,
     private router: Router,
     private toolbarService: SideNavService) {
-/*     this.router.events.subscribe(event => {
-    }); */
+    /*     this.router.events.subscribe(event => {
+        }); */
   }
 
   ngOnInit() {

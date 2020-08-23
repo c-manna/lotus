@@ -7,7 +7,7 @@ import { SnackBarComponent } from "../../shared/components/snack-bar/snack-bar.c
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { LoadingComponent } from "../../shared/components/loading/loading.component";
 import { ComponentPortal } from '@angular/cdk/portal';
-import { HttpClient  } from '@angular/common/http'; 
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +65,9 @@ export class LoadingService {
     });
     let componentFactory = this.componentFactoryResolver.resolveComponentFactory(LoadingComponent);
     this.overlayRef.attach<LoadingComponent>(new ComponentPortal(componentFactory.componentType));
+    // setTimeout(() => {
+    //   this.overlayRef.detach();
+    // }, 10000)
   }
 
   hide() {
@@ -73,14 +76,13 @@ export class LoadingService {
 
 }
 
-@Injectable({  
-  providedIn: 'root'  
-})  
-export class IpService  {  
-  
-  constructor(private http:HttpClient) { }  
-  public getIPAddress()  
-  {  
-    return this.http.get("http://api.ipify.org/?format=json");  
-  }  
+@Injectable({
+  providedIn: 'root'
+})
+export class IpService {
+
+  constructor(private http: HttpClient) { }
+  public getIPAddress() {
+    return this.http.get("http://api.ipify.org/?format=json");
+  }
 } 

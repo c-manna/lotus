@@ -14,57 +14,63 @@ import { environment } from '@env/environment';
 export class DashboardComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   createBetFormActive: any;
-  eventId = 1;
-  dataList1: any = [];
+  // eventId = 1;
+  events = [];
+  dataList: any = [];
+  selectedItem: any = {};
+  inplayInterval: any;
   constructor(
     private _snakebarService: SnakebarService,
-    private _loadingService: LoadingService,
+    // private _loadingService: LoadingService,
     private _cookieService: CookieService,
     private _apiService: APIService,
-    // private _socketService: SocketService
   ) { }
-  selectedItem: any = {};
-  dataList = [{
-    id: 1,
-    status: true,
-    name1: "India",
-    name2: "England",
-    item: [{ back: 1.1, lay: 1.2 }, { back: 1.3, lay: 1.4 }, { back: 1.5, lay: 1.6 }]
-  }, {
-    id: 2,
-    status: true,
-    name1: "RSA",
-    name2: "England",
-    item: [{ back: 2.1 }, { back: 2.3, lay: 2.4 }, {}]
-  }, {
-    id: 3,
-    status: false,
-    name1: "India",
-    name2: "RSA",
-    item: [{ back: 3.1, lay: 3.2 }, { back: 3.3, lay: 3.4 }, { back: 3.5, lay: 3.6 }]
-  }]
 
   ngOnInit(): void {
-    // this._socketService.getBalance("2750231N007");
-    //console.log(JSON.parse(this._cookieService.get("user")));
-    this.getInPlay();
-    // this._snakebarService.show("success", "hi");
+    this.getEvents();
+  }
+
+  getEvents() {
+    // this._loadingService.show();
+    this._apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(result => {
+      // this._loadingService.hide();
+      if (result.success) {
+        this.events = result.data;
+        this.getInPlay();
+        // this.inplayTime();
+      }
+    }, err => {
+      // this._loadingService.hide();
+    });
   }
 
   getInPlay() {
-    this._apiService.ApiCall({}, `${environment.apiUrl}fetch-inplay?eventID=${this.eventId}`, 'get').subscribe(res => {
-      this._loadingService.hide();
+    // this._loadingService.show();
+    this._apiService.ApiCall({}, `${environment.apiUrl}inplay-match`, 'get').subscribe(res => {
+      // this._apiService.ApiCall({}, `${environment.apiUrl}fetch-inplay?eventID=${this.eventId}`, 'get').subscribe(res => {
+      // this._loadingService.hide();
       if (res.success) {
-        this.dataList1 = res.result;
+        let resData = res['data'];
+        resData.forEach(item => {
+          let index = this.events.findIndex(event => { return (event.eventType == item.event_id) });
+          item['name'] = this.events[index].name;
+          item['marketCount'] = this.events[index].marketCount;
+        });
+        this.dataList = resData;
+        console.log("this.dataList==", this.dataList)
       } else {
-        this._loadingService.hide();
         this._snakebarService.show("error", res.message);
       }
     }, err => {
-      this._loadingService.hide();
+      // this._loadingService.hide();
       this._snakebarService.show("error", err.message);
-    }
-    );
+    });
+  }
+
+  inplayTime() {
+    this.inplayInterval = setInterval(() => {
+      this.getInPlay();
+    }, 5000);
   }
 
   canceBet() {
@@ -79,6 +85,28 @@ export class DashboardComponent implements OnInit {
     item['createBetFormActive'] = currentTime;
     eachItem['createBetFormActive'] = currentTime;
     this.createBetFormActive = currentTime;
+  }
+
+  showMatchName(matchName, team) {
+    let index = matchName.indexOf(" v ")
+    if (team == 1) {
+      return matchName.substring(0, index);
+    } else {
+      return matchName.substring(index + 3);
+    }
+  }
+
+  showIcon(name) {
+    if (name == 'Soccer') return 'assets/icons/football.svg';
+    else if (name == 'Cricket') return 'assets/icons/cricket.svg';
+    else if (name == 'Tennis') return 'assets/icons/tennis.svg';
+    else if (name == 'Horse Racing') return 'assets/icons/horse.svg';
+    else if (name == 'Greyhound Racing') return 'assets/icons/greyhound_1.svg';
+    else return '';
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.inplayInterval);
   }
 
 }

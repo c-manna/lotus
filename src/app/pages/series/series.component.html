@@ -1,4 +1,4 @@
-<div class="cricket-wrapper bg-img" *ngIf="EnentList.indexOf(eventData.name) !== -1;else elsePart">
+<div class="cricket-wrapper bg-img">
   <h3>{{eventData.name}}</h3>
   <div class="section-1" *ngIf="inplayData && inplayData.length">
 
@@ -24,7 +24,7 @@
     </ul>
   </div>
 </div>
-<ng-template #elsePart>
+<!-- <ng-template #elsePart>
   <div class="cricket-wrapper bg-img">
     <h3>{{eventData.name}}</h3>
     <div class="greyhound-racing bg-img">
@@ -139,6 +139,6 @@
       </mat-accordion>
     </div>
   </div>
-</ng-template>
+</ng-template> -->
 
-<mat-progress-spinner diameter="20" mode="determinate"></mat-progress-spinner>
+<!-- <mat-progress-spinner diameter="20" mode="determinate"></mat-progress-spinner> -->
