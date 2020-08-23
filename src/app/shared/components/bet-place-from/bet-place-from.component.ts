@@ -64,8 +64,8 @@ export class BetPlaceFromComponent implements OnInit {
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
-    param.event_id ='';
-    param.market_type = '';
+    param.event_id = this.eventData.eventType;
+    param.market_type = this.details.market_type;
     this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
       result => {
         if (result.success) {

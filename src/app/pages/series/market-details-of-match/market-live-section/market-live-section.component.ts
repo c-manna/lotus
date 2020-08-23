@@ -72,7 +72,7 @@ export class MarketLiveSectionComponent implements OnInit {
     }
   }
 
-  openCreateBetForm(viewMode, value, type, item, runnerName, index) {
+  openCreateBetForm(viewMode, value, type, item, runnerName, index,market) {
     this.profile_and_loss = [];
     console.log(this.matchesDetails)
     this.details.marketId = this.matchesDetails[0].marketId;
