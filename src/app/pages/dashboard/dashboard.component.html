@@ -1,7 +1,7 @@
 <div class="dashboard-page">
     <div class="inplay-header">
         <div class="inplay-div">In Play</div>
-        <div class="open-bets">Open Bets <span>0</span></div>
+        <div class="open-bets" routerLink="/open-bets">Open Bets <span>{{openBetList.length}}</span></div>
 
     </div>
     <div class="play-section" *ngFor="let item of dataList; let i=index">

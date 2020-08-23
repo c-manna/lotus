@@ -19,15 +19,27 @@ export class DashboardComponent implements OnInit {
   dataList: any = [];
   selectedItem: any = {};
   inplayInterval: any;
+  loading: boolean = true;
+  openBetList: any = [];
   constructor(
     private _snakebarService: SnakebarService,
-    // private _loadingService: LoadingService,
+    private _loadingService: LoadingService,
     private _cookieService: CookieService,
     private _apiService: APIService,
   ) { }
 
   ngOnInit(): void {
     this.getEvents();
+    this.getOpenBets();
+  }
+
+  getOpenBets() {
+    this._apiService.ApiCall({}, environment.apiUrl + 'open-bet', 'get').subscribe(
+      result => {
+        if (result.success) {
+          this.openBetList = result['data'];
+        }
+      }, err => { });
   }
 
   getEvents() {
@@ -37,7 +49,7 @@ export class DashboardComponent implements OnInit {
       if (result.success) {
         this.events = result.data;
         this.getInPlay();
-        // this.inplayTime();
+        this.inplayTime();
       }
     }, err => {
       // this._loadingService.hide();
@@ -45,10 +57,11 @@ export class DashboardComponent implements OnInit {
   }
 
   getInPlay() {
-    // this._loadingService.show();
+    if (this.loading) this._loadingService.show();
     this._apiService.ApiCall({}, `${environment.apiUrl}inplay-match`, 'get').subscribe(res => {
       // this._apiService.ApiCall({}, `${environment.apiUrl}fetch-inplay?eventID=${this.eventId}`, 'get').subscribe(res => {
-      // this._loadingService.hide();
+      if (this.loading) this._loadingService.hide();
+      this.loading = false;
       if (res.success) {
         let resData = res['data'];
         resData.forEach(item => {
@@ -57,12 +70,12 @@ export class DashboardComponent implements OnInit {
           item['marketCount'] = this.events[index].marketCount;
         });
         this.dataList = resData;
-        console.log("this.dataList==", this.dataList)
+        // console.log("this.dataList==", this.dataList)
       } else {
         this._snakebarService.show("error", res.message);
       }
     }, err => {
-      // this._loadingService.hide();
+      if (this.loading) this._loadingService.hide();
       this._snakebarService.show("error", err.message);
     });
   }
