@@ -23,8 +23,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   bookMakerMatch: any = [];
   getFancyInterval: any;
   getBookMakerInterval: any;
-  marketId: any;
   openBetList: any = [];
+  private subscriptions: Subscription[] = [];
 
   constructor(
     private _loadingService: LoadingService,
@@ -50,45 +50,43 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
   getHeaderData() {
-    this.ds.breadCrumb$.subscribe(menuHeader => {
+    this.subscriptions.push(this.ds.breadCrumb$.subscribe(menuHeader => {
       this.menuHeader = menuHeader;
       console.log(this.menuHeader)
-    });
+    }));
   }
 
   getMatchDetails() {
     this._loadingService.show();
-    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-match?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matcheventID=' + this.matchId, 'get').subscribe(
+    this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-match?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matcheventID=' + this.matchId, 'get').subscribe(
       result => {
         this._loadingService.hide();
         if (result.success) {
           this.matchesDetails = result.data;
           this.getMatchOdds(result.data[0].marketId);
-          this.marketId = result.data[0].marketId;
-          this.getOpenBets();
-          //this.getOddsFromInterval(result.data[0].marketId);
           this.getOddsFromInterval(result.data[0].marketId);
           this.getBookMaker('29932183');
           //this.getBooMakerFromInterval(result.data[0].marketId);
+          this.getOpenBets(result.data[0].marketId);
         }
       }, err => {
       }
-    );
+    ));
   }
 
   getFancy() {
-    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
+    this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
       result => {
         this.fancyMatch = result['data'];
       },
       err => {
       }
-    );
+    ));
   }
 
 
   getMatchOdds(marketID) {
-    this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
+    this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
         if (result.success) {
           this.matchOdds = result["data"];
@@ -97,28 +95,28 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       },
       err => {
       }
-    );
+    ));
   }
 
   getBookMaker(market_id) {
-    this.apiService.ApiCall('', environment.apiUrl + 'get-bookmaker/' + market_id, 'get').subscribe(
+    this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'get-bookmaker/' + market_id, 'get').subscribe(
       result => {
         if (result.success) {
           this.bookMakerMatch = result.data[0];
           console.log(this.bookMakerMatch)
         }
       }, err => {
-      });
+      }));
   }
 
-  getOpenBets() {
-    this.apiService.ApiCall({}, environment.apiUrl + 'open-bet' + '?market_id=' + this.marketId, 'get').subscribe(
+  getOpenBets(marketID) {
+    this.subscriptions.push(this.apiService.ApiCall({}, environment.apiUrl + 'open-bet' + '?market_id=' + marketID, 'get').subscribe(
       result => {
         if (result.success) {
           this.openBetList = result['data'];
         }
       }, err => { }
-    );
+    ));
   }
 
   getOddsFromInterval(marketID) {
@@ -140,6 +138,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
   ngOnDestroy() {
+    this.subscriptions.forEach(s => s.unsubscribe());
     clearInterval(this.getOddsInterval);
     clearInterval(this.getFancyInterval);
   }

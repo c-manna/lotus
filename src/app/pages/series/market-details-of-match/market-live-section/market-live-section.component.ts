@@ -57,10 +57,11 @@ export class MarketLiveSectionComponent implements OnInit {
 
   canceBet() {
     this.openBetPlaceDialog = false;
-    //console.log("canceBet");
-    this.createBetFormActive = 0;
     this.profile_and_loss = [];
-    // this.viewMode = '';
+  }
+  canceBetForBookMaker(){
+    this.openBetPlaceDialogForBookMaker = false;
+    this.profile_and_loss = [];
   }
   set_profit_loss(data) {
     console.log(data);
