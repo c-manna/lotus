@@ -14,6 +14,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Input('selectedItem') selectedItem: any;
   @Input('details') details: any;
   @Input('settingData') settingData: any;
+  @Input()maxBetMaxMarket:any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number = 0;
@@ -64,8 +65,7 @@ export class BetPlaceFromComponent implements OnInit {
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
-    param.event_id = this.eventData.eventType;
-    param.market_type = this.details.market_type;
+
     this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
       result => {
         if (result.success) {

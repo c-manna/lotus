@@ -39,7 +39,7 @@
                 </li>
                 <app-bet-place-from *ngIf="openBetPlaceDialog && this.details.index==i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()"
-                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData">
+                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData" [maxBetMaxMarket]="maxBetMaxMarket">
                 </app-bet-place-from>
             </ng-template>
         </ul>
@@ -83,7 +83,7 @@
                 </li>
                 <app-bet-place-from *ngIf="openBetPlaceDialogForBookMaker && this.details.index==i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBetForBookMaker()"
-                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData">
+                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData" [maxBetMaxMarket]="maxBetMaxMarket">
                 </app-bet-place-from>
             </ng-template>
         </ul>

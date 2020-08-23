@@ -31,8 +31,9 @@ export class AdminRightsidePanelComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(this._cookieService.get("user"));
+    this.getUserBalance();
     this.getBalanceInterval = setInterval(() => {
-      this.getUserBalance();
+      //this.getUserBalance();
     }, 2000);
   }
 

@@ -9,17 +9,19 @@ import { CookieService } from 'ngx-cookie-service';
   styleUrls: ['./market-live-section.component.scss']
 })
 export class MarketLiveSectionComponent implements OnInit {
-  @Input() matchesDetails: any=[];
+  @Input() matchesDetails: any = [];
   @Input() matchOdds: any;
   @Input('fancyMatch') fancyMatch: any;
   @Input() bookMakerMatch: any;
   createBetFormActive: any;
   selectedItem: any;
   details: any = {};
+  eventDeatils: any;
   openBetPlaceDialog = false;
   openBetPlaceDialogForBookMaker = false;
   profile_and_loss: any = [];
   settingData: any = {};
+  maxBetMaxMarket:any;
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -32,6 +34,10 @@ export class MarketLiveSectionComponent implements OnInit {
       this.settingData = data;
       console.log(this.settingData)
     }); */
+    this.ds.eventDeatils$.subscribe(event => {
+      this.eventDeatils = event;
+      this.getMaxbetMaxMarket();
+    });
     console.log(this.bookMakerMatch)
     this.getSettingData();
   }
@@ -59,7 +65,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.openBetPlaceDialog = false;
     this.profile_and_loss = [];
   }
-  canceBetForBookMaker(){
+  canceBetForBookMaker() {
     this.openBetPlaceDialogForBookMaker = false;
     this.profile_and_loss = [];
   }
@@ -73,7 +79,7 @@ export class MarketLiveSectionComponent implements OnInit {
     }
   }
 
-  openCreateBetForm(viewMode, value, type, item, runnerName, index,market) {
+  openCreateBetForm(viewMode, value, type, item, runnerName, index, market) {
     this.profile_and_loss = [];
     console.log(this.matchesDetails)
     this.details.marketId = this.matchesDetails[0].marketId;
@@ -90,6 +96,20 @@ export class MarketLiveSectionComponent implements OnInit {
     item['viewMode'] = viewMode;
     item['createBetFormActive'] = currentTime;
     this.createBetFormActive = currentTime;
+  }
+
+  getMaxbetMaxMarket() {
+    let param: any = {};
+    param.event_id = this.eventDeatils.event.event_type;
+    this.apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
+      result => {
+        console.log(result);
+        this.maxBetMaxMarket= result;
+      },
+      err => {
+        //this._snakebarService.show('error', err);
+      }
+    );
   }
 
 }
