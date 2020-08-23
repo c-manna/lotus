@@ -26,7 +26,7 @@ export class MarketLiveSectionComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails, this.bookMakerMatch);
+    //console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails, this.bookMakerMatch);
     /* this.ds.settingData$.subscribe(data => {
       this.settingData = data;
       console.log(this.settingData)
@@ -36,7 +36,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   ngOnChanges() {
-    console.log("ngOnChanges==", this.bookMakerMatch)
+    //console.log("ngOnChanges==", this.bookMakerMatch)
   }
 
   getSettingData() {
