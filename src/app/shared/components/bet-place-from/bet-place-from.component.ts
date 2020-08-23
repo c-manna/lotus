@@ -17,7 +17,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Input()maxBetMaxMarket:any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
-  stakeValue: number = 0;
+  stakeValue: number;
   viewMode = '';
   calculatedValue: any = 0;
   checkBoxConfirmation: boolean = true;
@@ -109,7 +109,7 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.stakeValue = 0;
+    //this.stakeValue = 0;
     this.calculatedValue = 0;
     this.selectedItem = changes.selectedItem.currentValue;
     this.inputData = this.selectedItem.value;
@@ -229,7 +229,13 @@ export class BetPlaceFromComponent implements OnInit {
     let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
     console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
     if(this.stakeValue<1000){
-      this._snakebarService.show('error', 'Enter minimum stake value Rs: 1000 to play');
+      this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
+    }
+    else if(this.stakeValue>this.maxBetMaxMarket.max_bet){
+      this._snakebarService.show('error', 'Maximum bet amount exceed');
+    }
+    else if(this.stakeValue>this.maxBetMaxMarket.max_market){
+      this._snakebarService.show('error', 'Maximum market amount exceed');
     }
     else if(Math.abs(net_exposure) > total_balance) {
       this._snakebarService.show('error', 'Insufficient funds');

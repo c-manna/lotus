@@ -21,7 +21,7 @@ export class MarketLiveSectionComponent implements OnInit {
   openBetPlaceDialogForBookMaker = false;
   profile_and_loss: any = [];
   settingData: any = {};
-  maxBetMaxMarket:any;
+  maxBetMaxMarket:any=[];
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -100,11 +100,13 @@ export class MarketLiveSectionComponent implements OnInit {
 
   getMaxbetMaxMarket() {
     let param: any = {};
-    param.event_id = this.eventDeatils.event.event_type;
+    param.event_id = parseInt(this.eventDeatils.event.event_type);
     this.apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
       result => {
         console.log(result);
-        this.maxBetMaxMarket= result;
+        this.maxBetMaxMarket['Match Odds']=result.result.find(obj => obj.market == 'Match Odds');
+        this.maxBetMaxMarket['fancy']=result.result.find(obj => obj.market == 'fancy');
+        this.maxBetMaxMarket['bookmaker']=result.result.find(obj => obj.market == 'bookmaker');
       },
       err => {
         //this._snakebarService.show('error', err);
