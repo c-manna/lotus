@@ -115,8 +115,7 @@ export class MarketLiveSectionComponent implements OnInit {
         this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'Match Odds');
         this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy');
         this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker');
-      },
-      err => {
+      }, err => {
         //this._snakebarService.show('error', err);
       }
     );

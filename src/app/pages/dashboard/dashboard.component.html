@@ -28,7 +28,7 @@
                             <ul *ngIf="eachMatch.inPlay_data && eachMatch.inPlay_data.status=='OPEN';else suspendMatch">
                                 <ng-template [ngIf]="1"
                                     *ngFor="let eachItem of eachMatch.inPlay_data.runners; let i=index">
-                                    <li *ngIf="eachItem.ex.availableToBack[0].price;else blankBackLay"
+                                    <li *ngIf="(eachItem.ex && eachItem.ex.availableToBack && eachItem.ex.availableToBack.length && eachItem.ex.availableToBack[0] && eachItem.ex.availableToBack[0].price);else blankBackLay"
                                         [class.active]="(eachItem.createBetFormActive == createBetFormActive && eachItem.viewMode == 'tab1')"
                                         rel="tab1"
                                         (click)="openCreateBetForm('tab1',eachItem.back, 'back', item, eachItem)">
@@ -37,7 +37,7 @@
                                             <div class="market-volume">298,208</div>
                                         </div>
                                     </li>
-                                    <li *ngIf="eachItem.ex.availableToLay[0].price;else blankBackLay"
+                                    <li *ngIf="(eachItem.ex && eachItem.ex.availableToLay && eachItem.ex.availableToLay.length && eachItem.ex.availableToLay[0] && eachItem.ex.availableToLay[0].price);else blankBackLay"
                                         [class.active]="(eachItem.createBetFormActive == createBetFormActive && eachItem.viewMode == 'tab2')"
                                         rel="tab2"
                                         (click)="openCreateBetForm('tab2',eachItem.lay, 'lay', item, eachItem)">

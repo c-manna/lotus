@@ -29,20 +29,20 @@ export class AdminLeftPanelComponent implements OnInit {
 
   getEvents() {
     if (this.router.url == '/dashboard') {
-      this._loadingService.show();
+      // this._loadingService.show();
     }
     this._routeListener = this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
       result => {
-        this._loadingService.hide();
+        // this._loadingService.hide();
         if (result.success) {
           this.events = result.data;
           if (this.router.url == '/dashboard') {
-            this._loadingService.hide();
+            // this._loadingService.hide();
           }
         }
       },
       err => {
-        this._loadingService.hide();
+        // this._loadingService.hide();
       }
     );
   }

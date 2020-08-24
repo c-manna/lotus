@@ -14,6 +14,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   viewMode = 'tab3';
   matchesDetails: any = [];
   eventId;
+  marketId: any;
   competitionId;
   matchId: any;
   menuHeader = [];
@@ -62,6 +63,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         this._loadingService.hide();
         if (result.success) {
           this.matchesDetails = result.data;
+          this.marketId = result.data[0].marketId;
           this.getMatchOdds(result.data[0].marketId);
           this.getOddsFromInterval(result.data[0].marketId);
           this.getBookMaker('29932183');

@@ -15,10 +15,12 @@ export class DashboardComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   createBetFormActive: any;
   // eventId = 1;
-  events = [];
+  // events = [];
+  events = [{ "eventType": "1", "name": "Soccer", "marketCount": 2492 }, { "eventType": "2", "name": "Tennis", "marketCount": 5578 }, { "eventType": "4", "name": "Cricket", "marketCount": 22 }, { "eventType": "7", "name": "Horse Racing", "marketCount": 831 }, { "eventType": "4339", "name": "Greyhound Racing", "marketCount": 298 }];
   dataList: any = [];
   selectedItem: any = {};
   inplayInterval: any;
+  refreshDataInterval: any;
   loading: boolean = true;
   openBetList: any = [];
   constructor(
@@ -26,10 +28,12 @@ export class DashboardComponent implements OnInit {
     private _loadingService: LoadingService,
     private _cookieService: CookieService,
     private _apiService: APIService,
-  ) { }
+  ) {
+    this.getInPlay();
+  }
 
   ngOnInit(): void {
-    this.getEvents();
+    this.inplayTime();
     this.getOpenBets();
   }
 
@@ -48,8 +52,6 @@ export class DashboardComponent implements OnInit {
       // this._loadingService.hide();
       if (result.success) {
         this.events = result.data;
-        this.getInPlay();
-        this.inplayTime();
       }
     }, err => {
       // this._loadingService.hide();
@@ -61,6 +63,7 @@ export class DashboardComponent implements OnInit {
     this._apiService.ApiCall({}, `${environment.apiUrl}inplay-match`, 'get').subscribe(res => {
       // this._apiService.ApiCall({}, `${environment.apiUrl}fetch-inplay?eventID=${this.eventId}`, 'get').subscribe(res => {
       if (this.loading) this._loadingService.hide();
+      if (this.loading) this.getEvents();
       this.loading = false;
       if (res.success) {
         let resData = res['data'];
@@ -70,6 +73,7 @@ export class DashboardComponent implements OnInit {
           item['marketCount'] = this.events[index].marketCount;
         });
         this.dataList = resData;
+        this.refreshData();
         // console.log("this.dataList==", this.dataList)
       } else {
         this._snakebarService.show("error", res.message);
@@ -80,10 +84,31 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getMatchOdds(index, index1, eventId, competitionId, marketID) {
+    this._apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + eventId + '&competitionId=' + competitionId + '&marketID=' + marketID, 'get').subscribe(
+      result => {
+        if (result.success) {
+          this.dataList[index].inplay_data[index1].inPlay_data = result["data"][0];
+        }
+      }, err => { }
+    );
+  }
+
   inplayTime() {
     this.inplayInterval = setInterval(() => {
       this.getInPlay();
+    }, 60000);
+    this.refreshDataInterval = setInterval(() => {
+      this.refreshData();
     }, 5000);
+  }
+
+  refreshData() {
+    this.dataList.forEach((item, index) => {
+      item.inplay_data.forEach((eachMatch, index1) => {
+        this.getMatchOdds(index, index1, item.event_id, eachMatch.competetion_id, eachMatch.inPlay_data.marketId);
+      });
+    });
   }
 
   canceBet() {
@@ -120,6 +145,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnDestroy(): void {
     clearInterval(this.inplayInterval);
+    clearInterval(this.refreshDataInterval);
   }
 
 }
