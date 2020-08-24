@@ -14,7 +14,8 @@ export class BetPlaceFromComponent implements OnInit {
   @Input('selectedItem') selectedItem: any;
   @Input('details') details: any;
   @Input('settingData') settingData: any;
-  @Input()maxBetMaxMarket:any;
+  @Input() maxBetMaxMarket: any;
+  @Input() previousBet:any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
@@ -26,7 +27,6 @@ export class BetPlaceFromComponent implements OnInit {
   matchOdds: any = [];
   ipAddress;
   returnExposure: any = {};
-  previousBet: any;
   balanceInfo: any = {};
 
   constructor(
@@ -40,9 +40,9 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.IsOneClickBet();
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
-      this.getExposure();
     });
     this.ds.balanceInfo$.subscribe(data => {
       this.balanceInfo = data;
@@ -51,7 +51,7 @@ export class BetPlaceFromComponent implements OnInit {
     //console.log(this.selectedItem);
     this.ds.event$.subscribe(event => {
       this.eventData = event;
-      console.log(this.eventData)
+      //console.log(this.eventData)
     });
 
     this.ds.matchOdds$.subscribe(data => {
@@ -60,47 +60,31 @@ export class BetPlaceFromComponent implements OnInit {
     this.getIP();
   }
 
-  getExposure() {
-    console.log(this.eventDeatils)
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
+  IsOneClickBet() {
+    if (this.settingData.one_click_betting == 1) {
+      if (this.settingData.one_click_default == 1)
+        this.addStakeValue(this.settingData.one_click_op1);
+      else if (this.settingData.one_click_default == 2)
+        this.addStakeValue(this.settingData.one_click_op2);
+      else
+        this.addStakeValue(this.settingData.one_click_op3);
+      const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
+        width: '100%',
+        panelClass: 'custom-modalbox',
+        data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+      });
 
-    this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
-      result => {
-        if (result.success) {
-          this.previousBet = result.result;
-          if (this.settingData.one_click_betting == 1) {
-            if (this.settingData.one_click_default == 1)
-              this.addStakeValue(this.settingData.one_click_op1);
-            else if (this.settingData.one_click_default == 2)
-              this.addStakeValue(this.settingData.one_click_op2);
-            else
-              this.addStakeValue(this.settingData.one_click_op3);
-            const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
-              width: '100%',
-              panelClass: 'custom-modalbox',
-              data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
-            });
-
-            dialogRef.afterClosed().subscribe(result => {
-              if (result)
-                this.loader();
-            });
-          }
-        }
-        this._loadingService.hide();
-      },
-      err => {
-        this._loadingService.hide();
-      }
-    );
+      dialogRef.afterClosed().subscribe(result => {
+        if (result)
+          this.loader();
+      });
+    }
   }
 
   getIP() {
     this.ipService.getIPAddress().subscribe((res: any) => {
       this.ipAddress = res.ip;
-      console.log(this.ipAddress)
+      //console.log(this.ipAddress)
     });
   }
 
@@ -109,7 +93,7 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    //this.stakeValue = 0;
+    this.stakeValue = undefined;
     this.calculatedValue = 0;
     this.selectedItem = changes.selectedItem.currentValue;
     this.inputData = this.selectedItem.value;
@@ -128,6 +112,7 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   addStakeValue(value) {
+    if (this.stakeValue == undefined) this.stakeValue = 0;
     if (this.stakeValue.toString() != '')
       this.stakeValue = parseFloat(this.stakeValue.toString()) + parseFloat(value);
     else
@@ -209,15 +194,14 @@ export class BetPlaceFromComponent implements OnInit {
       all_amount.push(team_details.amount)
       currentBet.push(team_details)
     }
-    console.log('current exposure', all_amount)
-    console.log('previous exposure', this.previousBet[0].all_teams_exposure_data)
-    if (this.previousBet[0].all_teams_exposure_data) {
+    //console.log('current exposure', all_amount)
+    if (this.previousBet && this.previousBet[0].all_teams_exposure_data) {
       for (let i = 0; i < this.previousBet.length; i++) {
         for (let j = 0; j < this.previousBet[i].all_teams_exposure_data.length; j++) {
           all_amount[j] = all_amount[j] + this.previousBet[i].all_teams_exposure_data[j].amount;
         }
       }
-      console.log('total calculation', all_amount)
+      //console.log('total calculation', all_amount)
       net_exposure = this.min(all_amount);
     } else {
       net_exposure = this.min(all_amount);
@@ -227,17 +211,17 @@ export class BetPlaceFromComponent implements OnInit {
       net_exposure = 0;
     }
     let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
-    console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
-    if(this.stakeValue<1000){
+    //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
+    if (this.stakeValue < 1000) {
       this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
     }
-    else if(this.stakeValue>this.maxBetMaxMarket.max_bet){
+    else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_bet)) {
       this._snakebarService.show('error', 'Maximum bet amount exceed');
     }
-    else if(this.stakeValue>this.maxBetMaxMarket.max_market){
+    else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_market)) {
       this._snakebarService.show('error', 'Maximum market amount exceed');
     }
-    else if(Math.abs(net_exposure) > total_balance) {
+    else if (Math.abs(net_exposure) > total_balance) {
       this._snakebarService.show('error', 'Insufficient funds');
     }
     else if (Math.abs(net_exposure) > this.balanceInfo.balance_limit) {

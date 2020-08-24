@@ -21,40 +21,48 @@ export class MarketLiveSectionComponent implements OnInit {
   openBetPlaceDialogForBookMaker = false;
   profile_and_loss: any = [];
   settingData: any = {};
-  maxBetMaxMarket:any=[];
+  maxBetMaxMarket: any = [];
+  previousBet: any;
 
   constructor(private ds: DataService,
     private apiService: APIService,
     private _cookieService: CookieService
-  ) { }
+  ) {
+    let user = JSON.parse(this._cookieService.get("user"))
+    this.details.user_id = user.punter_id;
+  }
 
   ngOnInit(): void {
-    //console.log("matchOdds==", this.matchOdds, "matchesDetails==", this.matchesDetails, this.bookMakerMatch);
-    /* this.ds.settingData$.subscribe(data => {
-      this.settingData = data;
-      console.log(this.settingData)
-    }); */
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
+      this.getExposure();
       this.getMaxbetMaxMarket();
     });
     console.log(this.bookMakerMatch)
     this.getSettingData();
   }
 
-  ngOnChanges() {
-    //console.log("ngOnChanges==", this.bookMakerMatch)
+  ngOnChanges() { }
+
+  getExposure() {
+    let param: any = {};
+    param.user_id = this.details.user_id;
+    param.match_id = this.eventDeatils.event.id;
+
+    this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
+      result => {
+        if (result.success) {
+          this.previousBet = result.result;
+        }
+      },
+      err => { }
+    );
   }
 
   getSettingData() {
     this.apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
-      if (res.success) {
-        this.settingData = res.data;
-        //this.ds.changeSettingData(res.data);
-      } else {
-      }
-    }, err => {
-    });
+      if (res.success) { this.settingData = res.data; }
+    }, err => { });
   }
 
   trackByFn(index, entity) {
@@ -81,7 +89,7 @@ export class MarketLiveSectionComponent implements OnInit {
 
   openCreateBetForm(viewMode, value, type, item, runnerName, index, market) {
     this.profile_and_loss = [];
-    console.log(this.matchesDetails)
+    //console.log(this.matchesDetails)
     this.details.marketId = this.matchesDetails[0].marketId;
     this.details.market_start_time = this.matchesDetails[0].marketStartTime;
     this.details.market_type = this.matchesDetails[0].marketName;
@@ -104,9 +112,9 @@ export class MarketLiveSectionComponent implements OnInit {
     this.apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
       result => {
         console.log(result);
-        this.maxBetMaxMarket['Match Odds']=result.result.find(obj => obj.market == 'Match Odds');
-        this.maxBetMaxMarket['fancy']=result.result.find(obj => obj.market == 'fancy');
-        this.maxBetMaxMarket['bookmaker']=result.result.find(obj => obj.market == 'bookmaker');
+        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'Match Odds');
+        this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy');
+        this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker');
       },
       err => {
         //this._snakebarService.show('error', err);

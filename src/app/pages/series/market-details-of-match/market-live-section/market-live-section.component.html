@@ -13,7 +13,7 @@
                 <li>
                     <div class="title" *ngIf="i<matchesDetails[0].runners.length">
                         {{matchesDetails[0].runners[i].runnerName}}
-                        <span *ngIf="profile_and_loss"
+                        <span *ngIf="profile_and_loss && openBetPlaceDialog"
                             [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <div class="bet-btn-wrapper" *ngIf="i<matchesDetails[0].runners.length">
@@ -21,14 +21,14 @@
                         </ng-container>
                         <ng-template #activeMatch>
                             <div *ngIf="item.ex.availableToBack.length>0; else blankBackLay" class="bet-button back"
-                                (click)="openCreateBetForm('tab1',item.ex.availableToBack[0].price, 'back', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true;openBetPlaceDialogForBookMaker=false">
+                                (click)="openCreateBetForm('tab1',item.ex.availableToBack[0].price, 'back', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true;canceBetForBookMaker()">
                                 <div class="price" *ngIf="item.ex.availableToBack.length>0">
                                     {{item.ex.availableToBack[0].price}}
                                 </div>
                                 <div class="market-volume">298,288</div>
                             </div>
                             <div *ngIf="item.ex.availableToLay.length>0; else blankBackLay" class="bet-button lay"
-                                (click)="openCreateBetForm('tab2',item.ex.availableToLay[0].price, 'lay', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true;openBetPlaceDialogForBookMaker">
+                                (click)="openCreateBetForm('tab2',item.ex.availableToLay[0].price, 'lay', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialog=true;canceBetForBookMaker()">
                                 <div class="price" *ngIf="item.ex.availableToLay.length>0">
                                     {{item.ex.availableToLay[0].price}}
                                 </div>
@@ -39,7 +39,7 @@
                 </li>
                 <app-bet-place-from *ngIf="openBetPlaceDialog && this.details.index==i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()"
-                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData" [maxBetMaxMarket]="maxBetMaxMarket['Match Odds']">
+                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData" [maxBetMaxMarket]="maxBetMaxMarket['Match Odds']" [previousBet]="previousBet">
                 </app-bet-place-from>
             </ng-template>
         </ul>
@@ -61,19 +61,19 @@
                 <li>
                     <div class="title" *ngIf="i<matchesDetails[0].runners.length">
                         {{matchesDetails[0].runners[i].runnerName}}
-                        <span *ngIf="profile_and_loss"
+                        <span *ngIf="profile_and_loss && openBetPlaceDialogForBookMaker"
                             [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <ng-container *ngIf="matchesDetails[0].runners.length>0;then activeMatch;else suspendMatch">
                     </ng-container>
                     <ng-template #activeMatch>
                         <div class="bet-btn-wrapper">
-                            <div (click)="openCreateBetForm('tab1',bookMakerMatch.runners[i].back, 'back', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialogForBookMaker=true;openBetPlaceDialog=false"
+                            <div (click)="openCreateBetForm('tab1',bookMakerMatch.runners[i].back, 'back', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialogForBookMaker=true;canceBet()"
                                 class="bet-button back">
                                 <div class="price">{{bookMakerMatch.runners[i].back}}</div>
                                 <div class="market-volume">298,288</div>
                             </div>
-                            <div (click)="openCreateBetForm('tab1',bookMakerMatch.runners[i].lay, 'lay', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialogForBookMaker=true;openBetPlaceDialog=false"
+                            <div (click)="openCreateBetForm('tab1',bookMakerMatch.runners[i].lay, 'lay', item,matchesDetails[0].runners[i].runnerName,i);openBetPlaceDialogForBookMaker=true;canceBet()"
                                 class="bet-button lay">
                                 <div class="price">{{bookMakerMatch.runners[i].lay}}</div>
                                 <div class="market-volume">298,288</div>
@@ -83,7 +83,7 @@
                 </li>
                 <app-bet-place-from *ngIf="openBetPlaceDialogForBookMaker && this.details.index==i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBetForBookMaker()"
-                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData" [maxBetMaxMarket]="maxBetMaxMarket['bookmaker']">
+                    [selectedItem]="selectedItem" [details]="details" [settingData]="settingData" [maxBetMaxMarket]="maxBetMaxMarket['bookmaker']" [previousBet]="previousBet">
                 </app-bet-place-from>
             </ng-template>
         </ul>
