@@ -12,7 +12,7 @@ export class BetplaceConfirmationPopupComponent implements OnInit{
     public dialogRef: MatDialogRef<BetplaceConfirmationPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    console.log(data);
+    //console.log(data);
    }
 
   ngOnInit(){

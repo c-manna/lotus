@@ -13,7 +13,7 @@
                 <li>
                     <div class="title" *ngIf="i<matchesDetails[0].runners.length">
                         {{matchesDetails[0].runners[i].runnerName}}
-                        <span *ngIf="profile_and_loss && openBetPlaceDialog"
+                        <span *ngIf="profile_and_loss && openBetPlaceDialog && settingData.one_click_default == 0"
                             [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <div class="bet-btn-wrapper" *ngIf="i<matchesDetails[0].runners.length">
@@ -61,7 +61,7 @@
                 <li>
                     <div class="title" *ngIf="i<matchesDetails[0].runners.length">
                         {{matchesDetails[0].runners[i].runnerName}}
-                        <span *ngIf="profile_and_loss && openBetPlaceDialogForBookMaker"
+                        <span *ngIf="profile_and_loss && openBetPlaceDialogForBookMaker && settingData.one_click_default == 0"
                             [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <ng-container *ngIf="matchesDetails[0].runners.length>0;then activeMatch;else suspendMatch">

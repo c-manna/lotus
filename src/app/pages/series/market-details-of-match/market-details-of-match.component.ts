@@ -102,7 +102,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       result => {
         if (result.success) {
           this.bookMakerMatch = result.data[0];
-          console.log(this.bookMakerMatch)
+          //console.log(this.bookMakerMatch)
         }
       }, err => {
       }));

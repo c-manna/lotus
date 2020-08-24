@@ -15,7 +15,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Input('details') details: any;
   @Input('settingData') settingData: any;
   @Input() maxBetMaxMarket: any;
-  @Input() previousBet:any;
+  @Input() previousBet: any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
@@ -28,6 +28,7 @@ export class BetPlaceFromComponent implements OnInit {
   ipAddress;
   returnExposure: any = {};
   balanceInfo: any = {};
+  sum_of_max_market;
 
   constructor(
     private ipService: IpService,
@@ -40,10 +41,11 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.IsOneClickBet();
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
+      if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
     });
+    this.getMaxMarketSummation();
     this.ds.balanceInfo$.subscribe(data => {
       this.balanceInfo = data;
     });
@@ -53,32 +55,44 @@ export class BetPlaceFromComponent implements OnInit {
       this.eventData = event;
       //console.log(this.eventData)
     });
-
     this.ds.matchOdds$.subscribe(data => {
       this.matchOdds = data;
     });
     this.getIP();
   }
 
-  IsOneClickBet() {
-    if (this.settingData.one_click_betting == 1) {
-      if (this.settingData.one_click_default == 1)
-        this.addStakeValue(this.settingData.one_click_op1);
-      else if (this.settingData.one_click_default == 2)
-        this.addStakeValue(this.settingData.one_click_op2);
-      else
-        this.addStakeValue(this.settingData.one_click_op3);
-      const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
-        width: '100%',
-        panelClass: 'custom-modalbox',
-        data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
-      });
+  getMaxMarketSummation() {
+    this.apiService.ApiCall({ market_type: this.details.market_type }, environment.apiUrl + 'getMaxMarketSummation', 'post').subscribe(
+      result => {
+        if (result.success) {
+          this.sum_of_max_market = result;
+        }
+      },
+      err => {
+        this._snakebarService.show('error', err);
+      }
+    );
+  }
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result)
-          this.loader();
-      });
-    }
+  IsOneClickBet() {
+    if (this.settingData.one_click_default == 1)
+      this.addStakeValue(this.settingData.one_click_op1);
+    else if (this.settingData.one_click_default == 2)
+      this.addStakeValue(this.settingData.one_click_op2);
+    else
+      this.addStakeValue(this.settingData.one_click_op3);
+    const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
+      width: '100%',
+      panelClass: 'custom-modalbox',
+      data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loader();
+      } else {
+        this.canceBet()
+      }
+    });
   }
 
   getIP() {
@@ -216,10 +230,10 @@ export class BetPlaceFromComponent implements OnInit {
       this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
     }
     else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_bet)) {
-      this._snakebarService.show('error', 'Maximum bet amount exceed');
+      this._snakebarService.show('error', 'Max bet amount exceed');
     }
-    else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_market)) {
-      this._snakebarService.show('error', 'Maximum market amount exceed');
+    else if ((this.stakeValue + this.sum_of_max_market) > parseInt(this.maxBetMaxMarket.max_market)) {
+      this._snakebarService.show('error', 'Max market amount exceed');
     }
     else if (Math.abs(net_exposure) > total_balance) {
       this._snakebarService.show('error', 'Insufficient funds');
