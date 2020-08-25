@@ -117,12 +117,30 @@ export class DashboardComponent implements OnInit {
   }
 
   openCreateBetForm(viewMode, value, type, item, eachItem) {
-    let currentTime = Date.now();
-    this.selectedItem = { type: type, ...item, value: value };
-    eachItem['viewMode'] = viewMode;
-    item['createBetFormActive'] = currentTime;
-    eachItem['createBetFormActive'] = currentTime;
-    this.createBetFormActive = currentTime;
+    // let currentTime = Date.now();
+    // this.selectedItem = { type: type, ...item, value: value };
+    // eachItem['viewMode'] = viewMode;
+    // item['createBetFormActive'] = currentTime;
+    // eachItem['createBetFormActive'] = currentTime;
+    // this.createBetFormActive = currentTime;
+
+
+    // this.profile_and_loss = [];
+    // //console.log(this.matchesDetails)
+    // this.details.marketId = this.matchesDetails[0].marketId;
+    // this.details.market_start_time = this.matchesDetails[0].marketStartTime;
+    // this.details.market_type = this.matchesDetails[0].marketName;
+    // this.details.runnerName = runnerName;
+    // this.details.runners = this.matchesDetails[0].runners;
+    // this.details.index = index;
+    // let user = JSON.parse(this._cookieService.get("user"))
+    // this.details.user_id = user.punter_id;
+    // this.details.punter_belongs_to = user.punter_belongs_to;
+    // let currentTime = Date.now();
+    // this.selectedItem = { type: type, ...item, value: value };
+    // item['viewMode'] = viewMode;
+    // item['createBetFormActive'] = currentTime;
+    // this.createBetFormActive = currentTime;
   }
 
   showMatchName(matchName, team) {
