@@ -41,6 +41,12 @@ export class DataService {
     this.matchOdds.next(data);
   }
 
+  private fancy = new BehaviorSubject<any>(null);
+  fancy$ = this.fancy.asObservable();
+  changeFancy(data) {
+    this.fancy.next(data);
+  }
+
   private settingData = new BehaviorSubject<any>(null);
   settingData$ = this.settingData.asObservable();
   changeSettingData(data) {

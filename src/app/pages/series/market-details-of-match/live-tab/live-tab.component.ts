@@ -7,10 +7,7 @@ import { Component, OnInit, Input, HostListener } from '@angular/core';
 })
 export class LiveTabComponent implements OnInit {
   // @HostListener('window:resize', ['$event'])
-  @Input() matchOdds: any;
   @Input() matchesDetails: any;
-  @Input('fancyMatch') fancyMatch: any;
-  @Input('bookMakerMatch') bookMakerMatch: any;
   public innerWidth: any;
   liveMatch = "tab1"
   constructor() { }

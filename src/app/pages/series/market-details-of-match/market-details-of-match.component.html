@@ -38,16 +38,14 @@
         </ul>
         <div class="tab-slider--container " [ngSwitch]="viewMode">
             <div id="tab1" class="tab-slider--body bg-img " *ngSwitchCase="'tab1'">
-                <app-market-tab [matchOdds]="matchOdds" [matchesDetails]="matchesDetails" [fancyMatch]="fancyMatch"
-                    [bookMakerMatch]="bookMakerMatch">
+                <app-market-tab [matchesDetails]="matchesDetails">
                 </app-market-tab>
             </div>
             <div id="tab2" class="tab-slider--body " *ngSwitchCase="'tab2'">
                 <app-news-tab></app-news-tab>
             </div>
             <div id="tab3" class="tab-slider--body bg-img" *ngSwitchCase="'tab3'">
-                <app-live-tab [matchOdds]="matchOdds" [matchesDetails]="matchesDetails" [fancyMatch]="fancyMatch"
-                    [bookMakerMatch]="bookMakerMatch">
+                <app-live-tab [matchesDetails]="matchesDetails">
                 </app-live-tab>
             </div>
             <div id="tab4" class="tab-slider--body bg-img" *ngSwitchCase="'tab4'">
