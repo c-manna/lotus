@@ -13,7 +13,7 @@ export class MarketLiveSectionComponent implements OnInit {
   @Input() matchOdds: any;
   @Input('fancyMatch') fancyMatch: any;
   @Input() bookMakerMatch: any;
-  @Input() maxBetMaxMarket:any;
+  @Input() maxBetMaxMarket: any;
   //createBetFormActive: any;
   selectedItem: any;
   details: any = {};
@@ -43,7 +43,7 @@ export class MarketLiveSectionComponent implements OnInit {
     //console.log(this.matchesDetails)
   }
 
-  ngOnChanges() {}
+  ngOnChanges() { }
 
   getExposure() {
     let param: any = {};
@@ -80,12 +80,21 @@ export class MarketLiveSectionComponent implements OnInit {
     this.openBetPlaceDialogForFancy = false;
   }
   set_profit_loss(data) {
-    console.log(data);
-    for (let i = 0; i < this.matchesDetails[0].runners.length; i++) {
-      if (data.index == i)
-        this.profile_and_loss[i] = data.value;
-      else
-        this.profile_and_loss[i] = data.stake;
+    //console.log(data);
+    if (this.details.market_type != 'fancy') {
+      for (let i = 0; i < this.matchesDetails[0].runners.length; i++) {
+        if (data.index == i)
+          this.profile_and_loss[i] = data.value;
+        else
+          this.profile_and_loss[i] = data.stake;
+      }
+    } else {
+      for (let i = 0; i < this.matchesDetails[0].runners.length; i++) {
+        if (data.index == i)
+          this.profile_and_loss[i] = data.loss;
+        else
+          this.profile_and_loss[i] = data.loss;
+      }
     }
   }
 

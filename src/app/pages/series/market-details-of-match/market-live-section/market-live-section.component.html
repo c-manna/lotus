@@ -110,7 +110,7 @@
             <ng-template [ngIf]="1" *ngFor="let item of fancyMatch;trackBy: trackByFn;let i=index">
                 <li>
                     <div class="title">{{item.RunnerName}}</div>
-                    <span *ngIf="profile_and_loss && openBetPlaceDialogForFancy && settingData.one_click_betting == 0"
+                    <span *ngIf="profile_and_loss && openBetPlaceDialogForFancy && settingData.one_click_betting == 0 && this.details.index==i"
                         [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     <div class="bet-btn-wrapper">
                         <ng-container *ngIf="item.GameStatus=='';then activeMatch">
