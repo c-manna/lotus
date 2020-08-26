@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
-import { LoadingService, APIService, DataService } from '@shared/services';
+import { SnakebarService, LoadingService, APIService, DataService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
 
 @Component({
@@ -18,7 +18,10 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   competitionId;
   matchId: any;
   menuHeader = [];
+  matchOdds: any = [];
   getOddsInterval: any;
+  fancyMatch: any = [];
+  bookMakerMatch: any = [];
   getFancyInterval: any;
   getBookMakerInterval: any;
   openBetList: any = [];
@@ -26,6 +29,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
   constructor(
     private _loadingService: LoadingService,
+    private _snakebarService: SnakebarService,
     private ds: DataService,
     public platform: Platform,
     private apiService: APIService,
@@ -74,7 +78,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getFancy() {
     this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
       result => {
-        this.ds.changeFancy(result['data'])
+        this.fancyMatch = result['data'];
       },
       err => {
       }
@@ -86,6 +90,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
         if (result.success) {
+          this.matchOdds = result["data"];
           this.ds.changeMatchOdds(result["data"]);
         }
       },
@@ -98,7 +103,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'get-bookmaker/' + market_id, 'get').subscribe(
       result => {
         if (result.success) {
-          this.ds.changeBookMaker(result.data[0])
+          this.bookMakerMatch = result.data[0];
           //console.log(this.bookMakerMatch)
         }
       }, err => {

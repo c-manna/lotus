@@ -10,6 +10,9 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class MarketLiveSectionComponent implements OnInit {
   @Input() matchesDetails: any = [];
+  @Input() matchOdds: any;
+  @Input('fancyMatch') fancyMatch: any;
+  @Input() bookMakerMatch: any;
   createBetFormActive: any;
   selectedItem: any;
   details: any = {};
@@ -35,6 +38,7 @@ export class MarketLiveSectionComponent implements OnInit {
       this.getExposure();
       this.getMaxbetMaxMarket();
     });
+    console.log(this.bookMakerMatch)
     this.getSettingData();
   }
 
