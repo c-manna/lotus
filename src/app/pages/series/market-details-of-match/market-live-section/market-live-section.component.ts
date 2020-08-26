@@ -13,15 +13,16 @@ export class MarketLiveSectionComponent implements OnInit {
   @Input() matchOdds: any;
   @Input('fancyMatch') fancyMatch: any;
   @Input() bookMakerMatch: any;
+  @Input() maxBetMaxMarket:any=[];
   //createBetFormActive: any;
   selectedItem: any;
   details: any = {};
   eventDeatils: any;
   openBetPlaceDialog = false;
   openBetPlaceDialogForBookMaker = false;
+  openBetPlaceDialogForFancy = false;
   profile_and_loss: any = [];
   settingData: any = {};
-  maxBetMaxMarket: any = [];
   previousBet: any;
 
   constructor(private ds: DataService,
@@ -37,7 +38,6 @@ export class MarketLiveSectionComponent implements OnInit {
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
       this.getExposure();
-      this.getMaxbetMaxMarket();
     });
     //console.log(this.matchesDetails)
     this.getSettingData();
@@ -78,6 +78,10 @@ export class MarketLiveSectionComponent implements OnInit {
     this.openBetPlaceDialogForBookMaker = false;
     this.profile_and_loss = [];
   }
+  canceBetForFancy() {
+    this.openBetPlaceDialogForFancy = false;
+    this.profile_and_loss = [];
+  }
   set_profit_loss(data) {
     //console.log(data);
     for (let i = 0; i < this.matchesDetails[0].runners.length; i++) {
@@ -101,21 +105,6 @@ export class MarketLiveSectionComponent implements OnInit {
     // item['viewMode'] = viewMode;
     // item['createBetFormActive'] = currentTime;
     // this.createBetFormActive = currentTime;
-  }
-
-  getMaxbetMaxMarket() {
-    let param: any = {};
-    param.event_id = parseInt(this.eventDeatils.event.event_type);
-    this.apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
-      result => {
-        console.log(result);
-        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'match odds');
-        this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy');
-        this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker');
-      }, err => {
-        //this._snakebarService.show('error', err);
-      }
-    );
   }
 
 }

@@ -10,6 +10,8 @@ export class MarketTabComponent implements OnInit {
   @Input() matchesDetails: any;
   @Input('fancyMatch') fancyMatch: any;
   @Input('bookMakerMatch') bookMakerMatch: any;
+  @Input()maxBetMaxMarket:any=[];
+  
   constructor() { }
 
   ngOnInit(): void {

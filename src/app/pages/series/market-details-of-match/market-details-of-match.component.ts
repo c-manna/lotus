@@ -26,6 +26,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getBookMakerInterval: any;
   openBetList: any = [];
   private subscriptions: Subscription[] = [];
+  maxBetMaxMarket: any = [];
 
   constructor(
     private _loadingService: LoadingService,
@@ -43,6 +44,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       this.getFancy();
       //this.getFancyFromInterval();
     });
+    this.getMaxbetMaxMarket(this.route.snapshot.params['id']);
   }
 
   ngOnInit(): void {
@@ -54,6 +56,19 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       this.menuHeader = menuHeader;
       //console.log(this.menuHeader)
     }));
+  }
+
+  getMaxbetMaxMarket(event_id) {
+    let param: any = {};
+    param.event_id = parseInt(event_id);
+    this.apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
+      result => {
+        //console.log(result);
+        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'match odds');
+        this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy');
+        this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker');
+      }, err => {}
+    );
   }
 
   getMatchDetails() {

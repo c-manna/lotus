@@ -6,11 +6,12 @@ import { NgMaterialModule } from './ng-material/ng-material.module';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { SharedCoreModule } from '@shared/core';
 import { BetPlaceFromComponent } from '@shared/components/bet-place-from/bet-place-from.component';
+import { FancyBetFormComponent } from '@shared/components/fancy-bet-form/fancy-bet-form.component';
 import { BetplaceConfirmationPopupComponent } from '@shared/components/betplace-confirmation-popup/betplace-confirmation-popup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [BetPlaceFromComponent, BetplaceConfirmationPopupComponent],
+  declarations: [ FancyBetFormComponent,BetPlaceFromComponent, BetplaceConfirmationPopupComponent],
   imports: [
     FormsModule,
     CommonModule,
@@ -26,7 +27,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     // RxReactiveFormsModule,
     SharedCoreModule,
-    BetPlaceFromComponent, BetplaceConfirmationPopupComponent
+    BetPlaceFromComponent,
+    FancyBetFormComponent, 
+    BetplaceConfirmationPopupComponent
   ],
   providers: [AuthGuard]
 })
