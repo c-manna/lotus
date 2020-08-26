@@ -173,7 +173,7 @@ export class FancyBetFormComponent implements OnInit {
     if (EnentList.indexOf(this.eventData.name) !== -1)
       loaderTime = 1000;
     else
-      loaderTime = 7000;
+      loaderTime = 1000;
     this._loadingService.show();
     this.canceBet();
     setTimeout(() => {
@@ -185,7 +185,7 @@ export class FancyBetFormComponent implements OnInit {
   insertBet() {
     let currentBet: any = [];
     let currentRunnerName = this.details.runnerName;
-    let odd = this.selectedItem.type == 'back' ? 0 : 1;
+    let odd = this.selectedItem.type == 'yes' ? 0 : 1;
     let all_amount: any = [];
     let net_exposure;
     for (let i = 0; i < this.details.runners.length; i++) {
