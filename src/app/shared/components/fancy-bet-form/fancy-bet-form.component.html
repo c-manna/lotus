@@ -5,10 +5,10 @@
               <div class="input-left">
                   <div class="heading">odds</div>
                   <div class="incress-decress-value">
-                      <button (click)="subValue();">-</button>
-                      <input type="number" [(ngModel)]="inputData" (ngModelChange)="calculateValue()"
+                      <!-- <button (click)="subValue();">-</button> -->
+                      <input readonly type="number" [(ngModel)]="inputData" (ngModelChange)="calculateValue()"
                           (keyup)="calculateValue()">
-                      <button (click)="addValue();">+</button>
+                      <!-- <button (click)="addValue();">+</button> -->
                   </div>
               </div>
               <div class="input-right">
@@ -40,7 +40,7 @@
                       </path>
                   </svg>
                   <span>Place Bet</span>
-                  <span>{{(selectedItem.type === 'back') ? 'Profit:' : 'Liability:'}} {{calculatedValue}}</span>
+                  <span>{{(selectedItem.type === 'yes') ? 'Profit:' : 'Liability:'}} {{calculatedValue}}</span>
               </button>
           </div>
           <div class="toggle-button">

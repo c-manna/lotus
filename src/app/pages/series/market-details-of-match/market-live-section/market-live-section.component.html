@@ -1,7 +1,7 @@
 <div class="live-tab-bd">
     <!-- match odds start -->
     <div class="market-group"
-        *ngIf="matchesDetails && matchesDetails.length && matchOdds && matchOdds.length && matchOdds[0].runners && maxBetMaxMarket &&maxBetMaxMarket.length && maxBetMaxMarket['Match Odds'].status=='1'">
+        *ngIf="matchesDetails && matchesDetails.length && matchOdds && matchOdds.length && matchOdds[0].runners && maxBetMaxMarket['Match Odds'].status=='1'">
         <div class="heading">
             <div class="title">Match Odds</div>
             <div class="markets__action">
@@ -14,7 +14,7 @@
                 <li>
                     <div class="title">
                         {{matchesDetails[0].runners[i].runnerName}}
-                        <span *ngIf="profile_and_loss && openBetPlaceDialog && settingData.one_click_default == 0"
+                        <span *ngIf="profile_and_loss && openBetPlaceDialog && settingData.one_click_betting == 0"
                             [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <div class="bet-btn-wrapper">
@@ -66,7 +66,7 @@
                     <div class="title">
                         {{matchesDetails[0].runners[i].runnerName}}
                         <span
-                            *ngIf="profile_and_loss && openBetPlaceDialogForBookMaker && settingData.one_click_default == 0"
+                            *ngIf="profile_and_loss && openBetPlaceDialogForBookMaker && settingData.one_click_betting == 0"
                             [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     </div>
                     <ng-container *ngIf="matchesDetails[0].runners.length>0;then activeMatch;else suspendMatch">
@@ -107,13 +107,17 @@
             </div>
         </div>
         <ul>
-            <ng-template [ngIf]="1" *ngFor="let item of fancyMatch;let i=index">
+            <ng-template [ngIf]="1" *ngFor="let item of fancyMatch;trackBy: trackByFn;let i=index">
                 <li>
                     <div class="title">{{item.RunnerName}}</div>
+                    <span *ngIf="profile_and_loss && openBetPlaceDialogForFancy && settingData.one_click_betting == 0"
+                        [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
                     <div class="bet-btn-wrapper">
                         <ng-container *ngIf="item.GameStatus=='';then activeMatch">
                         </ng-container>
-                        <ng-container *ngIf="item.GameStatus=='Ball Running';then ballRunning;else suspendMatch">
+                        <ng-container *ngIf="item.GameStatus=='Ball Running';then ballRunning">
+                        </ng-container>
+                        <ng-container *ngIf="item.GameStatus=='SUSPENDED';then suspendMatch">
                         </ng-container>
                         <ng-template #activeMatch>
                             <div *ngIf="item.LaySize1!='-'; else blankLay" class="bet-button lay"

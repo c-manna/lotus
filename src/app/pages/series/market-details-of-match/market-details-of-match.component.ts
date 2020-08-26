@@ -36,26 +36,19 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     private apiService: APIService,
     private router: Router,
     private route: ActivatedRoute) {
+    this.getMaxbetMaxMarket(this.route.snapshot.params['id']);
     route.params.subscribe((params) => {
       this.eventId = params['id'];
       this.competitionId = params['competitionId'];
       this.matchId = params["matchId"];
       this.getMatchDetails();
       this.getFancy();
-      //this.getFancyFromInterval();
+      this.getFancyFromInterval();
     });
-    this.getMaxbetMaxMarket(this.route.snapshot.params['id']);
   }
 
   ngOnInit(): void {
     this.getHeaderData();
-  }
-
-  getHeaderData() {
-    this.subscriptions.push(this.ds.breadCrumb$.subscribe(menuHeader => {
-      this.menuHeader = menuHeader;
-      //console.log(this.menuHeader)
-    }));
   }
 
   getMaxbetMaxMarket(event_id) {
@@ -63,12 +56,20 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     param.event_id = parseInt(event_id);
     this.apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
       result => {
-        //console.log(result);
-        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'match odds');
-        this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy');
-        this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker');
-      }, err => {}
+        console.log(result);
+        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'match odds') == undefined ? { status: false } : result.result.find(obj => obj.market == 'match odds');
+        this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy') == undefined ? { status: false } : result.result.find(obj => obj.market == 'fancy');
+        this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker') == undefined ? { status: false } : result.result.find(obj => obj.market == 'bookmaker');
+        console.log(this.maxBetMaxMarket)
+      }, err => { }
     );
+  }
+
+  getHeaderData() {
+    this.subscriptions.push(this.ds.breadCrumb$.subscribe(menuHeader => {
+      this.menuHeader = menuHeader;
+      //console.log(this.menuHeader)
+    }));
   }
 
   getMatchDetails() {
@@ -150,7 +151,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getFancyFromInterval() {
     this.getFancyInterval = setInterval(() => {
       this.getFancy()
-    }, 500);
+    }, 1000);
   }
 
   ngOnDestroy() {

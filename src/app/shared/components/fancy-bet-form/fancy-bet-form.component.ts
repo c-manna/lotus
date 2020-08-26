@@ -135,12 +135,12 @@ export class FancyBetFormComponent implements OnInit {
   }
 
   calculateValue() {
-    if (this.selectedItem.type === 'back') {
-      this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
+    if (this.selectedItem.type === 'yes') {
+      this.calculatedValue = parseFloat(this.selectedItem.BackPrice1) / 100 * this.stakeValue; //parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
       this.returnExposure.value = Math.abs(this.calculatedValue);
       this.returnExposure.stake = -Math.abs(this.stakeValue);
     } else {
-      this.calculatedValue = (parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
+      this.calculatedValue = parseFloat(this.selectedItem.BackPrice1) / 100 * this.stakeValue;
       this.returnExposure.value = -Math.abs(this.calculatedValue);
       this.returnExposure.stake = Math.abs(this.stakeValue);
     }
