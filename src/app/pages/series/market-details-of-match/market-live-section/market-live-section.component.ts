@@ -13,7 +13,7 @@ export class MarketLiveSectionComponent implements OnInit {
   @Input() matchOdds: any;
   @Input('fancyMatch') fancyMatch: any;
   @Input() bookMakerMatch: any;
-  createBetFormActive: any;
+  //createBetFormActive: any;
   selectedItem: any;
   details: any = {};
   eventDeatils: any;
@@ -30,6 +30,7 @@ export class MarketLiveSectionComponent implements OnInit {
   ) {
     let user = JSON.parse(this._cookieService.get("user"))
     this.details.user_id = user.punter_id;
+    this.details.punter_belongs_to = user.punter_belongs_to;
   }
 
   ngOnInit(): void {
@@ -38,11 +39,11 @@ export class MarketLiveSectionComponent implements OnInit {
       this.getExposure();
       this.getMaxbetMaxMarket();
     });
-    console.log(this.bookMakerMatch)
+    //console.log(this.matchesDetails)
     this.getSettingData();
   }
 
-  ngOnChanges() { }
+  ngOnChanges() {}
 
   getExposure() {
     let param: any = {};
@@ -78,7 +79,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.profile_and_loss = [];
   }
   set_profit_loss(data) {
-    console.log(data);
+    //console.log(data);
     for (let i = 0; i < this.matchesDetails[0].runners.length; i++) {
       if (data.index == i)
         this.profile_and_loss[i] = data.value;
@@ -87,23 +88,19 @@ export class MarketLiveSectionComponent implements OnInit {
     }
   }
 
-  openCreateBetForm(viewMode, value, type, item, runnerName, index, market) {
+  openCreateBetForm(value, type, item, runnerName, index, market_type) {
     this.profile_and_loss = [];
-    //console.log(this.matchesDetails)
     this.details.marketId = this.matchesDetails[0].marketId;
     this.details.market_start_time = this.matchesDetails[0].marketStartTime;
-    this.details.market_type = this.matchesDetails[0].marketName;
+    this.details.market_type = market_type//this.matchesDetails[0].marketName;
     this.details.runnerName = runnerName;
     this.details.runners = this.matchesDetails[0].runners;
     this.details.index = index;
-    let user = JSON.parse(this._cookieService.get("user"))
-    this.details.user_id = user.punter_id;
-    this.details.punter_belongs_to = user.punter_belongs_to;
-    let currentTime = Date.now();
     this.selectedItem = { type: type, ...item, value: value };
-    item['viewMode'] = viewMode;
-    item['createBetFormActive'] = currentTime;
-    this.createBetFormActive = currentTime;
+    //let currentTime = Date.now();
+    // item['viewMode'] = viewMode;
+    // item['createBetFormActive'] = currentTime;
+    // this.createBetFormActive = currentTime;
   }
 
   getMaxbetMaxMarket() {
@@ -112,7 +109,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
       result => {
         console.log(result);
-        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'Match Odds');
+        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'match odds');
         this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy');
         this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker');
       }, err => {
