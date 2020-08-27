@@ -121,12 +121,12 @@
                         </ng-container>
                         <ng-template #activeMatch>
                             <div *ngIf="item.LaySize1!='-'; else blankLay" class="bet-button lay"
-                                (click)="openCreateBetForm(item.LaySize1, 'no', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
+                                (click)="openCreateBetFormFancy(item.LaySize1, 'no', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
                                 <div class="price">{{item.LaySize1}}</div>
                                 <div class="market-volume">{{item.LayPrice1}}</div>
                             </div>
                             <div *ngIf="item.BackSize1!='-'; else blankBack" class="bet-button back"
-                                (click)="openCreateBetForm(item.BackSize1, 'yes', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
+                                (click)="openCreateBetFormFancy(item.BackSize1, 'yes', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
                                 <div class="price">{{item.BackSize1}}</div>
                                 <div class="market-volume">{{item.BackPrice1}}</div>
                             </div>

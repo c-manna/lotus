@@ -102,7 +102,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.profile_and_loss = [];
     this.details.marketId = this.matchesDetails[0].marketId;
     this.details.market_start_time = this.matchesDetails[0].marketStartTime;
-    this.details.market_type = market_type//this.matchesDetails[0].marketName;
+    this.details.market_type = market_type;//this.matchesDetails[0].marketName;
     this.details.runnerName = runnerName;
     this.details.runners = this.matchesDetails[0].runners;
     this.details.index = index;
@@ -111,6 +111,15 @@ export class MarketLiveSectionComponent implements OnInit {
     // item['viewMode'] = viewMode;
     // item['createBetFormActive'] = currentTime;
     // this.createBetFormActive = currentTime;
+  }
+
+  openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {
+    this.profile_and_loss = [];
+    this.details.marketId = item.SelectionId;
+    this.details.market_type = market_type;
+    this.details.runnerName = runnerName;
+    this.details.index = index;
+    this.selectedItem = { type: type, ...item, value: value };
   }
 
 }
