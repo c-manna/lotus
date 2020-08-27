@@ -38,8 +38,9 @@ export class DataService {
   private bookMaker = new BehaviorSubject<any>(null);
   bookMaker$ = this.bookMaker.asObservable();
   changeBookMaker(data) {
-    this.matchOdds.next(data);
+    this.bookMaker.next(data);
   }
+
 
   private settingData = new BehaviorSubject<any>(null);
   settingData$ = this.settingData.asObservable();

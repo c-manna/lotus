@@ -25,6 +25,7 @@ export class BetPlaceFromComponent implements OnInit {
   eventData: any;
   eventDeatils: any;
   matchOdds: any = [];
+  bookMaker: any = [];
   ipAddress;
   returnExposure: any = {};
   balanceInfo: any = {};
@@ -55,9 +56,15 @@ export class BetPlaceFromComponent implements OnInit {
       this.eventData = event;
       //console.log(this.eventData)
     });
-    this.ds.matchOdds$.subscribe(data => {
-      this.matchOdds = data;
-    });
+    if (this.details.market_type == 'match oods') {
+      this.ds.matchOdds$.subscribe(data => {
+        this.matchOdds = data;
+      });
+    } else {
+      this.ds.bookMaker$.subscribe(data => {
+        this.bookMaker = data;
+      });
+    }
     this.getIP();
   }
 
@@ -243,10 +250,10 @@ export class BetPlaceFromComponent implements OnInit {
     }
     else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
       let last_odd;
-      if (this.matchOdds) {
+      if (this.details.market_type == 'match oods') {
         last_odd = this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price
       } else {
-        last_odd = this.inputData.toFixed(2)
+        last_odd = this.selectedItem.type == 'back' ? this.bookMaker.runners[this.details.index].back:this.bookMaker.runners[this.details.index].lay;
       }
       let param = {
         market_id: this.details.marketId,

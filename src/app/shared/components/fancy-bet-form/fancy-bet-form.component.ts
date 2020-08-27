@@ -24,7 +24,7 @@ export class FancyBetFormComponent implements OnInit {
   checkBoxConfirmation: boolean = true;
   eventData: any;
   eventDeatils: any;
-  matchOdds: any = [];
+  fancy: any = [];
   ipAddress;
   returnExposure: any = {};
   balanceInfo: any = {};
@@ -54,9 +54,6 @@ export class FancyBetFormComponent implements OnInit {
     this.ds.event$.subscribe(event => {
       this.eventData = event;
       //console.log(this.eventData)
-    });
-    this.ds.matchOdds$.subscribe(data => {
-      this.matchOdds = data;
     });
     this.getIP();
   }
@@ -188,40 +185,37 @@ export class FancyBetFormComponent implements OnInit {
     let odd = this.selectedItem.type == 'yes' ? 0 : 1;
     let all_amount: any = [];
     let net_exposure;
-    for (let i = 0; i < this.details.runners.length; i++) {
-      let team_details: any = {};
-      if (currentRunnerName == this.details.runners[i].runnerName) {
-        team_details = {
-          odd_type: odd,
-          team_name: currentRunnerName,
-          amount: this.returnExposure.value
-        }
-      } else {
-        team_details = {
-          odd_type: odd == 0 ? 1 : 0,
-          team_name: this.details.runners[i].runnerName,
-          amount: this.returnExposure.stake
-        }
-      }
-      all_amount.push(team_details.amount)
-      currentBet.push(team_details)
-    }
-    //console.log('current exposure', all_amount)
-    if (this.previousBet && this.previousBet[0].all_teams_exposure_data) {
-      for (let i = 0; i < this.previousBet.length; i++) {
-        for (let j = 0; j < this.previousBet[i].all_teams_exposure_data.length; j++) {
-          all_amount[j] = all_amount[j] + this.previousBet[i].all_teams_exposure_data[j].amount;
-        }
-      }
-      //console.log('total calculation', all_amount)
-      net_exposure = this.min(all_amount);
-    } else {
-      net_exposure = this.min(all_amount);
-    }
-
-    if (net_exposure >= 0) {
-      net_exposure = 0;
-    }
+    // for (let i = 0; i < this.details.runners.length; i++) {
+    //   let team_details: any = {};
+    //   if (currentRunnerName == this.details.runners[i].runnerName) {
+    //     team_details = {
+    //       odd_type: odd,
+    //       team_name: currentRunnerName,
+    //       amount: this.returnExposure.value
+    //     }
+    //   } else {
+    //     team_details = {
+    //       odd_type: odd == 0 ? 1 : 0,
+    //       team_name: this.details.runners[i].runnerName,
+    //       amount: this.returnExposure.stake
+    //     }
+    //   }
+    //   all_amount.push(team_details.amount)
+    //   currentBet.push(team_details)
+    // }
+    // if (this.previousBet && this.previousBet[0].all_teams_exposure_data) {
+    //   for (let i = 0; i < this.previousBet.length; i++) {
+    //     for (let j = 0; j < this.previousBet[i].all_teams_exposure_data.length; j++) {
+    //       all_amount[j] = all_amount[j] + this.previousBet[i].all_teams_exposure_data[j].amount;
+    //     }
+    //   }
+    //   net_exposure = this.min(all_amount);
+    // } else {
+    //   net_exposure = this.min(all_amount);
+    // }
+    // if (net_exposure >= 0) {
+    //   net_exposure = 0;
+    // }
     let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
     //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
     if (this.stakeValue < 1000) {
@@ -240,12 +234,6 @@ export class FancyBetFormComponent implements OnInit {
       this._snakebarService.show('error', 'Exposure limit exceed');
     }
     else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
-      let last_odd;
-      if (this.matchOdds) {
-        last_odd = this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price
-      } else {
-        last_odd = this.inputData.toFixed(2)
-      }
       let param = {
         market_id: this.details.marketId,
         match_id: this.eventDeatils.event.id,
@@ -253,9 +241,9 @@ export class FancyBetFormComponent implements OnInit {
         description: this.eventDeatils.event.name,
         event_name: this.eventData.name,
         event_id: this.eventData.eventType,
-        odd: this.selectedItem.type == 'back' ? 0 : 1,
-        place_odd: this.inputData.toFixed(2),
-        last_odd: last_odd,
+        odd: this.selectedItem.type == 'yes' ? 0 : 1,
+        place_odd: this.inputData,
+        last_odd: this.inputData,
         stake: this.stakeValue,
         runner_name: this.details.runnerName,
         runners: this.details.runners,
