@@ -124,7 +124,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.selectedItem = { type: type, ...item, value: value };
   }
 
-  getExposureForFancy(SelectionId) {
+  getExposureForFancy(SelectionId, callback: any = null) {
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
@@ -133,19 +133,30 @@ export class MarketLiveSectionComponent implements OnInit {
       result => {
         if (result.success) {
           this.previousBetFancy = result.result;
-          console.log(this.previousBetFancy)
+          console.log('call back')
+          if (callback != null) { callback(); }
         }
       },
       err => { }
     );
   }
 
-  calculateLadder(){
-    if (this.previousBetFancy.length>0){
-      for(let i=0;i<this.previousBet.length;i++){
-        
+  showLader(SelectionId) {
+    this.getExposureForFancy(SelectionId, () => {
+      if (this.previousBetFancy.length > 0) {
+        console.log(this.previousBetFancy)
+        let ladderTable: any = [];
+        for (let i = 0; i < this.previousBetFancy.length; i++) {
+          if (i == 0) {
+            ladderTable.push({ from: 0, to: this.previousBetFancy[i].placed_odd - 1 })
+          } else {
+            ladderTable.push({ from: this.previousBetFancy[i - 1].placed_odd, to: this.previousBetFancy[i].placed_odd - 1 })
+          }
+        }
+        ladderTable.push({ from: this.previousBetFancy[this.previousBetFancy.length-1].placed_odd, to:  this.previousBetFancy[this.previousBetFancy.length-1].placed_odd});
+        console.log(ladderTable)
       }
-    }
+    });
   }
 
 }
