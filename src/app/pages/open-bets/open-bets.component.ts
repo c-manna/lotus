@@ -30,7 +30,7 @@ export class OpenBetsComponent implements OnInit {
     if (this.loading) this._loadingService.show();
     this.apiService.ApiCall({}, environment.apiUrl + 'open-bet' + ((this.marketId) ? '?market_id=' + this.marketId : ''), 'get').subscribe(
       result => {
-        if (this.loading) this._loadingService.hide();
+        this._loadingService.hide();
         if (result.success) {
           this.openBetList = result['data'];
           this.matchBet = [];
@@ -45,7 +45,7 @@ export class OpenBetsComponent implements OnInit {
         }
       },
       err => {
-        if (this.loading) this._loadingService.hide();
+        this._loadingService.hide();
       }
     );
   }
