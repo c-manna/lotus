@@ -25,6 +25,7 @@ export class MarketLiveSectionComponent implements OnInit {
   settingData;
   previousBet: any;
   previousBetFancy: any;
+  ladderContent:boolean=false;
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -116,6 +117,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {
+    this.ladderContent=false;
     this.getExposureForFancy(item.SelectionId);
     this.profile_and_loss = [];
     this.details.marketId = item.SelectionId;
@@ -139,6 +141,8 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   showLader(SelectionId) {
+    this.ladderContent=!this.ladderContent;
+    this.openBetPlaceDialogForFancy=false;
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;

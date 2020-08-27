@@ -11,7 +11,7 @@
         display: flex;
         align-items: center;
         .menu-icon{
-            width: 30px;
+            width: 18px;
             height: 20px;
             background-image: url(../../../../assets/images/menuIcon.png);
             background-size: contain;
@@ -35,7 +35,7 @@
             margin: 0;
         }
         .logo{
-            width: 110px;
+            width: 100px;
             height: 26px;
             // background-image: url(../../../../assets/images/logo.png);  
             background-image: url(../../../../assets/images/max66-logo.svg);
@@ -55,15 +55,16 @@
             margin: 0;
         }
         .search-icon{
-            width: 27px;
-            height: 20px;
+            width: 18px;
+            height: 24px;
             background-image: url(../../../../assets/images/search-icon.png);
             background-position: center;
-            background-size: cover;
+            background-size: contain;
+            background-repeat: no-repeat;
         }
         .user-icon{
-            width: 50px;
-            height: 30px;
+            width: 68px;
+            height: 38px;
             background-color:#265360 ;
             border-radius: 2px;
            
