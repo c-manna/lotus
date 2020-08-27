@@ -6,8 +6,10 @@
                   <div class="heading">odds</div>
                   <div class="incress-decress-value">
                       <!-- <button (click)="subValue();">-</button> -->
-                      <input readonly type="number" [(ngModel)]="inputData" (ngModelChange)="calculateValue()"
-                          (keyup)="calculateValue()">
+                      <!-- <input type="number" [(ngModel)]="inputData" (ngModelChange)="calculateValue()"
+                          (keyup)="calculateValue()"> -->
+                        <span>{{selectedItem.BackPrice1}}</span>
+                        <span style="padding-left:10px">{{inputData}}</span>
                       <!-- <button (click)="addValue();">+</button> -->
                   </div>
               </div>

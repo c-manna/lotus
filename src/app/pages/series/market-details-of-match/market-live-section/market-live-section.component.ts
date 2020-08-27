@@ -140,4 +140,12 @@ export class MarketLiveSectionComponent implements OnInit {
     );
   }
 
+  calculateLadder(){
+    if (this.previousBetFancy.length>0){
+      for(let i=0;i<this.previousBet.length;i++){
+        
+      }
+    }
+  }
+
 }
