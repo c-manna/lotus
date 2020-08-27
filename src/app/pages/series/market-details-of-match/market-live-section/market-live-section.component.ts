@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService, APIService } from '@shared/services';
+import { DataService, APIService, CommonService } from '@shared/services';
 import { environment } from '@env/environment';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -28,6 +28,7 @@ export class MarketLiveSectionComponent implements OnInit {
 
   constructor(private ds: DataService,
     private apiService: APIService,
+    private commonService: CommonService,
     private _cookieService: CookieService
   ) {
     this.getSettingData();
@@ -124,11 +125,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.selectedItem = { type: type, ...item, value: value };
   }
 
-  getExposureForFancy(SelectionId, callback: any = null) {
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
-    param.selection_id = SelectionId;
+  getExposureForFancy(param, callback: any = null) {
     this.apiService.ApiCall(param, environment.apiUrl + 'getExposureFancy', 'post').subscribe(
       result => {
         if (result.success) {
@@ -142,7 +139,12 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   showLader(SelectionId) {
-    this.getExposureForFancy(SelectionId, () => {
+    let param: any = {};
+    param.user_id = this.details.user_id;
+    param.match_id = this.eventDeatils.event.id;
+    param.selection_id = SelectionId;
+    this.commonService.getExposureForFancy(param, (result) => {
+      this.previousBetFancy = result;
       if (this.previousBetFancy.length > 0) {
         console.log(this.previousBetFancy)
         let ladderTable: any = [];
@@ -153,10 +155,49 @@ export class MarketLiveSectionComponent implements OnInit {
             ladderTable.push({ from: this.previousBetFancy[i - 1].placed_odd, to: this.previousBetFancy[i].placed_odd - 1 })
           }
         }
-        ladderTable.push({ from: this.previousBetFancy[this.previousBetFancy.length-1].placed_odd, to:  this.previousBetFancy[this.previousBetFancy.length-1].placed_odd});
+        ladderTable.push({ from: this.previousBetFancy[this.previousBetFancy.length - 1].placed_odd, to: this.previousBetFancy[this.previousBetFancy.length - 1].placed_odd });
+        console.log(ladderTable)
+        for (let i = 0; i < this.previousBetFancy.length; i++) {
+          for (let j = 0; j < ladderTable.length; j++) {
+            if (this.previousBetFancy[i].odd == 0) {
+              if(ladderTable[j].to>=this.previousBetFancy[i].placed_odd){
+                ladderTable[j][i] = this.previousBetFancy[i].price/100*this.previousBetFancy[i].stake;
+              }
+              else{
+                ladderTable[j][i] = -Math.abs(this.previousBetFancy[i].stake);
+              }
+            }
+            else {
+              if(ladderTable[j].to<this.previousBetFancy[i].placed_odd){
+                ladderTable[j][i] = this.previousBetFancy[i].price/100*this.previousBetFancy[i].stake;
+              }
+              else{
+                ladderTable[j][i] = -Math.abs(this.previousBetFancy[i].stake);
+              }
+            }
+          }
+        }
+        let all_amount: any = [];
+        for(let i=0;i<ladderTable.length;i++){
+          for(let j=0;j<this.previousBetFancy.length;j++){
+            if(j==0){
+              ladderTable[i]["result"]=ladderTable[i][j];
+            }else{
+              ladderTable[i]["result"]+=ladderTable[i][j];
+              all_amount[i]=ladderTable[i]["result"];
+            }
+          }
+        }
+        console.log(this.min(all_amount))
         console.log(ladderTable)
       }
     });
+  }
+
+  min(input) {
+    if (toString.call(input) !== "[object Array]")
+      return false;
+    return Math.min.apply(null, input);
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BetplaceConfirmationPopupComponent } from '../betplace-confirmation-popup/betplace-confirmation-popup.component';
-import { APIService, DataService, LoadingService, SnakebarService, IpService } from '@shared/services';
+import { APIService, DataService, LoadingService, SnakebarService, IpService, CommonService } from '@shared/services';
 import { environment } from '@env/environment';
 
 @Component({
@@ -33,6 +33,7 @@ export class FancyBetFormComponent implements OnInit {
   constructor(
     private ipService: IpService,
     private ds: DataService,
+    private commonService: CommonService,
     private apiService: APIService,
     public dialog: MatDialog,
     private _loadingService: LoadingService,
@@ -279,6 +280,62 @@ export class FancyBetFormComponent implements OnInit {
         }
       );
     }
+  }
+
+  showLader(SelectionId) {
+    let param: any = {};
+    param.user_id = this.details.user_id;
+    param.match_id = this.eventDeatils.event.id;
+    param.selection_id = SelectionId;
+    this.commonService.getExposureForFancy(param, (result) => {
+      this.previousBet = result;
+      if (this.previousBet.length > 0) {
+        console.log(this.previousBet)
+        let ladderTable: any = [];
+        for (let i = 0; i < this.previousBet.length; i++) {
+          if (i == 0) {
+            ladderTable.push({ from: 0, to: this.previousBet[i].placed_odd - 1 })
+          } else {
+            ladderTable.push({ from: this.previousBet[i - 1].placed_odd, to: this.previousBet[i].placed_odd - 1 })
+          }
+        }
+        ladderTable.push({ from: this.previousBet[this.previousBet.length - 1].placed_odd, to: this.previousBet[this.previousBet.length - 1].placed_odd });
+        console.log(ladderTable)
+        for (let i = 0; i < this.previousBet.length; i++) {
+          for (let j = 0; j < ladderTable.length; j++) {
+            if (this.previousBet[i].odd == 0) {
+              if(ladderTable[j].to>=this.previousBet[i].placed_odd){
+                ladderTable[j][i] = this.previousBet[i].price/100*this.previousBet[i].stake;
+              }
+              else{
+                ladderTable[j][i] = -Math.abs(this.previousBet[i].stake);
+              }
+            }
+            else {
+              if(ladderTable[j].to<this.previousBet[i].placed_odd){
+                ladderTable[j][i] = this.previousBet[i].price/100*this.previousBet[i].stake;
+              }
+              else{
+                ladderTable[j][i] = -Math.abs(this.previousBet[i].stake);
+              }
+            }
+          }
+        }
+        let all_amount: any = [];
+        for(let i=0;i<ladderTable.length;i++){
+          for(let j=0;j<this.previousBet.length;j++){
+            if(j==0){
+              ladderTable[i]["result"]=ladderTable[i][j];
+            }else{
+              ladderTable[i]["result"]+=ladderTable[i][j];
+              all_amount[i]=ladderTable[i]["result"];
+            }
+          }
+        }
+        console.log(this.min(all_amount))
+        console.log(ladderTable)
+      }
+    });
   }
 
   min(input) {

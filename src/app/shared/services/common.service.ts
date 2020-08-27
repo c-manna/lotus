@@ -8,14 +8,24 @@ import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { LoadingComponent } from "../../shared/components/loading/loading.component";
 import { ComponentPortal } from '@angular/cdk/portal';
 import { HttpClient } from '@angular/common/http';
+import { APIService } from './api.service';
+import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonService {
 
-  constructor() { }
+  constructor(private apiService: APIService) { }
 
+  getExposureForFancy(param, callback: any = null) {
+    this.apiService.ApiCall(param, environment.apiUrl + 'getExposureFancy', 'post').subscribe(
+      result => {
+          if (callback != null) { callback(result.result); }
+      },
+      err => { }
+    );
+  }
 }
 
 
