@@ -24,6 +24,7 @@ export class MarketLiveSectionComponent implements OnInit {
   profile_and_loss: any = [];
   settingData;
   previousBet: any;
+  previousBetFancy: any;
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -89,7 +90,7 @@ export class MarketLiveSectionComponent implements OnInit {
           this.profile_and_loss[i] = data.stake;
       }
     } else {
-      for (let i = 0; i < this.matchesDetails[0].runners.length; i++) {
+      for (let i = 0; i < this.fancyMatch.length; i++) {
         if (data.index == i)
           this.profile_and_loss[i] = data.loss;
         else
@@ -114,12 +115,29 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {
+    this.getExposureForFancy(item.SelectionId);
     this.profile_and_loss = [];
     this.details.marketId = item.SelectionId;
     this.details.market_type = market_type;
     this.details.runnerName = runnerName;
     this.details.index = index;
     this.selectedItem = { type: type, ...item, value: value };
+  }
+
+  getExposureForFancy(SelectionId) {
+    let param: any = {};
+    param.user_id = this.details.user_id;
+    param.match_id = this.eventDeatils.event.id;
+    param.selection_id = SelectionId;
+    this.apiService.ApiCall(param, environment.apiUrl + 'getExposureFancy', 'post').subscribe(
+      result => {
+        if (result.success) {
+          this.previousBetFancy = result.result;
+          console.log(this.previousBetFancy)
+        }
+      },
+      err => { }
+    );
   }
 
 }

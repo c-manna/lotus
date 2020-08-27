@@ -37,7 +37,6 @@ export class FancyBetFormComponent implements OnInit {
     public dialog: MatDialog,
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService) {
-
   }
 
   ngOnInit(): void {
@@ -62,7 +61,7 @@ export class FancyBetFormComponent implements OnInit {
     this.apiService.ApiCall({ market_type: this.details.market_type }, environment.apiUrl + 'getMaxMarketSummation', 'post').subscribe(
       result => {
         if (result.success) {
-          this.sum_of_max_market = result;
+          this.sum_of_max_market = result!=null?result:0;
         }
       },
       err => {
@@ -106,7 +105,6 @@ export class FancyBetFormComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     this.stakeValue = undefined;
     this.calculatedValue = 0;
-    this.selectedItem = changes.selectedItem.currentValue;
     this.inputData = this.selectedItem.value;
   }
 
@@ -135,9 +133,11 @@ export class FancyBetFormComponent implements OnInit {
     if (this.selectedItem.type === 'yes') {
       this.calculatedValue = parseFloat(this.selectedItem.BackPrice1) / 100 * this.stakeValue; //parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
       this.returnExposure.loss = -Math.abs(this.stakeValue);
+      this.returnExposure.profit = this.calculatedValue;
     } else {
       this.calculatedValue = parseFloat(this.selectedItem.BackPrice1) / 100 * this.stakeValue;
       this.returnExposure.loss = -Math.abs(this.calculatedValue);
+      this.returnExposure.profit = this.calculatedValue;
     }
     if (this.stakeValue.toString() == '') {
       this.calculatedValue = 0.00;
@@ -184,7 +184,7 @@ export class FancyBetFormComponent implements OnInit {
     let currentRunnerName = this.details.runnerName;
     let odd = this.selectedItem.type == 'yes' ? 0 : 1;
     let all_amount: any = [];
-    let net_exposure;
+    let net_exposure=0;
     // for (let i = 0; i < this.details.runners.length; i++) {
     //   let team_details: any = {};
     //   if (currentRunnerName == this.details.runners[i].runnerName) {
@@ -260,10 +260,12 @@ export class FancyBetFormComponent implements OnInit {
         master_id: this.details.punter_belongs_to,
         net_exposure: Math.abs(net_exposure),
         amount: 0,
-        liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
+        liability: Math.abs(this.returnExposure.loss),
+        profit: Math.abs(this.returnExposure.profit),
+        price: this.selectedItem.type == 'yes'?this.selectedItem.BackPrice1:this.selectedItem.LayPrice1
       };
       console.log(param);
-      this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
+      this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet-for-fancy', 'post').subscribe(
         result => {
           if (result.success) {
             this._snakebarService.show('success', result.message);

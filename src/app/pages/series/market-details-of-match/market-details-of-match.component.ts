@@ -43,7 +43,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       this.matchId = params["matchId"];
       this.getMatchDetails();
       this.getFancy();
-      this.getFancyFromInterval();
+      //this.getFancyFromInterval();
     });
   }
 
