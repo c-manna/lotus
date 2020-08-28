@@ -233,6 +233,7 @@ export class FancyBetFormComponent implements OnInit {
         for (let j = 0; j < tempPrevioutBet.length; j++) {
           if (j == 0) {
             ladderTable[i]["result"] = ladderTable[i][j];
+            all_amount[i] = ladderTable[i]["result"];
           } else {
             ladderTable[i]["result"] += ladderTable[i][j];
             all_amount[i] = ladderTable[i]["result"];
@@ -240,7 +241,7 @@ export class FancyBetFormComponent implements OnInit {
         }
       }
       this.minValueOfFancy = this.min(all_amount);
-      //console.log(ladderTable,this.minValueOfFancy);
+      //console.log(ladderTable,all_amount,this.minValueOfFancy);
     }
   }
 
@@ -249,8 +250,7 @@ export class FancyBetFormComponent implements OnInit {
     let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
     let tempPrevioutBet2 = [...this.previousBet];
     tempPrevioutBet2.sort(this.GetSortOrder("single_bet_id"));
-    //console.log("previous fancy exposure",tempPrevioutBet2[tempPrevioutBet2.length-1].all_teams_exposure_data);
-    let previous_fancy_exposure = tempPrevioutBet2[tempPrevioutBet2.length - 1].all_teams_exposure_data == undefined ? 0 : tempPrevioutBet2[tempPrevioutBet2.length - 1].all_teams_exposure_data;
+    let previous_fancy_exposure = tempPrevioutBet2.length>0? tempPrevioutBet2[tempPrevioutBet2.length - 1].all_teams_exposure_data : 0;
     let current_exposure = 0;
     current_exposure = Math.abs(this.minValueOfFancy) - Math.abs(previous_fancy_exposure);
     net_exposure = this.balanceInfo.net_exposure + current_exposure;
