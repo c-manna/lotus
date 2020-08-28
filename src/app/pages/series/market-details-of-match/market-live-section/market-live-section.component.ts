@@ -25,7 +25,8 @@ export class MarketLiveSectionComponent implements OnInit {
   settingData;
   previousBet: any;
   previousBetFancy: any;
-  ladderContent:boolean=false;
+  ladderContent: boolean = false;
+  ladderTable:any=[];
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -117,8 +118,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {
-    this.ladderContent=false;
-    this.getExposureForFancy(item.SelectionId);
+    this.ladderContent = false;
     this.profile_and_loss = [];
     this.details.marketId = item.SelectionId;
     this.details.market_type = market_type;
@@ -127,81 +127,64 @@ export class MarketLiveSectionComponent implements OnInit {
     this.selectedItem = { type: type, ...item, value: value };
   }
 
-  getExposureForFancy(param, callback: any = null) {
-    this.apiService.ApiCall(param, environment.apiUrl + 'getExposureFancy', 'post').subscribe(
-      result => {
-        if (result.success) {
-          this.previousBetFancy = result.result;
-          console.log('call back')
-          if (callback != null) { callback(); }
-        }
-      },
-      err => { }
-    );
-  }
-
-  showLader(SelectionId) {
-    this.ladderContent=!this.ladderContent;
-    this.openBetPlaceDialogForFancy=false;
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
-    param.selection_id = SelectionId;
-    this.commonService.getExposureForFancy(param, (result) => {
-      this.previousBetFancy = result;
-      if (this.previousBetFancy.length > 0) {
-        console.log(this.previousBetFancy)
-        let ladderTable: any = [];
-        for (let i = 0; i < this.previousBetFancy.length; i++) {
-          if (i == 0) {
-            ladderTable.push({ from: 0, to: this.previousBetFancy[i].placed_odd - 1 })
-          } else {
-            ladderTable.push({ from: this.previousBetFancy[i - 1].placed_odd, to: this.previousBetFancy[i].placed_odd - 1 })
-          }
-        }
-        ladderTable.push({ from: this.previousBetFancy[this.previousBetFancy.length - 1].placed_odd, to: this.previousBetFancy[this.previousBetFancy.length - 1].placed_odd });
-        console.log(ladderTable)
-        for (let i = 0; i < this.previousBetFancy.length; i++) {
-          for (let j = 0; j < ladderTable.length; j++) {
-            if (this.previousBetFancy[i].odd == 0) {
-              if(ladderTable[j].to>=this.previousBetFancy[i].placed_odd){
-                ladderTable[j][i] = this.previousBetFancy[i].price/100*this.previousBetFancy[i].stake;
-              }
-              else{
-                ladderTable[j][i] = -Math.abs(this.previousBetFancy[i].stake);
-              }
+  showLader(SelectionId, index) {
+    this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index?true:this.ladderContent;
+    this.details.index = index;
+    this.openBetPlaceDialogForFancy = false;
+    if (this.ladderContent) {
+      let param: any = {};
+      param.user_id = this.details.user_id;
+      param.match_id = this.eventDeatils.event.id;
+      param.selection_id = SelectionId;
+      this.commonService.getExposureForFancy(param, (result) => {
+        let previousBetFancy = result;
+        if (previousBetFancy.length > 0) {
+          console.log(previousBetFancy)
+          let ladderTable: any = [];
+          for (let i = 0; i < previousBetFancy.length; i++) {
+            if (i == 0) {
+              ladderTable.push({ from: 0, to: previousBetFancy[i].placed_odd - 1 })
+            } else {
+              ladderTable.push({ from: previousBetFancy[i - 1].placed_odd, to: previousBetFancy[i].placed_odd - 1 })
             }
-            else {
-              if(ladderTable[j].to<this.previousBetFancy[i].placed_odd){
-                ladderTable[j][i] = this.previousBetFancy[i].price/100*this.previousBetFancy[i].stake;
+          }
+          ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 1].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
+          for (let i = 0; i < previousBetFancy.length; i++) {
+            for (let j = 0; j < ladderTable.length; j++) {
+              if (previousBetFancy[i].odd == 0) {
+                if (ladderTable[j].to >= previousBetFancy[i].placed_odd) {
+                  ladderTable[j][i] = previousBetFancy[i].price / 100 * previousBetFancy[i].stake;
+                }
+                else {
+                  ladderTable[j][i] = -Math.abs(previousBetFancy[i].stake);
+                }
               }
-              else{
-                ladderTable[j][i] = -Math.abs(this.previousBetFancy[i].stake);
+              else {
+                if (ladderTable[j].to < previousBetFancy[i].placed_odd) {
+                  ladderTable[j][i] = previousBetFancy[i].price / 100 * previousBetFancy[i].stake;
+                }
+                else {
+                  ladderTable[j][i] = -Math.abs(previousBetFancy[i].stake);
+                }
               }
             }
           }
-        }
-        let all_amount: any = [];
-        for(let i=0;i<ladderTable.length;i++){
-          for(let j=0;j<this.previousBetFancy.length;j++){
-            if(j==0){
-              ladderTable[i]["result"]=ladderTable[i][j];
-            }else{
-              ladderTable[i]["result"]+=ladderTable[i][j];
-              all_amount[i]=ladderTable[i]["result"];
+          let all_amount: any = [];
+          for (let i = 0; i < ladderTable.length; i++) {
+            for (let j = 0; j < previousBetFancy.length; j++) {
+              if (j == 0) {
+                ladderTable[i]["result"] = ladderTable[i][j];
+              } else {
+                ladderTable[i]["result"] += ladderTable[i][j];
+                all_amount[i] = ladderTable[i]["result"];
+              }
             }
           }
+          this.ladderTable=ladderTable;
+          console.log(ladderTable)
         }
-        console.log(this.min(all_amount))
-        console.log(ladderTable)
-      }
-    });
-  }
-
-  min(input) {
-    if (toString.call(input) !== "[object Array]")
-      return false;
-    return Math.min.apply(null, input);
+      });
+    }
   }
 
 }

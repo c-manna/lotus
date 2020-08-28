@@ -103,7 +103,7 @@
             <div class="title bottom-border">Fancy</div>
             <div class="markets__action">
                 <div>No</div>
-                <div>Yes</div> 
+                <div>Yes</div>
             </div>
         </div>
         <ul>
@@ -111,14 +111,12 @@
                 <li>
                     <div class="title_Wrapper">
                         <div class="title">{{item.RunnerName}}</div>
-                    <span
-                        *ngIf="profile_and_loss && openBetPlaceDialogForFancy && settingData.one_click_betting == 0 && this.details.index==i"
-                        [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
-                    <span class="ladderIcon" (click)="showLader(item.SelectionId)"></span>
-
-                  
+                        <span
+                            *ngIf="profile_and_loss && openBetPlaceDialogForFancy && settingData.one_click_betting == 0 && this.details.index==i"
+                            [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
+                        <span class="ladderIcon" (click)="showLader(item.SelectionId,i)"></span>
                     </div>
-                   
+
                     <div class="bet-btn-wrapper">
                         <ng-container *ngIf="item.GameStatus=='';then activeMatch">
                         </ng-container>
@@ -140,22 +138,23 @@
                         </ng-template>
                     </div>
                 </li>
-                <app-fancy-bet-form *ngIf="openBetPlaceDialogForFancy && this.details.index==i"
+                <app-fancy-bet-form *ngIf="openBetPlaceDialogForFancy && this.details.index===i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBetForFancy()"
                     [selectedItem]="selectedItem" [details]="details" [settingData]="settingData"
-                    [maxBetMaxMarket]="maxBetMaxMarket['fancy']" [previousBet]="previousBetFancy">
+                    [maxBetMaxMarket]="maxBetMaxMarket['fancy']" [eventDeatils]="eventDeatils">
                 </app-fancy-bet-form>
-               <div class="ladderContentWrapper">
-                <div class="ladderContent" *ngIf="ladderContent">
-                    <ul>
-                        <li class="ladder-heading">
-                            <span>Runs</span><span>P&L</span>
-                        </li>
-                        <li><span>0-160</span><span class="red-Color">-100</span></li>
-                        <li><span>161+</span><span class="green-Color">100</span></li>
-                    </ul>
+                <div class="ladderContentWrapper" *ngIf="ladderContent && this.details.index==i">
+                    <div class="ladderContent">
+                        <ul>
+                            <li class="ladder-heading">
+                                <span>Runs</span><span>P&L</span>
+                            </li>
+                            <ng-container *ngFor="let item of ladderTable">
+                                <li><span>{{item.from}}-{{item.to}}</span><span [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}" class="green-Color">{{item.result}}</span></li>
+                            </ng-container>
+                        </ul>
+                    </div>
                 </div>
-               </div>
             </ng-template>
         </ul>
     </div>

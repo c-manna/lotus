@@ -14,8 +14,9 @@ export class FancyBetFormComponent implements OnInit {
   @Input('selectedItem') selectedItem: any;
   @Input('details') details: any;
   @Input('settingData') settingData: any;
-  @Input() maxBetMaxMarket: any=[];
-  @Input() previousBet: any;
+  @Input() maxBetMaxMarket: any = [];
+  @Input() eventDeatils: any;
+  previousBet: any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
@@ -23,7 +24,7 @@ export class FancyBetFormComponent implements OnInit {
   calculatedValue: any = 0;
   checkBoxConfirmation: boolean = true;
   eventData: any;
-  eventDeatils: any;
+
   fancy: any = [];
   ipAddress;
   returnExposure: any = {};
@@ -41,9 +42,13 @@ export class FancyBetFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ds.eventDeatils$.subscribe(event => {
-      this.eventDeatils = event;
-      if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
+    if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
+    let param: any = {};
+    param.user_id = this.details.user_id;
+    param.match_id = this.eventDeatils.event.id;
+    param.selection_id = this.selectedItem.SelectionId;
+    this.commonService.getExposureForFancy(param, (result) => {
+      this.previousBet = result;
     });
     this.getMaxMarketSummation();
     this.ds.balanceInfo$.subscribe(data => {
@@ -62,7 +67,7 @@ export class FancyBetFormComponent implements OnInit {
     this.apiService.ApiCall({ market_type: this.details.market_type }, environment.apiUrl + 'getMaxMarketSummation', 'post').subscribe(
       result => {
         if (result.success) {
-          this.sum_of_max_market = result!=null?result:0;
+          this.sum_of_max_market = result != null ? result : 0;
         }
       },
       err => {
@@ -146,8 +151,23 @@ export class FancyBetFormComponent implements OnInit {
       this.returnExposure.index = this.details.index;
       this.profit_and_liability.emit(this.returnExposure);
     }
-    this.calculateLader(this.selectedItem.SelectionId);
+    let price = this.selectedItem.type == 'yes' ? this.selectedItem.BackPrice1 : this.selectedItem.LayPrice1;
+    this.previousBet.push({placed_odd:parseInt(this.selectedItem.value),price:parseInt(price),skake:this.stakeValue,odd:this.selectedItem.type == 'yes' ? 0 : 1})
+    this.previousBet.sort(this.GetSortOrder("placed_odd"));
+    console.log(this.previousBet)
+    //this.calculateLader();
   }
+
+  GetSortOrder(prop) {    
+    return function(a, b) {    
+        if (a[prop] > b[prop]) {    
+            return 1;    
+        } else if (a[prop] < b[prop]) {    
+            return -1;    
+        }    
+        return 0;    
+    }    
+}    
 
   betPlace() {
     if (this.checkBoxConfirmation) {
@@ -181,65 +201,57 @@ export class FancyBetFormComponent implements OnInit {
     }, loaderTime);
   }
 
-  calculateLader(SelectionId) {
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
-    param.selection_id = SelectionId;
-    this.commonService.getExposureForFancy(param, (result) => {
-      this.previousBet = result;
-      if (this.previousBet.length > 0) {
-        console.log(this.previousBet)
-        let ladderTable: any = [];
-        for (let i = 0; i < this.previousBet.length; i++) {
-          if (i == 0) {
-            ladderTable.push({ from: 0, to: this.previousBet[i].placed_odd - 1 })
-          } else {
-            ladderTable.push({ from: this.previousBet[i - 1].placed_odd, to: this.previousBet[i].placed_odd - 1 })
-          }
+  calculateLader() {
+    if (this.previousBet.length > 0) {
+      console.log(this.previousBet)
+      let ladderTable: any = [];
+      for (let i = 0; i < this.previousBet.length; i++) {
+        if (i == 0) {
+          ladderTable.push({ from: 0, to: this.previousBet[i].placed_odd - 1 })
+        } else {
+          ladderTable.push({ from: this.previousBet[i - 1].placed_odd, to: this.previousBet[i].placed_odd - 1 })
         }
-        ladderTable.push({ from: this.previousBet[this.previousBet.length - 1].placed_odd, to: this.previousBet[this.previousBet.length - 1].placed_odd });
-        console.log(ladderTable)
-        for (let i = 0; i < this.previousBet.length; i++) {
-          for (let j = 0; j < ladderTable.length; j++) {
-            if (this.previousBet[i].odd == 0) {
-              if(ladderTable[j].to>=this.previousBet[i].placed_odd){
-                ladderTable[j][i] = this.previousBet[i].price/100*this.previousBet[i].stake;
-              }
-              else{
-                ladderTable[j][i] = -Math.abs(this.previousBet[i].stake);
-              }
+      }
+      ladderTable.push({ from: this.previousBet[this.previousBet.length - 1].placed_odd, to: this.previousBet[this.previousBet.length - 1].placed_odd });
+      console.log(ladderTable)
+      for (let i = 0; i < this.previousBet.length; i++) {
+        for (let j = 0; j < ladderTable.length; j++) {
+          if (this.previousBet[i].odd == 0) {
+            if (ladderTable[j].to >= this.previousBet[i].placed_odd) {
+              ladderTable[j][i] = this.previousBet[i].price / 100 * this.previousBet[i].stake;
             }
             else {
-              if(ladderTable[j].to<this.previousBet[i].placed_odd){
-                ladderTable[j][i] = this.previousBet[i].price/100*this.previousBet[i].stake;
-              }
-              else{
-                ladderTable[j][i] = -Math.abs(this.previousBet[i].stake);
-              }
+              ladderTable[j][i] = -Math.abs(this.previousBet[i].stake);
+            }
+          }
+          else {
+            if (ladderTable[j].to < this.previousBet[i].placed_odd) {
+              ladderTable[j][i] = this.previousBet[i].price / 100 * this.previousBet[i].stake;
+            }
+            else {
+              ladderTable[j][i] = -Math.abs(this.previousBet[i].stake);
             }
           }
         }
-        let all_amount: any = [];
-        for(let i=0;i<ladderTable.length;i++){
-          for(let j=0;j<this.previousBet.length;j++){
-            if(j==0){
-              ladderTable[i]["result"]=ladderTable[i][j];
-            }else{
-              ladderTable[i]["result"]+=ladderTable[i][j];
-              all_amount[i]=ladderTable[i]["result"];
-            }
-          }
-        }
-        console.log(this.min(all_amount))
-        console.log(ladderTable)
       }
-    });
+      let all_amount: any = [];
+      for (let i = 0; i < ladderTable.length; i++) {
+        for (let j = 0; j < this.previousBet.length; j++) {
+          if (j == 0) {
+            ladderTable[i]["result"] = ladderTable[i][j];
+          } else {
+            ladderTable[i]["result"] += ladderTable[i][j];
+            all_amount[i] = ladderTable[i]["result"];
+          }
+        }
+      }
+      console.log(ladderTable)
+    }
   }
 
   insertBet() {
-    let net_exposure=0;
-    
+    let net_exposure = 0;
+
     let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
     //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
     if (this.stakeValue < 1000) {
@@ -286,7 +298,7 @@ export class FancyBetFormComponent implements OnInit {
         amount: 0,
         liability: Math.abs(this.returnExposure.loss),
         profit: Math.abs(this.returnExposure.profit),
-        price: this.selectedItem.type == 'yes'?this.selectedItem.BackPrice1:this.selectedItem.LayPrice1
+        price: this.selectedItem.type == 'yes' ? this.selectedItem.BackPrice1 : this.selectedItem.LayPrice1
       };
       console.log(param);
       this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet-for-fancy', 'post').subscribe(
@@ -303,12 +315,6 @@ export class FancyBetFormComponent implements OnInit {
         }
       );
     }
-  }
-
-  min(input) {
-    if (toString.call(input) !== "[object Array]")
-      return false;
-    return Math.min.apply(null, input);
   }
 
 }
