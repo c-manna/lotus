@@ -135,7 +135,7 @@ export class FancyBetFormComponent implements OnInit {
       this.returnExposure.loss = -Math.abs(this.stakeValue);
       this.returnExposure.profit = this.calculatedValue;
     } else {
-      this.calculatedValue = parseFloat(this.selectedItem.BackPrice1) / 100 * this.stakeValue;
+      this.calculatedValue = parseFloat(this.selectedItem.LayPrice1) / 100 * this.stakeValue;
       this.returnExposure.loss = -Math.abs(this.calculatedValue);
       this.returnExposure.profit = this.stakeValue;
     }
