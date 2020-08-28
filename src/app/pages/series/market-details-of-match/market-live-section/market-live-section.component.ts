@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { DataService, APIService, CommonService } from '@shared/services';
+import { DataService, APIService, CommonService, LoadingService } from '@shared/services';
 import { environment } from '@env/environment';
 import { CookieService } from 'ngx-cookie-service';
 
@@ -30,6 +30,7 @@ export class MarketLiveSectionComponent implements OnInit {
   constructor(private ds: DataService,
     private apiService: APIService,
     private commonService: CommonService,
+    private _loadingService: LoadingService,
     private _cookieService: CookieService
   ) {
     this.getSettingData();
@@ -121,8 +122,10 @@ export class MarketLiveSectionComponent implements OnInit {
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
     param.selection_id = item.SelectionId;
+    this._loadingService.show();
     this.commonService.getExposureForFancy(param, (result) => {
       this.previousBet = result;
+      this._loadingService.hide();
     });
     this.ladderContent = false;
     this.profile_and_loss = [];
@@ -142,6 +145,7 @@ export class MarketLiveSectionComponent implements OnInit {
       param.user_id = this.details.user_id;
       param.match_id = this.eventDeatils.event.id;
       param.selection_id = SelectionId;
+      this.ladderTable = [];
       this.commonService.getExposureForFancy(param, (result) => {
         let previousBetFancy = result;
         if (previousBetFancy.length > 0) {

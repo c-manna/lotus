@@ -139,13 +139,13 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getOddsFromInterval(marketID) {
     this.getOddsInterval = setInterval(() => {
       this.getMatchOdds(marketID)
-    }, 500);
+    }, 1000);
   }
 
   getBooMakerFromInterval(marketID) {
     this.getBookMakerInterval = setInterval(() => {
       this.getBookMaker(marketID);
-    }, 500);
+    }, 1000);
   }
 
   getFancyFromInterval() {

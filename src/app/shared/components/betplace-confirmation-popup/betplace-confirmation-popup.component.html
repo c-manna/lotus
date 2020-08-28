@@ -21,7 +21,7 @@
                 <p><em>{{data.stake}}</em></p>
             </li>
             <li>
-                <p>{{data.selectionType=='back'?'Profit:' : 'Liability:'}}</p>
+                <p>{{data.selectionType=='back'||data.selectionType=='yes'?'Profit:' : 'Liability:'}}</p>
                 <p><em>{{data.p_and_l}}</em></p>
             </li>
         </ul>
@@ -37,7 +37,7 @@
                 ion-button="" type="button">
                 <span class="button-inner">
                     <span class="content action">Place Bet</span>
-                    <span class="content info">{{data.selectionType=='back'?'Profit:' : 'Liability:'}}: {{data.p_and_l}}</span>
+                    <span class="content info">{{data.selectionType=='back'||data.selectionType=='yes'?'Profit:' : 'Liability:'}}: {{data.p_and_l}}</span>
                 </span>
                 
             </button>
