@@ -8,7 +8,7 @@
                       <!-- <button (click)="subValue();">-</button> -->
                       <!-- <input type="number" [(ngModel)]="inputData" (ngModelChange)="calculateValue()"
                           (keyup)="calculateValue()"> -->
-                        <span>{{selectedItem.BackPrice1}}</span>
+                        <span>{{selectedItem.type === 'yes'?selectedItem.BackPrice1:selectedItem.LayPrice1}}</span>
                         <span style="padding-left:10px">{{inputData}}</span>
                       <!-- <button (click)="addValue();">+</button> -->
                   </div>
