@@ -24,7 +24,6 @@ export class MarketLiveSectionComponent implements OnInit {
   profile_and_loss: any = [];
   settingData;
   previousBet: any;
-  previousBetFancy: any;
   ladderContent: boolean = false;
   ladderTable:any=[];
 
@@ -118,6 +117,13 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {
+    let param: any = {};
+    param.user_id = this.details.user_id;
+    param.match_id = this.eventDeatils.event.id;
+    param.selection_id = item.SelectionId;
+    this.commonService.getExposureForFancy(param, (result) => {
+      this.previousBet = result;
+    });
     this.ladderContent = false;
     this.profile_and_loss = [];
     this.details.marketId = item.SelectionId;

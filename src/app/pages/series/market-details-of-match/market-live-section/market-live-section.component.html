@@ -141,7 +141,7 @@
                 <app-fancy-bet-form *ngIf="openBetPlaceDialogForFancy && this.details.index===i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBetForFancy()"
                     [selectedItem]="selectedItem" [details]="details" [settingData]="settingData"
-                    [maxBetMaxMarket]="maxBetMaxMarket['fancy']" [eventDeatils]="eventDeatils">
+                    [maxBetMaxMarket]="maxBetMaxMarket['fancy']" [eventDeatils]="eventDeatils" [previousBet]="previousBet">
                 </app-fancy-bet-form>
                 <div class="ladderContentWrapper" *ngIf="ladderContent && this.details.index==i">
                     <div class="ladderContent">

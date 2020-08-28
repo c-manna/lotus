@@ -16,7 +16,7 @@ export class FancyBetFormComponent implements OnInit {
   @Input('settingData') settingData: any;
   @Input() maxBetMaxMarket: any = [];
   @Input() eventDeatils: any;
-  previousBet: any;
+  @Input() previousBet: any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
@@ -30,6 +30,7 @@ export class FancyBetFormComponent implements OnInit {
   returnExposure: any = {};
   balanceInfo: any = {};
   sum_of_max_market;
+  minValueOfFancy;
 
   constructor(
     private ipService: IpService,
@@ -43,13 +44,6 @@ export class FancyBetFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
-    param.selection_id = this.selectedItem.SelectionId;
-    this.commonService.getExposureForFancy(param, (result) => {
-      this.previousBet = result;
-    });
     this.getMaxMarketSummation();
     this.ds.balanceInfo$.subscribe(data => {
       this.balanceInfo = data;
@@ -151,23 +145,24 @@ export class FancyBetFormComponent implements OnInit {
       this.returnExposure.index = this.details.index;
       this.profit_and_liability.emit(this.returnExposure);
     }
+    let tempPrevioutBet = [];
+    tempPrevioutBet = [...this.previousBet];
     let price = this.selectedItem.type == 'yes' ? this.selectedItem.BackPrice1 : this.selectedItem.LayPrice1;
-    this.previousBet.push({placed_odd:parseInt(this.selectedItem.value),price:parseInt(price),skake:this.stakeValue,odd:this.selectedItem.type == 'yes' ? 0 : 1})
-    this.previousBet.sort(this.GetSortOrder("placed_odd"));
-    console.log(this.previousBet)
-    //this.calculateLader();
+    tempPrevioutBet.push({ placed_odd: parseInt(this.selectedItem.value), price: parseInt(price), stake: this.stakeValue, odd: this.selectedItem.type == 'yes' ? 0 : 1 })
+    tempPrevioutBet.sort(this.GetSortOrder("placed_odd"));
+    this.calculateLader(tempPrevioutBet);
   }
 
-  GetSortOrder(prop) {    
-    return function(a, b) {    
-        if (a[prop] > b[prop]) {    
-            return 1;    
-        } else if (a[prop] < b[prop]) {    
-            return -1;    
-        }    
-        return 0;    
-    }    
-}    
+  GetSortOrder(prop) {
+    return function (a, b) {
+      if (a[prop] > b[prop]) {
+        return 1;
+      } else if (a[prop] < b[prop]) {
+        return -1;
+      }
+      return 0;
+    }
+  }
 
   betPlace() {
     if (this.checkBoxConfirmation) {
@@ -201,42 +196,41 @@ export class FancyBetFormComponent implements OnInit {
     }, loaderTime);
   }
 
-  calculateLader() {
-    if (this.previousBet.length > 0) {
-      console.log(this.previousBet)
+  calculateLader(tempPrevioutBet) {
+    if (tempPrevioutBet.length > 0) {
+      console.log(tempPrevioutBet)
       let ladderTable: any = [];
-      for (let i = 0; i < this.previousBet.length; i++) {
+      for (let i = 0; i < tempPrevioutBet.length; i++) {
         if (i == 0) {
-          ladderTable.push({ from: 0, to: this.previousBet[i].placed_odd - 1 })
+          ladderTable.push({ from: 0, to: tempPrevioutBet[i].placed_odd - 1 })
         } else {
-          ladderTable.push({ from: this.previousBet[i - 1].placed_odd, to: this.previousBet[i].placed_odd - 1 })
+          ladderTable.push({ from: tempPrevioutBet[i - 1].placed_odd, to: tempPrevioutBet[i].placed_odd - 1 })
         }
       }
-      ladderTable.push({ from: this.previousBet[this.previousBet.length - 1].placed_odd, to: this.previousBet[this.previousBet.length - 1].placed_odd });
-      console.log(ladderTable)
-      for (let i = 0; i < this.previousBet.length; i++) {
+      ladderTable.push({ from: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd, to: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd });
+      for (let i = 0; i < tempPrevioutBet.length; i++) {
         for (let j = 0; j < ladderTable.length; j++) {
-          if (this.previousBet[i].odd == 0) {
-            if (ladderTable[j].to >= this.previousBet[i].placed_odd) {
-              ladderTable[j][i] = this.previousBet[i].price / 100 * this.previousBet[i].stake;
+          if (tempPrevioutBet[i].odd == 0) {
+            if (ladderTable[j].to >= tempPrevioutBet[i].placed_odd) {
+              ladderTable[j][i] = tempPrevioutBet[i].price / 100 * tempPrevioutBet[i].stake;
             }
             else {
-              ladderTable[j][i] = -Math.abs(this.previousBet[i].stake);
+              ladderTable[j][i] = -Math.abs(tempPrevioutBet[i].stake);
             }
           }
           else {
-            if (ladderTable[j].to < this.previousBet[i].placed_odd) {
-              ladderTable[j][i] = this.previousBet[i].price / 100 * this.previousBet[i].stake;
+            if (ladderTable[j].to < tempPrevioutBet[i].placed_odd) {
+              ladderTable[j][i] = tempPrevioutBet[i].price / 100 * tempPrevioutBet[i].stake;
             }
             else {
-              ladderTable[j][i] = -Math.abs(this.previousBet[i].stake);
+              ladderTable[j][i] = -Math.abs(tempPrevioutBet[i].stake);
             }
           }
         }
       }
       let all_amount: any = [];
       for (let i = 0; i < ladderTable.length; i++) {
-        for (let j = 0; j < this.previousBet.length; j++) {
+        for (let j = 0; j < tempPrevioutBet.length; j++) {
           if (j == 0) {
             ladderTable[i]["result"] = ladderTable[i][j];
           } else {
@@ -245,15 +239,22 @@ export class FancyBetFormComponent implements OnInit {
           }
         }
       }
-      console.log(ladderTable)
+      this.minValueOfFancy = this.min(all_amount);
+      //console.log(ladderTable,this.minValueOfFancy);
     }
   }
 
   insertBet() {
     let net_exposure = 0;
-
     let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
-    //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
+    let tempPrevioutBet2 = [...this.previousBet];
+    tempPrevioutBet2.sort(this.GetSortOrder("single_bet_id"));
+    //console.log("previous fancy exposure",tempPrevioutBet2[tempPrevioutBet2.length-1].all_teams_exposure_data);
+    let previous_fancy_exposure = tempPrevioutBet2[tempPrevioutBet2.length - 1].all_teams_exposure_data == undefined ? 0 : tempPrevioutBet2[tempPrevioutBet2.length - 1].all_teams_exposure_data;
+    let current_exposure = 0;
+    current_exposure = Math.abs(this.minValueOfFancy) - Math.abs(previous_fancy_exposure);
+    net_exposure = this.balanceInfo.net_exposure + current_exposure;
+    //console.log('net exposure', fancy_exposure, total_balance, this.balanceInfo.balance_limit);
     if (this.stakeValue < 1000) {
       this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
     }
@@ -294,7 +295,8 @@ export class FancyBetFormComponent implements OnInit {
         bet_id: "111",
         settled_time: 0,
         master_id: this.details.punter_belongs_to,
-        fancy_net_exposure: Math.abs(net_exposure),
+        current_exposure: current_exposure,
+        minValueOfFancy: this.minValueOfFancy,
         amount: 0,
         liability: Math.abs(this.returnExposure.loss),
         profit: Math.abs(this.returnExposure.profit),
@@ -315,6 +317,12 @@ export class FancyBetFormComponent implements OnInit {
         }
       );
     }
+  }
+
+  min(input) {
+    if (toString.call(input) !== "[object Array]")
+      return false;
+    return Math.min.apply(null, input);
   }
 
 }
