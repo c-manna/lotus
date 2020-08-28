@@ -146,6 +146,7 @@ export class FancyBetFormComponent implements OnInit {
       this.returnExposure.index = this.details.index;
       this.profit_and_liability.emit(this.returnExposure);
     }
+    this.calculateLader(this.selectedItem.SelectionId);
   }
 
   betPlace() {
@@ -180,109 +181,7 @@ export class FancyBetFormComponent implements OnInit {
     }, loaderTime);
   }
 
-  insertBet() {
-    let currentBet: any = [];
-    let currentRunnerName = this.details.runnerName;
-    let odd = this.selectedItem.type == 'yes' ? 0 : 1;
-    let all_amount: any = [];
-    let net_exposure=0;
-    // for (let i = 0; i < this.details.runners.length; i++) {
-    //   let team_details: any = {};
-    //   if (currentRunnerName == this.details.runners[i].runnerName) {
-    //     team_details = {
-    //       odd_type: odd,
-    //       team_name: currentRunnerName,
-    //       amount: this.returnExposure.value
-    //     }
-    //   } else {
-    //     team_details = {
-    //       odd_type: odd == 0 ? 1 : 0,
-    //       team_name: this.details.runners[i].runnerName,
-    //       amount: this.returnExposure.stake
-    //     }
-    //   }
-    //   all_amount.push(team_details.amount)
-    //   currentBet.push(team_details)
-    // }
-    // if (this.previousBet && this.previousBet[0].all_teams_exposure_data) {
-    //   for (let i = 0; i < this.previousBet.length; i++) {
-    //     for (let j = 0; j < this.previousBet[i].all_teams_exposure_data.length; j++) {
-    //       all_amount[j] = all_amount[j] + this.previousBet[i].all_teams_exposure_data[j].amount;
-    //     }
-    //   }
-    //   net_exposure = this.min(all_amount);
-    // } else {
-    //   net_exposure = this.min(all_amount);
-    // }
-    // if (net_exposure >= 0) {
-    //   net_exposure = 0;
-    // }
-    let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
-    //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
-    if (this.stakeValue < 1000) {
-      this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
-    }
-    else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_bet)) {
-      this._snakebarService.show('error', 'Max bet amount exceed');
-    }
-    else if ((this.stakeValue + this.sum_of_max_market) > parseInt(this.maxBetMaxMarket.max_market)) {
-      this._snakebarService.show('error', 'Max market amount exceed');
-    }
-    else if (Math.abs(net_exposure) > total_balance) {
-      this._snakebarService.show('error', 'Insufficient funds');
-    }
-    else if (Math.abs(net_exposure) > this.balanceInfo.balance_limit) {
-      this._snakebarService.show('error', 'Exposure limit exceed');
-    }
-    else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
-      let param = {
-        market_id: this.details.marketId,
-        match_id: this.eventDeatils.event.id,
-        market_type: this.details.market_type,
-        description: this.eventDeatils.event.name,
-        event_name: this.eventData.name,
-        event_id: this.eventData.eventType,
-        odd: this.selectedItem.type == 'yes' ? 0 : 1,
-        place_odd: this.inputData,
-        last_odd: this.inputData,
-        stake: this.stakeValue,
-        runner_name: this.details.runnerName,
-        runners: 0,
-        market_start_time: 0,
-        market_end_time: 0,
-        user_ip: this.ipAddress,
-        selection_id: this.selectedItem.SelectionId,
-        user_id: this.details.user_id,
-        p_and_l: 0,
-        bet_status: 0,
-        market_status: 0,
-        bet_id: "111",
-        settled_time: 0,
-        master_id: this.details.punter_belongs_to,
-        net_exposure: Math.abs(net_exposure),
-        amount: 0,
-        liability: Math.abs(this.returnExposure.loss),
-        profit: Math.abs(this.returnExposure.profit),
-        price: this.selectedItem.type == 'yes'?this.selectedItem.BackPrice1:this.selectedItem.LayPrice1
-      };
-      console.log(param);
-      this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet-for-fancy', 'post').subscribe(
-        result => {
-          if (result.success) {
-            this._snakebarService.show('success', result.message);
-          }
-          else {
-            this._snakebarService.show('error', result.message);
-          }
-        },
-        err => {
-          this._snakebarService.show('error', err);
-        }
-      );
-    }
-  }
-
-  showLader(SelectionId) {
+  calculateLader(SelectionId) {
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
@@ -336,6 +235,74 @@ export class FancyBetFormComponent implements OnInit {
         console.log(ladderTable)
       }
     });
+  }
+
+  insertBet() {
+    let net_exposure=0;
+    
+    let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
+    //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
+    if (this.stakeValue < 1000) {
+      this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
+    }
+    else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_bet)) {
+      this._snakebarService.show('error', 'Max bet amount exceed');
+    }
+    else if ((this.stakeValue + this.sum_of_max_market) > parseInt(this.maxBetMaxMarket.max_market)) {
+      this._snakebarService.show('error', 'Max market amount exceed');
+    }
+    else if (Math.abs(net_exposure) > total_balance) {
+      this._snakebarService.show('error', 'Insufficient funds');
+    }
+    else if (Math.abs(net_exposure) > this.balanceInfo.balance_limit) {
+      this._snakebarService.show('error', 'Exposure limit exceed');
+    }
+    else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
+      let param = {
+        market_id: this.details.marketId,
+        match_id: this.eventDeatils.event.id,
+        market_type: this.details.market_type,
+        description: this.eventDeatils.event.name,
+        event_name: this.eventData.name,
+        event_id: this.eventData.eventType,
+        odd: this.selectedItem.type == 'yes' ? 0 : 1,
+        place_odd: this.inputData,
+        last_odd: this.inputData,
+        stake: this.stakeValue,
+        runner_name: this.details.runnerName,
+        runners: 0,
+        market_start_time: 0,
+        market_end_time: 0,
+        user_ip: this.ipAddress,
+        selection_id: this.selectedItem.SelectionId,
+        user_id: this.details.user_id,
+        p_and_l: 0,
+        bet_status: 0,
+        market_status: 0,
+        bet_id: "111",
+        settled_time: 0,
+        master_id: this.details.punter_belongs_to,
+        fancy_net_exposure: Math.abs(net_exposure),
+        amount: 0,
+        liability: Math.abs(this.returnExposure.loss),
+        profit: Math.abs(this.returnExposure.profit),
+        price: this.selectedItem.type == 'yes'?this.selectedItem.BackPrice1:this.selectedItem.LayPrice1
+      };
+      console.log(param);
+      this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet-for-fancy', 'post').subscribe(
+        result => {
+          if (result.success) {
+            this._snakebarService.show('success', result.message);
+          }
+          else {
+            this._snakebarService.show('error', result.message);
+          }
+        },
+        err => {
+          this._snakebarService.show('error', err);
+        }
+      );
+    }
   }
 
   min(input) {
