@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit {
         });
         this.dataList = resData;
         this.refreshData();
-        // console.log("this.dataList==", this.dataList)
+        console.log("this.dataList==", this.dataList)
       } else {
         this._snakebarService.show("error", res.message);
       }

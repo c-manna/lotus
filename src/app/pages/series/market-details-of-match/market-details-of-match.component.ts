@@ -82,8 +82,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.marketId = result.data[0].marketId;
           this.getMatchOdds(result.data[0].marketId);
           this.getOddsFromInterval(result.data[0].marketId);
-          this.getBookMaker('29932183');
-          this.getBooMakerFromInterval('29932183');
+          this.getBookMaker(result.data[0].marketId);
+          this.getBooMakerFromInterval(result.data[0].marketId);
           this.getOpenBets(result.data[0].marketId);
         }
       }, err => {}

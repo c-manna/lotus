@@ -43,7 +43,7 @@
                 <app-bet-place-from *ngIf="openBetPlaceDialog && this.details.index==i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()"
                     [selectedItem]="selectedItem" [details]="details" [settingData]="settingData"
-                    [maxBetMaxMarket]="maxBetMaxMarket['Match Odds']" [previousBet]="previousBet">
+                    [maxBetMaxMarket]="maxBetMaxMarket['Match Odds']">
                 </app-bet-place-from>
             </ng-template>
         </ul>
@@ -91,7 +91,7 @@
                 <app-bet-place-from *ngIf="openBetPlaceDialogForBookMaker && this.details.index==i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBetForBookMaker()"
                     [selectedItem]="selectedItem" [details]="details" [settingData]="settingData"
-                    [maxBetMaxMarket]="maxBetMaxMarket['bookmaker']" [previousBet]="previousBet">
+                    [maxBetMaxMarket]="maxBetMaxMarket['bookmaker']">
                 </app-bet-place-from>
             </ng-template>
         </ul>
@@ -126,14 +126,14 @@
                         </ng-container>
                         <ng-template #activeMatch>
                             <div *ngIf="item.LaySize1!='-'; else blankLay" class="bet-button lay"
-                                (click)="openCreateBetFormFancy(item.LaySize1, 'no', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
-                                <div class="price">{{item.LaySize1}}</div>
-                                <div class="market-volume">{{item.LayPrice1}}</div>
+                                (click)="openCreateBetFormFancy(item.LayPrice1, 'no', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
+                                <div class="price">{{item.LayPrice1}}</div>
+                                <div class="market-volume">{{item.LaySize1}}</div>
                             </div>
                             <div *ngIf="item.BackSize1!='-'; else blankBack" class="bet-button back"
-                                (click)="openCreateBetFormFancy(item.BackSize1, 'yes', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
-                                <div class="price">{{item.BackSize1}}</div>
-                                <div class="market-volume">{{item.BackPrice1}}</div>
+                                (click)="openCreateBetFormFancy(item.BackPrice1, 'yes', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
+                                <div class="price">{{item.BackPrice1}}</div>
+                                <div class="market-volume">{{item.BackSize1}}</div>
                             </div>
                         </ng-template>
                     </div>
@@ -141,7 +141,7 @@
                 <app-fancy-bet-form *ngIf="openBetPlaceDialogForFancy && this.details.index===i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBetForFancy()"
                     [selectedItem]="selectedItem" [details]="details" [settingData]="settingData"
-                    [maxBetMaxMarket]="maxBetMaxMarket['fancy']" [eventDeatils]="eventDeatils" [previousBet]="previousBet">
+                    [maxBetMaxMarket]="maxBetMaxMarket['fancy']" [eventDeatils]="eventDeatils">
                 </app-fancy-bet-form>
                 <div class="ladderContentWrapper" *ngIf="ladderContent && this.details.index==i">
                     <div class="ladderContent">
@@ -149,8 +149,9 @@
                             <li class="ladder-heading">
                                 <span>Runs</span><span>P&L</span>
                             </li>
-                            <ng-container *ngFor="let item of ladderTable">
-                                <li><span>{{item.from}}-{{item.to}}</span><span [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}" class="green-Color">{{item.result}}</span></li>
+                            <ng-container *ngFor="let item of ladderTable;trackBy: trackByFn;let i=index">
+                                <li *ngIf="i!=ladderTable.length-1"><span>{{item.from}}-{{item.to}}</span><span [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}" class="green-Color">{{item.result}}</span></li>
+                                <li *ngIf="i==ladderTable.length-1"><span>{{item.from}}{{item.from!=''?'-':''}}{{item.to}}+</span><span [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}" class="green-Color">{{item.result}}</span></li>
                             </ng-container>
                         </ul>
                     </div>

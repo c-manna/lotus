@@ -25,7 +25,7 @@ export class MarketLiveSectionComponent implements OnInit {
   settingData;
   previousBet: any;
   ladderContent: boolean = false;
-  ladderTable:any=[];
+  ladderTable: any = [];
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -42,27 +42,11 @@ export class MarketLiveSectionComponent implements OnInit {
   ngOnInit(): void {
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
-      this.getExposure();
     });
     //console.log(this.matchesDetails)
   }
 
   ngOnChanges() { }
-
-  getExposure() {
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
-
-    this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
-      result => {
-        if (result.success) {
-          this.previousBet = result.result;
-        }
-      },
-      err => { }
-    );
-  }
 
   getSettingData() {
     this.apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
@@ -118,15 +102,6 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
-    param.selection_id = item.SelectionId;
-    this._loadingService.show();
-    this.commonService.getExposureForFancy(param, (result) => {
-      this.previousBet = result;
-      this._loadingService.hide();
-    });
     this.ladderContent = false;
     this.profile_and_loss = [];
     this.details.marketId = item.SelectionId;
@@ -137,7 +112,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   showLader(SelectionId, index) {
-    this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index?true:this.ladderContent;
+    this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index ? true : this.ladderContent;
     this.details.index = index;
     this.openBetPlaceDialogForFancy = false;
     if (this.ladderContent) {
@@ -149,16 +124,25 @@ export class MarketLiveSectionComponent implements OnInit {
       this.commonService.getExposureForFancy(param, (result) => {
         let previousBetFancy = result;
         if (previousBetFancy.length > 0) {
-          console.log(previousBetFancy)
+          //console.log(previousBetFancy)
           let ladderTable: any = [];
           for (let i = 0; i < previousBetFancy.length; i++) {
             if (i == 0) {
               ladderTable.push({ from: 0, to: previousBetFancy[i].placed_odd - 1 })
             } else {
-              ladderTable.push({ from: previousBetFancy[i - 1].placed_odd, to: previousBetFancy[i].placed_odd - 1 })
+              if (i + 1 <= previousBetFancy.length - 1) {
+                if (previousBetFancy[i - 1].placed_odd != previousBetFancy[i].placed_odd) {
+                  ladderTable.push({ from: previousBetFancy[i - 1].placed_odd, to: previousBetFancy[i].placed_odd - 1 })
+                }
+              }
             }
           }
-          ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 1].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
+          if (previousBetFancy[previousBetFancy.length - 2].placed_odd == previousBetFancy[previousBetFancy.length - 1].placed_odd) {
+            ladderTable.push({ from: '', to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
+          } else {
+            ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 2].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
+          }
+
           for (let i = 0; i < previousBetFancy.length; i++) {
             for (let j = 0; j < ladderTable.length; j++) {
               if (previousBetFancy[i].odd == 0) {
@@ -190,7 +174,7 @@ export class MarketLiveSectionComponent implements OnInit {
               }
             }
           }
-          this.ladderTable=ladderTable;
+          this.ladderTable = ladderTable;
           console.log(ladderTable)
         }
       });

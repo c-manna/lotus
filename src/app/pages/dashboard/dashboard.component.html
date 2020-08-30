@@ -14,7 +14,7 @@
             <div class="consolidated-events" *ngFor="let eachMatch of item.inplay_data; let j=index">
                 <ul class="main-ul">
                     <li>
-                        <div class="competitors" routerLink="/match-detail">
+                        <div class="competitors" [routerLink]="['/series/'+eachMatch.event_id+'/matches/'+eachMatch.competetion_id+'/match-details/'+eachMatch.match_id]">
                             <div class="name">{{showMatchName(eachMatch.match_name, 1)}}</div>
                             <div class="name">{{showMatchName(eachMatch.match_name, 2)}}</div>
                         </div>

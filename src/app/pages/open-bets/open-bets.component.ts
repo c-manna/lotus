@@ -42,6 +42,7 @@ export class OpenBetsComponent implements OnInit {
               this.unmatchBet.push(item);
             }
           });
+          console.log(this.matchBet)
         }
       },
       err => {
