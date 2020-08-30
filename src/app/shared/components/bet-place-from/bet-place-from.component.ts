@@ -192,14 +192,23 @@ export class BetPlaceFromComponent implements OnInit {
     }, loaderTime);
   }
 
-  previous_exposure(previousBet): number{
-    let all_amount:any=Array.apply(null, new Array(previousBet[previousBet.length-1].all_teams_exposure_data.length)).map(Number.prototype.valueOf,0);
+  previous_exposure_find(previousBet): number {
+    let all_amount: any = Array.apply(null, new Array(previousBet[previousBet.length - 1].all_teams_exposure_data.length)).map(Number.prototype.valueOf, 0);
     for (let i = 0; i < previousBet.length; i++) {
       for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
         all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
       }
     }
-    return (this.min(all_amount))
+    return (all_amount);
+  }
+
+  current_exposure_find(all_amount, previousBet) {
+    for (let i = 0; i < previousBet.length; i++) {
+      for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
+        all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
+      }
+    }
+    return (all_amount);
   }
 
   insertBet() {
@@ -210,43 +219,22 @@ export class BetPlaceFromComponent implements OnInit {
     let prev_exposure = 0;
     this.commonService.getExposure(param, (result) => {
       let previousBet: any = result;
-      let currentBet: any = [];
-      let currentRunnerName = this.details.runnerName;
-      let odd = this.selectedItem.type == 'back' ? 0 : 1;
       let all_amount: any = [];
       for (let i = 0; i < this.details.runners.length; i++) {
-        let team_details: any = {};
-        if (currentRunnerName == this.details.runners[i].runnerName) {
-          team_details = {
-            odd_type: odd,
-            team_name: currentRunnerName,
-            amount: this.returnExposure.value
-          }
+        let amount;
+        if (this.details.runnerName == this.details.runners[i].runnerName) {
+          amount = this.returnExposure.value
         } else {
-          team_details = {
-            odd_type: odd == 0 ? 1 : 0,
-            team_name: this.details.runners[i].runnerName,
-            amount: this.returnExposure.stake
-          }
+          amount = this.returnExposure.stake
         }
-        all_amount.push(team_details.amount);
-        currentBet.push(team_details);
+        all_amount.push(amount);
       }
-      //console.log('current bet exposure', currentBet);
-      //console.log('previous bet exposure',previousBet,all_amount);
       if (previousBet && previousBet.length) {
-        prev_exposure = this.previous_exposure(previousBet);
-        for (let i = 0; i < previousBet.length; i++) {
-          for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
-            all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
-          }
-        }
-        //console.log('total calculation', all_amount)
-        current_exposure = this.min(all_amount);
+        prev_exposure = this.min(this.previous_exposure_find(previousBet));
+        current_exposure = this.min(this.current_exposure_find(all_amount, previousBet));
       } else {
         current_exposure = this.min(all_amount);
       }
-
       if (current_exposure >= 0) {
         current_exposure = 0;
       }
