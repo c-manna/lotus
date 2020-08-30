@@ -192,6 +192,16 @@ export class BetPlaceFromComponent implements OnInit {
     }, loaderTime);
   }
 
+  previous_exposure(previousBet): number{
+    let all_amount:any=Array.apply(null, new Array(previousBet[previousBet.length-1].all_teams_exposure_data.length)).map(Number.prototype.valueOf,0);
+    for (let i = 0; i < previousBet.length; i++) {
+      for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
+        all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
+      }
+    }
+    return (this.min(all_amount))
+  }
+
   insertBet() {
     let param: any = {};
     param.user_id = this.details.user_id;
@@ -225,7 +235,7 @@ export class BetPlaceFromComponent implements OnInit {
       //console.log('current bet exposure', currentBet);
       //console.log('previous bet exposure',previousBet,all_amount);
       if (previousBet && previousBet.length) {
-        prev_exposure = this.min(all_amount);
+        prev_exposure = this.previous_exposure(previousBet);
         for (let i = 0; i < previousBet.length; i++) {
           for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
             all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
@@ -289,7 +299,7 @@ export class BetPlaceFromComponent implements OnInit {
           bet_id: "111",
           settled_time: 0,
           master_id: this.details.punter_belongs_to,
-          current_exposure: Math.abs(current_exposure - prev_exposure),
+          current_exposure: Math.abs(current_exposure) - Math.abs(prev_exposure),
           amount: 0,
           liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
         };
