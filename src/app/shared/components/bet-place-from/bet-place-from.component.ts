@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input, SimpleChanges } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BetplaceConfirmationPopupComponent } from '../betplace-confirmation-popup/betplace-confirmation-popup.component';
-import { APIService, DataService, LoadingService, SnakebarService, IpService } from '@shared/services';
+import { APIService, DataService, LoadingService, SnakebarService, IpService, CommonService } from '@shared/services';
 import { environment } from '@env/environment';
 
 @Component({
@@ -15,6 +15,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Input('details') details: any;
   @Input('settingData') settingData: any;
   @Input() maxBetMaxMarket: any;
+  @Input() previousBet: any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
@@ -32,6 +33,7 @@ export class BetPlaceFromComponent implements OnInit {
 
   constructor(
     private ipService: IpService,
+    private commonService: CommonService,
     private ds: DataService,
     private apiService: APIService,
     public dialog: MatDialog,
@@ -175,19 +177,6 @@ export class BetPlaceFromComponent implements OnInit {
     }
   }
 
-  getExposure(callback: any = null) {
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
-
-    this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
-      result => {
-        if (callback != null) { callback(result.result); }
-      },
-      err => { }
-    );
-  }
-
   loader() {
     let EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
     let loaderTime;
@@ -204,13 +193,17 @@ export class BetPlaceFromComponent implements OnInit {
   }
 
   insertBet() {
-    this.getExposure((result) => {
-      let previousBet:any= result;
+    let param: any = {};
+    param.user_id = this.details.user_id;
+    param.match_id = this.eventDeatils.event.id;
+    this.commonService.getExposure(param, (result) => {
+      let previousBet: any = result;
       let currentBet: any = [];
       let currentRunnerName = this.details.runnerName;
       let odd = this.selectedItem.type == 'back' ? 0 : 1;
       let all_amount: any = [];
       let current_exposure;
+      let prev_exposure = 0;
       for (let i = 0; i < this.details.runners.length; i++) {
         let team_details: any = {};
         if (currentRunnerName == this.details.runners[i].runnerName) {
@@ -231,15 +224,14 @@ export class BetPlaceFromComponent implements OnInit {
       }
       //console.log('current bet exposure', currentBet);
       //console.log('previous bet exposure',previousBet,all_amount);
-
       if (previousBet && previousBet.length) {
+        prev_exposure = this.min(all_amount);
         for (let i = 0; i < previousBet.length; i++) {
           for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
             all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
           }
         }
-
-        console.log('total calculation', all_amount)
+        //console.log('total calculation', all_amount)
         current_exposure = this.min(all_amount);
       } else {
         current_exposure = this.min(all_amount);
@@ -297,12 +289,12 @@ export class BetPlaceFromComponent implements OnInit {
           bet_id: "111",
           settled_time: 0,
           master_id: this.details.punter_belongs_to,
-          current_exposure: Math.abs(current_exposure),
+          current_exposure: Math.abs(current_exposure - current_exposure),
           amount: 0,
           liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
         };
         console.log(param);
-/*         this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
+        this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
           result => {
             if (result.success) {
               this._snakebarService.show('success', result.message);
@@ -314,7 +306,7 @@ export class BetPlaceFromComponent implements OnInit {
           err => {
             this._snakebarService.show('error', err);
           }
-        ); */
+        );
       }
     });
   }

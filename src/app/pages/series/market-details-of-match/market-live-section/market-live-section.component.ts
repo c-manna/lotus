@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { DataService, APIService, CommonService, LoadingService } from '@shared/services';
 import { environment } from '@env/environment';
 import { CookieService } from 'ngx-cookie-service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-market-live-section',
@@ -25,11 +26,12 @@ export class MarketLiveSectionComponent implements OnInit {
   settingData;
   previousBet: any;
   ladderContent: boolean = false;
-  ladderTable: any = [];
+  ladderTable:any=[];
 
   constructor(private ds: DataService,
     private apiService: APIService,
     private commonService: CommonService,
+    private route: ActivatedRoute,
     private _loadingService: LoadingService,
     private _cookieService: CookieService
   ) {
@@ -37,6 +39,12 @@ export class MarketLiveSectionComponent implements OnInit {
     let user = JSON.parse(this._cookieService.get("user"))
     this.details.user_id = user.punter_id;
     this.details.punter_belongs_to = user.punter_belongs_to;
+    let param: any = {};
+    param.user_id = this.details.user_id;
+    param.match_id = this.route.snapshot.params["matchId"];
+    this.commonService.getExposure(param,(result) => {
+      this.previousBet = result;
+    })
   }
 
   ngOnInit(): void {
@@ -112,7 +120,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   showLader(SelectionId, index) {
-    this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index ? true : this.ladderContent;
+    this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index?true:this.ladderContent;
     this.details.index = index;
     this.openBetPlaceDialogForFancy = false;
     if (this.ladderContent) {
@@ -130,16 +138,16 @@ export class MarketLiveSectionComponent implements OnInit {
             if (i == 0) {
               ladderTable.push({ from: 0, to: previousBetFancy[i].placed_odd - 1 })
             } else {
-              if (i + 1 <= previousBetFancy.length - 1) {
-                if (previousBetFancy[i - 1].placed_odd != previousBetFancy[i].placed_odd) {
+              if(i+1<=previousBetFancy.length-1){
+                if(previousBetFancy[i-1].placed_odd!=previousBetFancy[i].placed_odd){
                   ladderTable.push({ from: previousBetFancy[i - 1].placed_odd, to: previousBetFancy[i].placed_odd - 1 })
                 }
               }
             }
           }
-          if (previousBetFancy[previousBetFancy.length - 2].placed_odd == previousBetFancy[previousBetFancy.length - 1].placed_odd) {
+          if(previousBetFancy[previousBetFancy.length - 2].placed_odd==previousBetFancy[previousBetFancy.length - 1].placed_odd){
             ladderTable.push({ from: '', to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
-          } else {
+          }else{
             ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 2].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
           }
 
@@ -174,7 +182,7 @@ export class MarketLiveSectionComponent implements OnInit {
               }
             }
           }
-          this.ladderTable = ladderTable;
+          this.ladderTable=ladderTable;
           console.log(ladderTable)
         }
       });
