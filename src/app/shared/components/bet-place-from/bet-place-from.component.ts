@@ -196,14 +196,14 @@ export class BetPlaceFromComponent implements OnInit {
     let param: any = {};
     param.user_id = this.details.user_id;
     param.match_id = this.eventDeatils.event.id;
+    let current_exposure;
+    let prev_exposure = 0;
     this.commonService.getExposure(param, (result) => {
       let previousBet: any = result;
       let currentBet: any = [];
       let currentRunnerName = this.details.runnerName;
       let odd = this.selectedItem.type == 'back' ? 0 : 1;
       let all_amount: any = [];
-      let current_exposure;
-      let prev_exposure = 0;
       for (let i = 0; i < this.details.runners.length; i++) {
         let team_details: any = {};
         if (currentRunnerName == this.details.runners[i].runnerName) {
@@ -289,7 +289,7 @@ export class BetPlaceFromComponent implements OnInit {
           bet_id: "111",
           settled_time: 0,
           master_id: this.details.punter_belongs_to,
-          current_exposure: Math.abs(current_exposure - current_exposure),
+          current_exposure: Math.abs(current_exposure - prev_exposure),
           amount: 0,
           liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
         };
