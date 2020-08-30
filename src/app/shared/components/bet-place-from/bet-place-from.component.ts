@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { BetplaceConfirmationPopupComponent } from '../betplace-confirmation-popup/betplace-confirmation-popup.component';
 import { APIService, DataService, LoadingService, SnakebarService, IpService, CommonService } from '@shared/services';
 import { environment } from '@env/environment';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-bet-place-from',
@@ -36,6 +37,7 @@ export class BetPlaceFromComponent implements OnInit {
     private commonService: CommonService,
     private ds: DataService,
     private apiService: APIService,
+    private route: ActivatedRoute,
     public dialog: MatDialog,
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService) {
@@ -214,7 +216,7 @@ export class BetPlaceFromComponent implements OnInit {
   insertBet() {
     let param: any = {};
     param.user_id = this.details.user_id;
-    param.match_id = this.eventDeatils.event.id;
+    param.match_id = this.route.snapshot.params["matchId"];
     let current_exposure;
     let prev_exposure = 0;
     this.commonService.getExposure(param, (result) => {
@@ -231,13 +233,16 @@ export class BetPlaceFromComponent implements OnInit {
       }
       if (previousBet && previousBet.length) {
         prev_exposure = this.min(this.previous_exposure_find(previousBet));
+        console.log('previous exposure',prev_exposure);
         current_exposure = this.min(this.current_exposure_find(all_amount, previousBet));
+        console.log('current exposure',current_exposure);
       } else {
         current_exposure = this.min(all_amount);
       }
       if (current_exposure >= 0) {
         current_exposure = 0;
       }
+      console.log('current exposure',current_exposure);
       let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
       let net_exposure = this.balanceInfo.net_exposure + Math.abs(current_exposure);
       //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
