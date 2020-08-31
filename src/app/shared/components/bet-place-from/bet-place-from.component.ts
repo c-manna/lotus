@@ -3,7 +3,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { BetplaceConfirmationPopupComponent } from '../betplace-confirmation-popup/betplace-confirmation-popup.component';
 import { APIService, DataService, LoadingService, SnakebarService, IpService, CommonService } from '@shared/services';
 import { environment } from '@env/environment';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-bet-place-from',
@@ -37,7 +36,6 @@ export class BetPlaceFromComponent implements OnInit {
     private commonService: CommonService,
     private ds: DataService,
     private apiService: APIService,
-    private route: ActivatedRoute,
     public dialog: MatDialog,
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService) {
@@ -201,48 +199,55 @@ export class BetPlaceFromComponent implements OnInit {
         all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
       }
     }
-    return (all_amount);
-  }
-
-  current_exposure_find(all_amount, previousBet) {
-    for (let i = 0; i < previousBet.length; i++) {
-      for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
-        all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
-      }
-    }
-    return (all_amount);
+    return (this.min(all_amount))
   }
 
   insertBet() {
     let param: any = {};
     param.user_id = this.details.user_id;
-    param.match_id = this.route.snapshot.params["matchId"];
+    param.marketId = this.details.marketId;
     let current_exposure;
     let prev_exposure = 0;
     this.commonService.getExposure(param, (result) => {
       let previousBet: any = result;
+      let currentBet: any = [];
+      let currentRunnerName = this.details.runnerName;
+      let odd = this.selectedItem.type == 'back' ? 0 : 1;
       let all_amount: any = [];
       for (let i = 0; i < this.details.runners.length; i++) {
-        let amount;
-        if (this.details.runnerName == this.details.runners[i].runnerName) {
-          amount = this.returnExposure.value
+        let team_details: any = {};
+        if (currentRunnerName == this.details.runners[i].runnerName) {
+          team_details = {
+            odd_type: odd,
+            team_name: currentRunnerName,
+            amount: this.returnExposure.value
+          }
         } else {
-          amount = this.returnExposure.stake
+          team_details = {
+            odd_type: odd == 0 ? 1 : 0,
+            team_name: this.details.runners[i].runnerName,
+            amount: this.returnExposure.stake
+          }
         }
-        all_amount.push(amount);
+        all_amount.push(team_details.amount);
+        currentBet.push(team_details);
       }
       if (previousBet && previousBet.length) {
-        prev_exposure = this.min(this.previous_exposure_find(previousBet));
-        console.log('previous exposure',prev_exposure);
-        current_exposure = this.min(this.current_exposure_find(all_amount, previousBet));
-        console.log('current exposure',current_exposure);
+        prev_exposure = this.previous_exposure_find(previousBet);
+        for (let i = 0; i < previousBet.length; i++) {
+          for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
+            all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
+          }
+        }
+        //console.log('total calculation', all_amount)
+        current_exposure = this.min(all_amount);
       } else {
         current_exposure = this.min(all_amount);
       }
+
       if (current_exposure >= 0) {
         current_exposure = 0;
       }
-      console.log('current exposure',current_exposure);
       let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
       let net_exposure = this.balanceInfo.net_exposure + Math.abs(current_exposure);
       //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
