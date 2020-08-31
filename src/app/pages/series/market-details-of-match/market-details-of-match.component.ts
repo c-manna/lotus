@@ -37,14 +37,16 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute) {
     this.getMaxbetMaxMarket(this.route.snapshot.params['id']);
-    route.params.subscribe((params) => {
+    this.eventId = this.route.snapshot.params['id']
+    this.competitionId = this.route.snapshot.params['competitionId']
+    this.matchId = this.route.snapshot.params['matchId']
+    /* route.params.subscribe((params) => {
       this.eventId = params['id'];
       this.competitionId = params['competitionId'];
-      this.matchId = params["matchId"];
-      this.getMatchDetails();
-      this.getFancy();
-      this.getFancyFromInterval();
-    });
+      this.matchId = params["matchId"]; });*/
+    this.getMatchDetails();
+    this.getFancy();
+    this.getFancyFromInterval();
   }
 
   ngOnInit(): void {
@@ -86,7 +88,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.getBooMakerFromInterval(result.data[0].marketId);
           this.getOpenBets(result.data[0].marketId);
         }
-      }, err => {}
+      }, err => { }
     ));
   }
 
