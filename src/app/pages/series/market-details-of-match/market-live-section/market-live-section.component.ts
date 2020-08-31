@@ -55,7 +55,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   ngOnChanges() { 
-    console.log(this.matchesDetails)
+    //console.log(this.matchOdds)
   }
 
   getSettingData() {
@@ -96,7 +96,7 @@ export class MarketLiveSectionComponent implements OnInit {
     }
   }
 
-  openCreateBetForm(value, type, item, runnerName, index, market_type) {
+  openCreateBetForm(value, type, item, runnerName, index, fragment, market_type) {
     this.profile_and_loss = [];
     this.details.marketId = this.matchesDetails[0].marketId;
     this.details.market_start_time = this.matchesDetails[0].marketStartTime;
@@ -104,6 +104,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.runnerName = runnerName;
     this.details.runners = this.matchesDetails[0].runners;
     this.details.index = index;
+    this.details.fragment = fragment;
     this.selectedItem = { type: type, ...item, value: value };
     //let currentTime = Date.now();
     // item['viewMode'] = viewMode;

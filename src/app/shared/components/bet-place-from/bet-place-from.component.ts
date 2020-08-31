@@ -51,15 +51,16 @@ export class BetPlaceFromComponent implements OnInit {
     this.ds.balanceInfo$.subscribe(data => {
       this.balanceInfo = data;
     });
-    //console.log(this.details);
+    console.log(this.details);
     //console.log(this.selectedItem);
     this.ds.event$.subscribe(event => {
       this.eventData = event;
       //console.log(this.eventData)
     });
-    if (this.details.market_type == 'match oods') {
+    if (this.details.market_type != 'bookmaker') {
       this.ds.matchOdds$.subscribe(data => {
         this.matchOdds = data;
+        console.log(this.matchOdds)
       });
     } else {
       this.ds.bookMaker$.subscribe(data => {
@@ -268,8 +269,8 @@ export class BetPlaceFromComponent implements OnInit {
       }
       else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
         let last_odd;
-        if (this.details.market_type == 'match oods') {
-          last_odd = this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price
+        if (this.details.market_type != 'bookmaker') {
+          last_odd = this.selectedItem.type == 'back' ? this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToBack[0].price : this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToLay[0].price
         } else {
           last_odd = this.selectedItem.type == 'back' ? this.bookMaker.runners[this.details.index].back : this.bookMaker.runners[this.details.index].lay;
         }

@@ -82,8 +82,11 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         if (result.success) {
           this.matchesDetails = result.data;
           this.marketId = result.data[0].marketId;
-          this.getMatchOdds(result.data[0].marketId);
-          this.getOddsFromInterval(result.data[0].marketId);
+          for(let i=0;i<result.data.length;i++){
+            this.getMatchOdds(i,result.data[i].marketId);
+          }
+          this.ds.changeMatchOdds(this.matchOdds);
+          this.getOddsFromInterval(result);
           this.getBookMaker(result.data[0].marketId);
           this.getBooMakerFromInterval(result.data[0].marketId);
           this.getOpenBets(result.data[0].marketId);
@@ -103,12 +106,11 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
 
-  getMatchOdds(marketID) {
+  getMatchOdds(index,marketID) {
     this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
         if (result.success) {
-          this.matchOdds = result["data"];
-          this.ds.changeMatchOdds(result["data"]);
+          this.matchOdds[index] = result["data"][0];
         }
       },
       err => {
@@ -138,9 +140,12 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     ));
   }
 
-  getOddsFromInterval(marketID) {
+  getOddsFromInterval(result) {
     this.getOddsInterval = setInterval(() => {
-      this.getMatchOdds(marketID)
+      for(let i=0;i<result.data.length;i++){
+        this.getMatchOdds(i,result.data[i].marketId);
+      }
+      this.ds.changeMatchOdds(this.matchOdds);
     }, 1000);
   }
 
