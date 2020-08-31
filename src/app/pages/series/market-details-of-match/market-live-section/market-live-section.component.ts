@@ -54,7 +54,9 @@ export class MarketLiveSectionComponent implements OnInit {
     //console.log(this.matchesDetails)
   }
 
-  ngOnChanges() { }
+  ngOnChanges() { 
+    console.log(this.matchesDetails)
+  }
 
   getSettingData() {
     this.apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
