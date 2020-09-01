@@ -17,6 +17,18 @@ export class CommonService {
   constructor(private apiService: APIService,
     private ds: DataService) { }
 
+    getOpenBets() {
+      this.apiService.ApiCall({}, environment.apiUrl + 'open-bet', 'get').subscribe(
+        result => {
+          if (result.success) {
+            this.ds.changeOpenBets(result['data']);
+            this.ds.changeOpenBetLength(result['data'].length);
+          }
+        },
+        err => {}
+      );
+    }
+
   setEventInfo(id){
     this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
       result => {

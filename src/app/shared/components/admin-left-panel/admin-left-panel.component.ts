@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { environment } from '@env/environment';
-import { APIService, DataService, SideNavService, LoadingService, SnakebarService } from '@shared/services';
+import { APIService, DataService, SideNavService, LoadingService, SnakebarService, CommonService } from '@shared/services';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 
@@ -18,9 +18,8 @@ export class AdminLeftPanelComponent implements OnInit {
     private ds: DataService,
     private apiService: APIService,
     private router: Router,
+    private commonService: CommonService,
     private toolbarService: SideNavService) {
-    /*     this.router.events.subscribe(event => {
-        }); */
   }
 
   ngOnInit() {

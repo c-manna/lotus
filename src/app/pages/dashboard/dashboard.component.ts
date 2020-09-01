@@ -3,7 +3,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { SnakebarService, LoadingService } from '@app/shared/services/common.service';
 import { CookieService } from 'ngx-cookie-service';
 import { SocketService } from '@app/shared/services/socket.service';
-import { APIService } from '@app/shared/services/api.service';
+import { APIService, CommonService, DataService } from '@app/shared/services';
 import { environment } from '@env/environment';
 
 @Component({
@@ -22,28 +22,24 @@ export class DashboardComponent implements OnInit {
   inplayInterval: any;
   refreshDataInterval: any;
   loading: boolean = true;
-  openBetList: any = [];
+  OpenBetLength$: number=0;
   constructor(
+    private commonService: CommonService,
+    private ds: DataService,
     private _snakebarService: SnakebarService,
     private _loadingService: LoadingService,
     private _cookieService: CookieService,
     private _apiService: APIService,
   ) {
     this.getInPlay();
+    this.commonService.getOpenBets();
+    this.ds.openBetLength$.subscribe(data => {
+      this.OpenBetLength$ = data;
+    });
   }
 
   ngOnInit(): void {
     this.inplayTime();
-    this.getOpenBets();
-  }
-
-  getOpenBets() {
-    this._apiService.ApiCall({}, environment.apiUrl + 'open-bet', 'get').subscribe(
-      result => {
-        if (result.success) {
-          this.openBetList = result['data'];
-        }
-      }, err => { });
   }
 
   getEvents() {

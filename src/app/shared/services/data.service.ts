@@ -7,7 +7,6 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 })
 export class DataService {
 
-
   private breadCrumb = new BehaviorSubject<any>(null);
   breadCrumb$ = this.breadCrumb.asObservable();
   changeBread(data) {
@@ -52,6 +51,18 @@ export class DataService {
   balanceInfo$ = this.balanceInfo.asObservable();
   changeBalanceInfo(data) {
     this.balanceInfo.next(data);
+  }
+
+  private openBets = new BehaviorSubject<any>(null);
+  openBets$ = this.openBets.asObservable();
+  changeOpenBets(data) {
+    this.openBets.next(data);
+  }
+
+  private openBetLength = new BehaviorSubject<any>(0);
+  openBetLength$ = this.openBetLength.asObservable();
+  changeOpenBetLength(data) {
+    this.openBetLength.next(data);
   }
 
   constructor(private router: Router) {
