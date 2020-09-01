@@ -60,7 +60,6 @@ export class BetPlaceFromComponent implements OnInit {
     if (this.details.market_type != 'bookmaker') {
       this.ds.matchOdds$.subscribe(data => {
         this.matchOdds = data;
-        console.log(this.matchOdds)
       });
     } else {
       this.ds.bookMaker$.subscribe(data => {
@@ -120,6 +119,7 @@ export class BetPlaceFromComponent implements OnInit {
     this.calculatedValue = 0;
     this.selectedItem = changes.selectedItem.currentValue;
     this.inputData = this.selectedItem.value;
+    console.log(this.matchOdds)
   }
 
   addValue() {

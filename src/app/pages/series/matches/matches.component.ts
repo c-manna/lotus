@@ -36,11 +36,7 @@ export class MatchesComponent implements OnInit {
   }
 
   setEventName(data) {
-    this.ds.event$.subscribe(event => {
-      let setData:any =data;
-      setData.event.event_type = event.eventType;
       this.ds.changeEventDetails(data);
-    });
   }
 
   getMatches() {

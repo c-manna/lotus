@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
-import { SnakebarService, LoadingService, APIService, DataService } from '@shared/services';
+import { SnakebarService, LoadingService, APIService, DataService, CommonService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
@@ -35,15 +35,14 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     public platform: Platform,
     private apiService: APIService,
     private router: Router,
+    private commonService: CommonService,
     private route: ActivatedRoute) {
     this.getMaxbetMaxMarket(this.route.snapshot.params['id']);
-    this.eventId = this.route.snapshot.params['id']
-    this.competitionId = this.route.snapshot.params['competitionId']
-    this.matchId = this.route.snapshot.params['matchId']
-    /* route.params.subscribe((params) => {
-      this.eventId = params['id'];
-      this.competitionId = params['competitionId'];
-      this.matchId = params["matchId"]; });*/
+    this.eventId = this.route.snapshot.params['id'];
+    this.competitionId = this.route.snapshot.params['competitionId'];
+    this.matchId = this.route.snapshot.params['matchId'];
+    this.commonService.setEventInfo(this.route.snapshot.params['id']);
+    this.commonService.setEventDetailsInfo(this.route.snapshot.params['id'],this.route.snapshot.params['competitionId'],this.route.snapshot.params['matchId']);
     this.getMatchDetails();
     this.getFancy();
     this.getFancyFromInterval();
