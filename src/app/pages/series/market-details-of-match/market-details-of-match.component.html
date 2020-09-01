@@ -33,7 +33,7 @@
                 <span>Live</span>
             </li>
             <li [class.active]="viewMode == 'tab4'" rel="tab4" (click)="viewMode ='tab4'">
-                <span>Open bets({{openBetList.length}})</span>
+                <span>Open bets({{openBetCount}})</span>
             </li>
         </ul>
         <div class="tab-slider--container " [ngSwitch]="viewMode">

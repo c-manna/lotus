@@ -27,6 +27,7 @@ export class MarketLiveSectionComponent implements OnInit {
   previousBet: any;
   ladderContent: boolean = false;
   ladderTable:any=[];
+  eventData: any;
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -42,6 +43,10 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.ds.event$.subscribe(event => {
+      this.eventData = event;
+      //console.log(this.eventData)
+    });
     this.ds.eventDeatils$.subscribe(event => {
       this.eventDeatils = event;
     });
@@ -49,7 +54,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   ngOnChanges() { 
-    console.log(this.maxBetMaxMarket)
+    //console.log(this.maxBetMaxMarket)
   }
 
   getSettingData() {
@@ -92,13 +97,18 @@ export class MarketLiveSectionComponent implements OnInit {
 
   openCreateBetForm(value, type, item, runnerName, index, fragment, market_type) {
     this.profile_and_loss = [];
-    this.details.marketId = this.matchesDetails[0].marketId;
-    this.details.market_start_time = this.matchesDetails[0].marketStartTime;
+    this.details.marketId = this.matchesDetails[index].marketId;
+    this.details.market_start_time = this.matchesDetails[index].marketStartTime;
     this.details.market_type = market_type;
     this.details.runnerName = runnerName;
-    this.details.runners = this.matchesDetails[0].runners;
+    this.details.runners = this.matchesDetails[index].runners;
     this.details.index = index;
     this.details.fragment = fragment;
+    this.details.event_id = this.eventData.eventType;
+    this.details.event_name = this.eventData.name;
+    this.details.description = this.eventDeatils.event.name;
+    this.details.competition_id = this.route.snapshot.params['competitionId'];
+    this.details.match_id = this.route.snapshot.params['matchId'];
     this.selectedItem = { type: type, ...item, value: value };
   }
 
@@ -109,6 +119,11 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.market_type = market_type;
     this.details.runnerName = runnerName;
     this.details.index = index;
+    this.details.event_id = this.eventData.eventType;
+    this.details.event_name = this.eventData.name;
+    this.details.description = this.eventDeatils.event.name;
+    this.details.competition_id = this.route.snapshot.params['competitionId'];
+    this.details.match_id = this.route.snapshot.params['matchId'];
     this.selectedItem = { type: type, ...item, value: value };
   }
 
@@ -119,7 +134,7 @@ export class MarketLiveSectionComponent implements OnInit {
     if (this.ladderContent) {
       let param: any = {};
       param.user_id = this.details.user_id;
-      param.match_id = this.eventDeatils.event.id;
+      param.match_id = this.route.snapshot.params['matchId'];
       param.selection_id = SelectionId;
       this.ladderTable = [];
       this.commonService.getExposureForFancy(param, (result) => {

@@ -15,15 +15,13 @@ export class BetPlaceFromComponent implements OnInit {
   @Input('details') details: any;
   @Input('settingData') settingData: any;
   @Input() maxBetMaxMarket: any;
-  @Input() previousBet: any;
+  previousBet: any = [];
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
   viewMode = '';
   calculatedValue: any = 0;
   checkBoxConfirmation: boolean = true;
-  eventData: any;
-  eventDeatils: any;
   matchOdds: any = [];
   bookMaker: any = [];
   ipAddress;
@@ -39,24 +37,16 @@ export class BetPlaceFromComponent implements OnInit {
     public dialog: MatDialog,
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService) {
-    this.getOpenBets();
   }
 
   ngOnInit(): void {
-    this.ds.eventDeatils$.subscribe(event => {
-      this.eventDeatils = event;
-      if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
-    });
+    if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
     this.getMaxMarketSummation();
     this.ds.balanceInfo$.subscribe(data => {
       this.balanceInfo = data;
     });
     console.log(this.details);
     //console.log(this.selectedItem);
-    this.ds.event$.subscribe(event => {
-      this.eventData = event;
-      //console.log(this.eventData)
-    });
     if (this.details.market_type != 'bookmaker') {
       this.ds.matchOdds$.subscribe(data => {
         this.matchOdds = data;
@@ -66,6 +56,7 @@ export class BetPlaceFromComponent implements OnInit {
         this.bookMaker = data;
       });
     }
+    this.getOpenBets();
     this.getIP();
   }
 
@@ -78,7 +69,7 @@ export class BetPlaceFromComponent implements OnInit {
             this.previousBet.push(item);
           }
         });
-        console.log(this.previousBet);
+        //console.log(this.previousBet);
       }
     });
   }
@@ -106,7 +97,7 @@ export class BetPlaceFromComponent implements OnInit {
     const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
       width: '100%',
       panelClass: 'custom-modalbox',
-      data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+      data: { description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -180,7 +171,7 @@ export class BetPlaceFromComponent implements OnInit {
       const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
         width: '100%',
         panelClass: 'custom-modalbox',
-        data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+        data: { description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result)
@@ -195,7 +186,7 @@ export class BetPlaceFromComponent implements OnInit {
   loader() {
     let EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
     let loaderTime;
-    if (EnentList.indexOf(this.eventData.name) !== -1)
+    if (EnentList.indexOf(this.details.event_name) !== -1)
       loaderTime = 1000;
     else
       loaderTime = 7000;
@@ -207,50 +198,51 @@ export class BetPlaceFromComponent implements OnInit {
     }, loaderTime);
   }
 
-  previous_exposure_find(previousBet): number {
-    let all_amount: any = Array.apply(null, new Array(previousBet[previousBet.length - 1].all_teams_exposure_data.length)).map(Number.prototype.valueOf, 0);
-    for (let i = 0; i < previousBet.length; i++) {
-      for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
-        all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
+  set_current_bet_amount() {
+    let all_amount: any = [];
+    for (let i = 0; i < this.details.runners.length; i++) {
+      let amount=0;
+      if (this.details.runnerName == this.details.runners[i].runnerName) {
+        amount = this.returnExposure.value
+      } else {
+        amount = this.returnExposure.stake
+      }
+      all_amount.push(amount);
+    }
+    return (all_amount);
+  }
+
+  previous_exposure_calculation(): number {
+    let tmpData = JSON.parse(this.previousBet[this.previousBet.length - 1].all_teams_exposure_data)
+    let all_amount: any = Array.apply(null, new Array(tmpData.length)).map(Number.prototype.valueOf, 0);
+    for (let i = 0; i < this.previousBet.length; i++) {
+      let l = JSON.parse(this.previousBet[i].all_teams_exposure_data);
+      for (let j = 0; j < l.length; j++) {
+        all_amount[j] = all_amount[j] + l[j].amount;
       }
     }
-    return (this.min(all_amount))
+    return (all_amount);
+  }
+
+  current_exposures_calculation(all_amount: any=[]) {
+    for (let i = 0; i < this.previousBet.length; i++) {
+      let l = JSON.parse(this.previousBet[i].all_teams_exposure_data)
+      for (let j = 0; j < l.length; j++) {
+        all_amount[j] = all_amount[j] + l[j].amount;
+      }
+    }
+    return (all_amount);
   }
 
   insertBet() {
     let current_exposure;
     let prev_exposure = 0;
-    let currentBet: any = [];
-    let currentRunnerName = this.details.runnerName;
-    let odd = this.selectedItem.type == 'back' ? 0 : 1;
-    let all_amount: any = [];
-    for (let i = 0; i < this.details.runners.length; i++) {
-      let team_details: any = {};
-      if (currentRunnerName == this.details.runners[i].runnerName) {
-        team_details = {
-          odd_type: odd,
-          team_name: currentRunnerName,
-          amount: this.returnExposure.value
-        }
-      } else {
-        team_details = {
-          odd_type: odd == 0 ? 1 : 0,
-          team_name: this.details.runners[i].runnerName,
-          amount: this.returnExposure.stake
-        }
-      }
-      all_amount.push(team_details.amount);
-      currentBet.push(team_details);
-    }
+    let all_amount: any = this.set_current_bet_amount();
+    console.log(all_amount)
     if (this.previousBet && this.previousBet.length) {
-      prev_exposure = this.previous_exposure_find(this.previousBet);
-      for (let i = 0; i < this.previousBet.length; i++) {
-        for (let j = 0; j < this.previousBet[i].all_teams_exposure_data.length; j++) {
-          all_amount[j] = all_amount[j] + this.previousBet[i].all_teams_exposure_data[j].amount;
-        }
-      }
-      //console.log('total calculation', all_amount)
-      current_exposure = this.min(all_amount);
+      prev_exposure = this.min(this.previous_exposure_calculation());
+      current_exposure = this.min(this.current_exposures_calculation(all_amount));
+      
     } else {
       current_exposure = this.min(all_amount);
     }
@@ -260,7 +252,7 @@ export class BetPlaceFromComponent implements OnInit {
     }
     let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
     let net_exposure = this.balanceInfo.net_exposure + Math.abs(current_exposure);
-    //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
+    console.log('net exposure', net_exposure, current_exposure, prev_exposure);
     if (this.stakeValue < 1000) {
       this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
     }
@@ -285,11 +277,11 @@ export class BetPlaceFromComponent implements OnInit {
       }
       let param = {
         market_id: this.details.marketId,
-        match_id: this.eventDeatils.event.id,
+        match_id: this.details.match_id,
         market_type: this.details.market_type,
-        description: this.eventDeatils.event.name,
-        event_name: this.eventData.name,
-        event_id: this.eventData.eventType,
+        description: this.details.description,
+        event_name: this.details.event_name,
+        event_id: this.details.event_id,
         odd: this.selectedItem.type == 'back' ? 0 : 1,
         place_odd: this.inputData.toFixed(2),
         last_odd: last_odd,
