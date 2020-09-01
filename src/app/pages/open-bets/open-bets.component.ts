@@ -35,11 +35,11 @@ export class OpenBetsComponent implements OnInit {
   getOpenBets() {
     this.ds.openBets$.subscribe(data => {
       if (data) {
+        this.matchBet = [];
+        this.unmatchBet = [];
         if (this.marketId != undefined) {
-          console.log(this.marketId)
           data.forEach(item => {
             if (item.bet_status == 0 && item.market_id == this.marketId) {
-              console.log(item.market_id)
               this.matchBet.push(item);
             } else if (item.bet_status == 1 && item.market_id == this.marketId) {
               this.unmatchBet.push(item);

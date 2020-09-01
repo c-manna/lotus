@@ -39,12 +39,6 @@ export class MarketLiveSectionComponent implements OnInit {
     let user = JSON.parse(this._cookieService.get("user"))
     this.details.user_id = user.punter_id;
     this.details.punter_belongs_to = user.punter_belongs_to;
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.route.snapshot.params["matchId"];
-    this.commonService.getExposure(param,(result) => {
-      this.previousBet = result;
-    })
   }
 
   ngOnInit(): void {
@@ -55,7 +49,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   ngOnChanges() { 
-    //console.log(this.matchOdds)
+    console.log(this.maxBetMaxMarket)
   }
 
   getSettingData() {
@@ -100,16 +94,12 @@ export class MarketLiveSectionComponent implements OnInit {
     this.profile_and_loss = [];
     this.details.marketId = this.matchesDetails[0].marketId;
     this.details.market_start_time = this.matchesDetails[0].marketStartTime;
-    this.details.market_type = market_type;//this.matchesDetails[0].marketName;
+    this.details.market_type = market_type;
     this.details.runnerName = runnerName;
     this.details.runners = this.matchesDetails[0].runners;
     this.details.index = index;
     this.details.fragment = fragment;
     this.selectedItem = { type: type, ...item, value: value };
-    //let currentTime = Date.now();
-    // item['viewMode'] = viewMode;
-    // item['createBetFormActive'] = currentTime;
-    // this.createBetFormActive = currentTime;
   }
 
   openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {

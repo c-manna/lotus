@@ -38,6 +38,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     private commonService: CommonService,
     private route: ActivatedRoute) {
     this.getMaxbetMaxMarket(this.route.snapshot.params['id']);
+    this.commonService.getOpenBets();
     this.eventId = this.route.snapshot.params['id'];
     this.competitionId = this.route.snapshot.params['competitionId'];
     this.matchId = this.route.snapshot.params['matchId'];
