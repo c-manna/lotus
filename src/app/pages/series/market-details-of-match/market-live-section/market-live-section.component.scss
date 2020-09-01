@@ -81,6 +81,10 @@
                line-height: 25px;
                border: 1px solid #fdeef2;
              }
+             &.active{
+                 background-color: #fff;
+                 color: #000;
+             }
              .price{
                  font-size: 12px;
                  font-weight: 600;

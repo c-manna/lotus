@@ -9,7 +9,10 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: 'Lato', sans-serif!important; }
 
-
+.mat-body, .mat-body-1, .mat-typography {
+  font: 400 14px/20px 'Lato', sans-serif!important;
+  letter-spacing: normal;
+}
 
 button:focus,input:focus,textarea:focus,select:focus,
 button:hover,input:hover,textarea:hover,select:hover{

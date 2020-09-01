@@ -21,16 +21,16 @@
                         <ng-container *ngIf="matchOdds[0].runners.length>0;then activeMatch;else suspendMatch">
                         </ng-container>
                         <ng-template #activeMatch>
-                            <div *ngIf="matchOdds[0].runners[i].ex.availableToBack.length>0; else blankBack"
-                                class="bet-button back"
+                            <div  *ngIf="matchOdds[0].runners[i].ex.availableToBack.length>0; else blankBack"
+                                class="bet-button back active"
                                 (click)="openCreateBetForm(matchOdds[0].runners[i].ex.availableToBack[0].price, 'back', matchOdds[0].runners[i],matchesDetails[0].runners[i].runnerName,i,'match oods');openBetPlaceDialog=true;canceBetForBookMaker();canceBetForFancy()">
                                 <div class="price" *ngIf="matchOdds[0].runners[i].ex.availableToBack.length>0">
                                     {{matchOdds[0].runners[i].ex.availableToBack[0].price}}
                                 </div>
                                 <div class="market-volume">298,288</div>
                             </div>
-                            <div *ngIf="matchOdds[0].runners[i].ex.availableToLay.length>0; else blankLay"
-                                class="bet-button lay"
+                            <div  *ngIf="matchOdds[0].runners[i].ex.availableToLay.length>0; else blankLay"
+                                class="bet-button lay active"
                                 (click)="openCreateBetForm(matchOdds[0].runners[i].ex.availableToLay[0].price, 'lay', matchOdds[0].runners[i],matchesDetails[0].runners[i].runnerName,i,'match oods');openBetPlaceDialog=true;canceBetForBookMaker();canceBetForFancy()">
                                 <div class="price" *ngIf="matchOdds[0].runners[i].ex.availableToLay.length>0">
                                     {{matchOdds[0].runners[i].ex.availableToLay[0].price}}
@@ -125,12 +125,12 @@
                         <ng-container *ngIf="item.GameStatus=='SUSPENDED';then suspendMatch">
                         </ng-container>
                         <ng-template #activeMatch>
-                            <div *ngIf="item.LaySize1!='-'; else blankLay" class="bet-button lay"
+                            <div  *ngIf="item.LaySize1!='-'; else blankLay" class="bet-button lay"
                                 (click)="openCreateBetFormFancy(item.LayPrice1, 'no', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
                                 <div class="price">{{item.LayPrice1}}</div>
                                 <div class="market-volume">{{item.LaySize1}}</div>
                             </div>
-                            <div *ngIf="item.BackSize1!='-'; else blankBack" class="bet-button back"
+                            <div  *ngIf="item.BackSize1!='-'; else blankBack" class="bet-button back"
                                 (click)="openCreateBetFormFancy(item.BackPrice1, 'yes', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;canceBet();canceBetForBookMaker()">
                                 <div class="price">{{item.BackPrice1}}</div>
                                 <div class="market-volume">{{item.BackSize1}}</div>
