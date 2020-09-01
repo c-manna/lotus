@@ -22,11 +22,12 @@ export class MarketLiveSectionComponent implements OnInit {
   openBetPlaceDialog = false;
   openBetPlaceDialogForBookMaker = false;
   openBetPlaceDialogForFancy = false;
-  profile_and_loss: any = [];
+  current_exposure: any=[];
+  previous_exposure: any=[];
   settingData;
   previousBet: any;
   ladderContent: boolean = false;
-  ladderTable:any=[];
+  ladderTable: any = [];
   eventData: any;
 
   constructor(private ds: DataService,
@@ -53,7 +54,7 @@ export class MarketLiveSectionComponent implements OnInit {
     //console.log(this.matchesDetails)
   }
 
-  ngOnChanges() { 
+  ngOnChanges() {
     //console.log(this.maxBetMaxMarket)
   }
 
@@ -77,26 +78,26 @@ export class MarketLiveSectionComponent implements OnInit {
     this.openBetPlaceDialogForFancy = false;
   }
   set_profit_loss(data) {
-    //console.log(data);
+    console.log(data);
     if (this.details.market_type != 'fancy') {
-      for (let i = 0; i < this.matchesDetails[0].runners.length; i++) {
-        if (data.index == i)
-          this.profile_and_loss[i] = data.value;
-        else
-          this.profile_and_loss[i] = data.stake;
+      for (let i = 0; i < this.matchesDetails[this.details.index].runners.length; i++) {
+        if(data.previous.length){
+          this.previous_exposure[i] = data.previous[i];
+        }
+        this.current_exposure[i] = data.current[i];
       }
-    } else {
+    } /* else {
       for (let i = 0; i < this.fancyMatch.length; i++) {
         if (data.index == i)
           this.profile_and_loss[i] = data.loss;
         else
           this.profile_and_loss[i] = data.loss;
       }
-    }
+    } */
   }
 
   openCreateBetForm(value, type, item, runnerName, index, fragment, market_type) {
-    this.profile_and_loss = [];
+    this.current_exposure = [];
     this.details.marketId = this.matchesDetails[index].marketId;
     this.details.market_start_time = this.matchesDetails[index].marketStartTime;
     this.details.market_type = market_type;
@@ -114,7 +115,7 @@ export class MarketLiveSectionComponent implements OnInit {
 
   openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {
     this.ladderContent = false;
-    this.profile_and_loss = [];
+    this.current_exposure = [];
     this.details.marketId = item.SelectionId;
     this.details.market_type = market_type;
     this.details.runnerName = runnerName;
@@ -128,7 +129,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   showLader(SelectionId, index) {
-    this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index?true:this.ladderContent;
+    this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index ? true : this.ladderContent;
     this.details.index = index;
     this.openBetPlaceDialogForFancy = false;
     if (this.ladderContent) {
@@ -146,16 +147,16 @@ export class MarketLiveSectionComponent implements OnInit {
             if (i == 0) {
               ladderTable.push({ from: 0, to: previousBetFancy[i].placed_odd - 1 })
             } else {
-              if(i+1<=previousBetFancy.length-1){
-                if(previousBetFancy[i-1].placed_odd!=previousBetFancy[i].placed_odd){
+              if (i + 1 <= previousBetFancy.length - 1) {
+                if (previousBetFancy[i - 1].placed_odd != previousBetFancy[i].placed_odd) {
                   ladderTable.push({ from: previousBetFancy[i - 1].placed_odd, to: previousBetFancy[i].placed_odd - 1 })
                 }
               }
             }
           }
-          if(previousBetFancy[previousBetFancy.length - 2].placed_odd==previousBetFancy[previousBetFancy.length - 1].placed_odd){
+          if (previousBetFancy[previousBetFancy.length - 2].placed_odd == previousBetFancy[previousBetFancy.length - 1].placed_odd) {
             ladderTable.push({ from: '', to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
-          }else{
+          } else {
             ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 2].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
           }
 
@@ -190,7 +191,7 @@ export class MarketLiveSectionComponent implements OnInit {
               }
             }
           }
-          this.ladderTable=ladderTable;
+          this.ladderTable = ladderTable;
           console.log(ladderTable)
         }
       });

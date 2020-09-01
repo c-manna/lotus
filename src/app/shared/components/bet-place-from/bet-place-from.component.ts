@@ -161,8 +161,18 @@ export class BetPlaceFromComponent implements OnInit {
     if (this.stakeValue.toString() == '') {
       this.calculatedValue = 0.00;
     } else {
-      this.returnExposure.index = this.details.index;
-      this.profit_and_liability.emit(this.returnExposure);
+      let exposure: any={};
+      let all_amount: any = this.set_current_bet_amount();
+      console.log(all_amount)
+      if (this.previousBet && this.previousBet.length) {
+        exposure.previous = this.previous_exposure_calculation();
+        exposure.current = this.current_exposures_calculation(all_amount);
+
+      } else {
+        exposure.previous = [];
+        exposure.current = all_amount;
+      }
+      this.profit_and_liability.emit(exposure);
     }
   }
 
@@ -201,7 +211,7 @@ export class BetPlaceFromComponent implements OnInit {
   set_current_bet_amount() {
     let all_amount: any = [];
     for (let i = 0; i < this.details.runners.length; i++) {
-      let amount=0;
+      let amount = 0;
       if (this.details.runnerName == this.details.runners[i].runnerName) {
         amount = this.returnExposure.value
       } else {
@@ -212,7 +222,7 @@ export class BetPlaceFromComponent implements OnInit {
     return (all_amount);
   }
 
-  previous_exposure_calculation(): number {
+  previous_exposure_calculation() {
     let tmpData = JSON.parse(this.previousBet[this.previousBet.length - 1].all_teams_exposure_data)
     let all_amount: any = Array.apply(null, new Array(tmpData.length)).map(Number.prototype.valueOf, 0);
     for (let i = 0; i < this.previousBet.length; i++) {
@@ -224,7 +234,7 @@ export class BetPlaceFromComponent implements OnInit {
     return (all_amount);
   }
 
-  current_exposures_calculation(all_amount: any=[]) {
+  current_exposures_calculation(all_amount: any = []) {
     for (let i = 0; i < this.previousBet.length; i++) {
       let l = JSON.parse(this.previousBet[i].all_teams_exposure_data)
       for (let j = 0; j < l.length; j++) {
@@ -242,7 +252,7 @@ export class BetPlaceFromComponent implements OnInit {
     if (this.previousBet && this.previousBet.length) {
       prev_exposure = this.min(this.previous_exposure_calculation());
       current_exposure = this.min(this.current_exposures_calculation(all_amount));
-      
+
     } else {
       current_exposure = this.min(all_amount);
     }

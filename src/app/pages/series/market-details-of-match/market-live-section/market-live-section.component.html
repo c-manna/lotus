@@ -14,8 +14,10 @@
                     <li>
                         <div class="title">
                             {{item.runnerName}}
-                            <span *ngIf="profile_and_loss && openBetPlaceDialog && settingData.one_click_betting == 0"
-                                [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
+                            <span *ngIf="previous_exposure && openBetPlaceDialog && details.index==i"
+                                [ngClass]="{'red-Color': previous_exposure[j]<0,'green-Color':previous_exposure[j]>=0}">{{previous_exposure[j]}}</span>>>
+                            <span *ngIf="current_exposure && openBetPlaceDialog && details.index==i"
+                                [ngClass]="{'red-Color': current_exposure[j]<0,'green-Color':current_exposure[j]>=0}">{{current_exposure[j]}}</span>
                         </div>
                         <div class="bet-btn-wrapper">
                                 <div *ngIf="matchOdds[i].runners[j].ex.availableToBack.length>0; else blankBack"
@@ -36,7 +38,7 @@
                                 </div>
                         </div>
                     </li>
-                    <app-bet-place-from *ngIf="openBetPlaceDialog && details.index==i && details.fragment==j"
+                    <app-bet-place-from class="active" *ngIf="openBetPlaceDialog && details.index==i && details.fragment==j"
                         (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBet()"
                         [selectedItem]="selectedItem" [details]="details" [settingData]="settingData"
                         [maxBetMaxMarket]="maxBetMaxMarket['Match Odds']">
@@ -85,7 +87,7 @@
                         </div>
                     </ng-template>
                 </li>
-                <app-bet-place-from *ngIf="openBetPlaceDialogForBookMaker && this.details.index==i"
+                <app-bet-place-from class="active" *ngIf="openBetPlaceDialogForBookMaker && this.details.index==i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBetForBookMaker()"
                     [selectedItem]="selectedItem" [details]="details" [settingData]="settingData"
                     [maxBetMaxMarket]="maxBetMaxMarket['bookmaker']">
@@ -135,7 +137,7 @@
                         </ng-template>
                     </div>
                 </li>
-                <app-fancy-bet-form *ngIf="openBetPlaceDialogForFancy && this.details.index===i"
+                <app-fancy-bet-form class="active" *ngIf="openBetPlaceDialogForFancy && this.details.index===i"
                     (profit_and_liability)="set_profit_loss($event)" (betCancelled)="canceBetForFancy()"
                     [selectedItem]="selectedItem" [details]="details" [settingData]="settingData"
                     [maxBetMaxMarket]="maxBetMaxMarket['fancy']" [eventDeatils]="eventDeatils">
