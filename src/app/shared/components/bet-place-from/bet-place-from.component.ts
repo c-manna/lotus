@@ -3,7 +3,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { BetplaceConfirmationPopupComponent } from '../betplace-confirmation-popup/betplace-confirmation-popup.component';
 import { APIService, DataService, LoadingService, SnakebarService, IpService, CommonService } from '@shared/services';
 import { environment } from '@env/environment';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-bet-place-from',
@@ -16,15 +15,13 @@ export class BetPlaceFromComponent implements OnInit {
   @Input('details') details: any;
   @Input('settingData') settingData: any;
   @Input() maxBetMaxMarket: any;
-  @Input() previousBet: any;
+  previousBet: any = [];
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
   viewMode = '';
   calculatedValue: any = 0;
   checkBoxConfirmation: boolean = true;
-  eventData: any;
-  eventDeatils: any;
   matchOdds: any = [];
   bookMaker: any = [];
   ipAddress;
@@ -37,29 +34,20 @@ export class BetPlaceFromComponent implements OnInit {
     private commonService: CommonService,
     private ds: DataService,
     private apiService: APIService,
-    private route: ActivatedRoute,
     public dialog: MatDialog,
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService) {
-
   }
 
   ngOnInit(): void {
-    this.ds.eventDeatils$.subscribe(event => {
-      this.eventDeatils = event;
-      if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
-    });
+    if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
     this.getMaxMarketSummation();
     this.ds.balanceInfo$.subscribe(data => {
       this.balanceInfo = data;
     });
-    //console.log(this.details);
+    console.log(this.details);
     //console.log(this.selectedItem);
-    this.ds.event$.subscribe(event => {
-      this.eventData = event;
-      //console.log(this.eventData)
-    });
-    if (this.details.market_type == 'match oods') {
+    if (this.details.market_type != 'bookmaker') {
       this.ds.matchOdds$.subscribe(data => {
         this.matchOdds = data;
       });
@@ -68,7 +56,22 @@ export class BetPlaceFromComponent implements OnInit {
         this.bookMaker = data;
       });
     }
+    this.getOpenBets();
     this.getIP();
+  }
+
+  getOpenBets() {
+    this.ds.openBets$.subscribe(data => {
+      if (data) {
+        this.previousBet = [];
+        data.forEach(item => {
+          if (item.bet_status == 0 && item.market_id == this.details.marketId) {
+            this.previousBet.push(item);
+          }
+        });
+        //console.log(this.previousBet);
+      }
+    });
   }
 
   getMaxMarketSummation() {
@@ -94,7 +97,7 @@ export class BetPlaceFromComponent implements OnInit {
     const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
       width: '100%',
       panelClass: 'custom-modalbox',
-      data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+      data: { description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -121,6 +124,7 @@ export class BetPlaceFromComponent implements OnInit {
     this.calculatedValue = 0;
     this.selectedItem = changes.selectedItem.currentValue;
     this.inputData = this.selectedItem.value;
+    console.log(this.matchOdds)
   }
 
   addValue() {
@@ -157,8 +161,18 @@ export class BetPlaceFromComponent implements OnInit {
     if (this.stakeValue.toString() == '') {
       this.calculatedValue = 0.00;
     } else {
-      this.returnExposure.index = this.details.index;
-      this.profit_and_liability.emit(this.returnExposure);
+      let exposure: any={};
+      let all_amount: any = this.set_current_bet_amount();
+      console.log(all_amount)
+      if (this.previousBet && this.previousBet.length) {
+        exposure.previous = this.previous_exposure_calculation();
+        exposure.current = this.current_exposures_calculation(all_amount);
+
+      } else {
+        exposure.previous = [];
+        exposure.current = all_amount;
+      }
+      this.profit_and_liability.emit(exposure);
     }
   }
 
@@ -167,7 +181,7 @@ export class BetPlaceFromComponent implements OnInit {
       const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
         width: '100%',
         panelClass: 'custom-modalbox',
-        data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+        data: { description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result)
@@ -182,7 +196,7 @@ export class BetPlaceFromComponent implements OnInit {
   loader() {
     let EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
     let loaderTime;
-    if (EnentList.indexOf(this.eventData.name) !== -1)
+    if (EnentList.indexOf(this.details.event_name) !== -1)
       loaderTime = 1000;
     else
       loaderTime = 7000;
@@ -194,124 +208,127 @@ export class BetPlaceFromComponent implements OnInit {
     }, loaderTime);
   }
 
-  previous_exposure_find(previousBet): number {
-    let all_amount: any = Array.apply(null, new Array(previousBet[previousBet.length - 1].all_teams_exposure_data.length)).map(Number.prototype.valueOf, 0);
-    for (let i = 0; i < previousBet.length; i++) {
-      for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
-        all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
+  set_current_bet_amount() {
+    let all_amount: any = [];
+    for (let i = 0; i < this.details.runners.length; i++) {
+      let amount = 0;
+      if (this.details.runnerName == this.details.runners[i].runnerName) {
+        amount = this.returnExposure.value
+      } else {
+        amount = this.returnExposure.stake
+      }
+      all_amount.push(amount);
+    }
+    return (all_amount);
+  }
+
+  previous_exposure_calculation() {
+    let tmpData = JSON.parse(this.previousBet[this.previousBet.length - 1].all_teams_exposure_data)
+    let all_amount: any = Array.apply(null, new Array(tmpData.length)).map(Number.prototype.valueOf, 0);
+    for (let i = 0; i < this.previousBet.length; i++) {
+      let l = JSON.parse(this.previousBet[i].all_teams_exposure_data);
+      for (let j = 0; j < l.length; j++) {
+        all_amount[j] = all_amount[j] + l[j].amount;
       }
     }
     return (all_amount);
   }
 
-  current_exposure_find(all_amount, previousBet) {
-    for (let i = 0; i < previousBet.length; i++) {
-      for (let j = 0; j < previousBet[i].all_teams_exposure_data.length; j++) {
-        all_amount[j] = all_amount[j] + previousBet[i].all_teams_exposure_data[j].amount;
+  current_exposures_calculation(all_amount: any = []) {
+    for (let i = 0; i < this.previousBet.length; i++) {
+      let l = JSON.parse(this.previousBet[i].all_teams_exposure_data)
+      for (let j = 0; j < l.length; j++) {
+        all_amount[j] = all_amount[j] + l[j].amount;
       }
     }
     return (all_amount);
   }
 
   insertBet() {
-    let param: any = {};
-    param.user_id = this.details.user_id;
-    param.match_id = this.route.snapshot.params["matchId"];
     let current_exposure;
     let prev_exposure = 0;
-    this.commonService.getExposure(param, (result) => {
-      let previousBet: any = result;
-      let all_amount: any = [];
-      for (let i = 0; i < this.details.runners.length; i++) {
-        let amount;
-        if (this.details.runnerName == this.details.runners[i].runnerName) {
-          amount = this.returnExposure.value
-        } else {
-          amount = this.returnExposure.stake
-        }
-        all_amount.push(amount);
-      }
-      if (previousBet && previousBet.length) {
-        prev_exposure = this.min(this.previous_exposure_find(previousBet));
-        console.log('previous exposure',prev_exposure);
-        current_exposure = this.min(this.current_exposure_find(all_amount, previousBet));
-        console.log('current exposure',current_exposure);
+    let all_amount: any = this.set_current_bet_amount();
+    console.log(all_amount)
+    if (this.previousBet && this.previousBet.length) {
+      prev_exposure = this.min(this.previous_exposure_calculation());
+      current_exposure = this.min(this.current_exposures_calculation(all_amount));
+
+    } else {
+      current_exposure = this.min(all_amount);
+    }
+
+    if (current_exposure >= 0) {
+      current_exposure = 0;
+    }
+    let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
+    let net_exposure = this.balanceInfo.net_exposure + Math.abs(current_exposure);
+    console.log('net exposure', net_exposure, current_exposure, prev_exposure);
+    if (this.stakeValue < 1000) {
+      this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
+    }
+    else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_bet)) {
+      this._snakebarService.show('error', 'Max bet amount exceed');
+    }
+    else if ((this.stakeValue + this.sum_of_max_market) > parseInt(this.maxBetMaxMarket.max_market)) {
+      this._snakebarService.show('error', 'Max market amount exceed');
+    }
+    else if (Math.abs(net_exposure) > total_balance) {
+      this._snakebarService.show('error', 'Insufficient funds');
+    }
+    else if (Math.abs(net_exposure) > this.balanceInfo.balance_limit) {
+      this._snakebarService.show('error', 'Exposure limit exceed');
+    }
+    else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
+      let last_odd;
+      if (this.details.market_type != 'bookmaker') {
+        last_odd = this.selectedItem.type == 'back' ? this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToBack[0].price : this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToLay[0].price
       } else {
-        current_exposure = this.min(all_amount);
+        last_odd = this.selectedItem.type == 'back' ? this.bookMaker.runners[this.details.index].back : this.bookMaker.runners[this.details.index].lay;
       }
-      if (current_exposure >= 0) {
-        current_exposure = 0;
-      }
-      console.log('current exposure',current_exposure);
-      let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
-      let net_exposure = this.balanceInfo.net_exposure + Math.abs(current_exposure);
-      //console.log('net exposure', net_exposure, total_balance, this.balanceInfo.balance_limit);
-      if (this.stakeValue < 1000) {
-        this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
-      }
-      else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_bet)) {
-        this._snakebarService.show('error', 'Max bet amount exceed');
-      }
-      else if ((this.stakeValue + this.sum_of_max_market) > parseInt(this.maxBetMaxMarket.max_market)) {
-        this._snakebarService.show('error', 'Max market amount exceed');
-      }
-      else if (Math.abs(net_exposure) > total_balance) {
-        this._snakebarService.show('error', 'Insufficient funds');
-      }
-      else if (Math.abs(net_exposure) > this.balanceInfo.balance_limit) {
-        this._snakebarService.show('error', 'Exposure limit exceed');
-      }
-      else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
-        let last_odd;
-        if (this.details.market_type == 'match oods') {
-          last_odd = this.selectedItem.type == 'back' ? this.matchOdds[0].runners[this.details.index].ex.availableToBack[0].price : this.matchOdds[0].runners[this.details.index].ex.availableToLay[0].price
-        } else {
-          last_odd = this.selectedItem.type == 'back' ? this.bookMaker.runners[this.details.index].back : this.bookMaker.runners[this.details.index].lay;
-        }
-        let param = {
-          market_id: this.details.marketId,
-          match_id: this.eventDeatils.event.id,
-          market_type: this.details.market_type,
-          description: this.eventDeatils.event.name,
-          event_name: this.eventData.name,
-          event_id: this.eventData.eventType,
-          odd: this.selectedItem.type == 'back' ? 0 : 1,
-          place_odd: this.inputData.toFixed(2),
-          last_odd: last_odd,
-          stake: this.stakeValue,
-          runner_name: this.details.runnerName,
-          runners: this.details.runners,
-          market_start_time: this.details.market_start_time,
-          market_end_time: 0,
-          user_ip: this.ipAddress,
-          selection_id: 0,
-          user_id: this.details.user_id,
-          p_and_l: 0,
-          bet_status: 0,
-          market_status: 0,
-          bet_id: "111",
-          settled_time: 0,
-          master_id: this.details.punter_belongs_to,
-          current_exposure: Math.abs(current_exposure) - Math.abs(prev_exposure),
-          amount: 0,
-          liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
-        };
-        console.log(param);
-        this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
-          result => {
-            if (result.success) {
-              this._snakebarService.show('success', result.message);
-            }
-            else {
-              this._snakebarService.show('error', result.message);
-            }
-          },
-          err => {
-            this._snakebarService.show('error', err);
+      let param = {
+        market_id: this.details.marketId,
+        match_id: this.details.match_id,
+        market_type: this.details.market_type,
+        description: this.details.description,
+        event_name: this.details.event_name,
+        event_id: this.details.event_id,
+        odd: this.selectedItem.type == 'back' ? 0 : 1,
+        place_odd: this.inputData.toFixed(2),
+        last_odd: last_odd,
+        stake: this.stakeValue,
+        runner_name: this.details.runnerName,
+        runners: this.details.runners,
+        market_start_time: this.details.market_start_time,
+        market_end_time: 0,
+        user_ip: this.ipAddress,
+        selection_id: 0,
+        user_id: this.details.user_id,
+        p_and_l: 0,
+        bet_status: 0,
+        market_status: 0,
+        bet_id: "111",
+        settled_time: 0,
+        master_id: this.details.punter_belongs_to,
+        current_exposure: Math.abs(current_exposure) - Math.abs(prev_exposure),
+        amount: 0,
+        liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
+      };
+      console.log(param);
+      this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
+        result => {
+          if (result.success) {
+            this.commonService.getOpenBets();
+            this._snakebarService.show('success', result.message);
           }
-        );
-      }
-    });
+          else {
+            this._snakebarService.show('error', result.message);
+          }
+        },
+        err => {
+          this._snakebarService.show('error', err);
+        }
+      );
+    }
   }
 
   min(input) {

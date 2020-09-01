@@ -31,7 +31,7 @@
             </div>
             <div class="bottom-button">
                 <button (click)="canceBet()">Cancel</button>
-                <button [disabled]="stakeValue==0" (click)="betPlace();">
+                <button [disabled]="stakeValue==0 || stakeValue==undefined" (click)="betPlace();">
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="stopwatch"
                         class="svg-inline--fa fa-stopwatch fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 448 512">

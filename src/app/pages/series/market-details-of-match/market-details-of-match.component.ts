@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
-import { SnakebarService, LoadingService, APIService, DataService } from '@shared/services';
+import { SnakebarService, LoadingService, APIService, DataService, CommonService } from '@shared/services';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
@@ -24,7 +24,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   bookMakerMatch: any = [];
   getFancyInterval: any;
   getBookMakerInterval: any;
-  openBetList: any = [];
+  openBetCount = 0;
   private subscriptions: Subscription[] = [];
   maxBetMaxMarket: any = [];
 
@@ -35,16 +35,18 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     public platform: Platform,
     private apiService: APIService,
     private router: Router,
+    private commonService: CommonService,
     private route: ActivatedRoute) {
     this.getMaxbetMaxMarket(this.route.snapshot.params['id']);
-    route.params.subscribe((params) => {
-      this.eventId = params['id'];
-      this.competitionId = params['competitionId'];
-      this.matchId = params["matchId"];
-      this.getMatchDetails();
-      this.getFancy();
-      this.getFancyFromInterval();
-    });
+    this.commonService.getOpenBets();
+    this.eventId = this.route.snapshot.params['id'];
+    this.competitionId = this.route.snapshot.params['competitionId'];
+    this.matchId = this.route.snapshot.params['matchId'];
+    this.commonService.setEventInfo(this.route.snapshot.params['id']);
+    this.commonService.setEventDetailsInfo(this.route.snapshot.params['id'], this.route.snapshot.params['competitionId'], this.route.snapshot.params['matchId']);
+    this.getMatchDetails();
+    this.getFancy();
+    this.getFancyFromInterval();
   }
 
   ngOnInit(): void {
@@ -80,13 +82,16 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         if (result.success) {
           this.matchesDetails = result.data;
           this.marketId = result.data[0].marketId;
-          this.getMatchOdds(result.data[0].marketId);
-          this.getOddsFromInterval(result.data[0].marketId);
+          for (let i = 0; i < result.data.length; i++) {
+            this.getMatchOdds(i, result.data[i].marketId);
+          }
+          this.ds.changeMatchOdds(this.matchOdds);
+          this.getOddsFromInterval(result);
           this.getBookMaker(result.data[0].marketId);
-          this.getBooMakerFromInterval(result.data[0].marketId);
+          //this.getBooMakerFromInterval(result.data[0].marketId);
           this.getOpenBets(result.data[0].marketId);
         }
-      }, err => {}
+      }, err => { }
     ));
   }
 
@@ -101,12 +106,11 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
 
-  getMatchOdds(marketID) {
+  getMatchOdds(index, marketID) {
     this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-odds?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&marketID=' + marketID, 'get').subscribe(
       result => {
         if (result.success) {
-          this.matchOdds = result["data"];
-          this.ds.changeMatchOdds(result["data"]);
+          this.matchOdds[index] = result["data"][0];
         }
       },
       err => {
@@ -127,18 +131,25 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   }
 
   getOpenBets(marketID) {
-    this.subscriptions.push(this.apiService.ApiCall({}, environment.apiUrl + 'open-bet' + '?market_id=' + marketID, 'get').subscribe(
-      result => {
-        if (result.success) {
-          this.openBetList = result['data'];
-        }
-      }, err => { }
-    ));
+    this.ds.openBets$.subscribe(data => {
+      if (data) {
+        let previousBet = [];
+        data.forEach(item => {
+          if (item.bet_status == 0 && item.market_id == marketID) {
+            previousBet.push(item);
+          }
+        });
+        this.openBetCount = previousBet.length;
+      }
+    });
   }
 
-  getOddsFromInterval(marketID) {
+  getOddsFromInterval(result) {
     this.getOddsInterval = setInterval(() => {
-      this.getMatchOdds(marketID)
+      for (let i = 0; i < result.data.length; i++) {
+        this.getMatchOdds(i, result.data[i].marketId);
+      }
+      this.ds.changeMatchOdds(this.matchOdds);
     }, 1000);
   }
 

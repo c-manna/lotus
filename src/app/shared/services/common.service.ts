@@ -1,14 +1,12 @@
 import { Injectable, ComponentFactoryResolver } from '@angular/core';
-import {
-  MatSnackBar, MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
-} from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { SnackBarComponent } from "../../shared/components/snack-bar/snack-bar.component";
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { LoadingComponent } from "../../shared/components/loading/loading.component";
 import { ComponentPortal } from '@angular/cdk/portal';
 import { HttpClient } from '@angular/common/http';
 import { APIService } from './api.service';
+import { DataService } from './data.service';
 import { environment } from '@env/environment';
 
 @Injectable({
@@ -16,7 +14,49 @@ import { environment } from '@env/environment';
 })
 export class CommonService {
 
-  constructor(private apiService: APIService) { }
+  constructor(private apiService: APIService,
+    private ds: DataService) { }
+
+    getOpenBets() {
+      this.apiService.ApiCall({}, environment.apiUrl + 'open-bet', 'get').subscribe(
+        result => {
+          if (result.success) {
+            this.ds.changeOpenBets(result['data']);
+            this.ds.changeOpenBetLength(result['data'].length);
+          }
+        },
+        err => {}
+      );
+    }
+
+  setEventInfo(id){
+    this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
+      result => {
+        if (result.success) {
+          this.ds.changeEvent(result.data.find( ({ eventType }) => eventType === id ));
+        }else{
+          this.ds.changeEvent([]);
+        }
+      },
+      err => {}
+    );
+  }
+
+  setEventDetailsInfo(eventId,competitionId,matchId){
+    this.apiService.ApiCall('', environment.apiUrl + 'fetch-match-series?eventID=' + eventId + '&competitionId=' + competitionId, 'get').subscribe(
+      result => {
+        if (result.success) {
+          result.data.find( ({ event }) => event.id === matchId )
+          this.ds.changeEventDetails(result.data.find( ({ event }) => event.id === matchId ));
+        }
+        else {
+          this.ds.changeEventDetails([]);
+        }
+      },
+      err => {
+      }
+    );
+  }
 
   getExposureForFancy(param, callback: any = null) {
     this.apiService.ApiCall(param, environment.apiUrl + 'getExposureFancy', 'post').subscribe(

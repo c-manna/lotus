@@ -12,7 +12,8 @@
                 <p *ngIf="!unmatchBet.length">You have no unmatched bets</p>
                 <ul>
                     <li *ngFor="let item of unmatchBet">
-                        <div class="link-div">{{(item.odd == 0) ? 'Back' : 'Lay'}} {{item.runner_name}} for
+                        <div class="link-div" (click)="goToDetailsPage(item)">{{(item.odd == 0) ? 'Back' : 'Lay'}}
+                            {{item.runner_name}} for
                             {{item.stake}} @ {{item.placed_odd}} {{(item.odd == 0) ? 'to win' : 'liability'}}
                             {{(item.odd == 0) ? item.protential_profit : item.exposure}}
                         </div>
@@ -32,7 +33,8 @@
                 <p *ngIf="!matchBet.length">You have no Matched bets</p>
                 <ul>
                     <li *ngFor="let item of matchBet">
-                        <div class="link-div">{{(item.odd == 0) ? 'Back' : 'Lay'}} {{item.runner_name}} for
+                        <div class="link-div" (click)="goToDetailsPage(item)">{{(item.odd == 0) ? 'Back' : 'Lay'}}
+                            {{item.runner_name}} for
                             {{item.stake}} @ {{item.placed_odd}} {{(item.odd == 0) ? 'to win' : 'liability'}}
                             {{(item.odd == 0) ? item.protential_profit : item.exposure}}
                         </div>
