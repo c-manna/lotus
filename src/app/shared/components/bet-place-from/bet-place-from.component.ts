@@ -101,7 +101,8 @@ export class BetPlaceFromComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.loader();
+        this.canceBet();
+        this.insertBet();
       } else {
         this.canceBet()
       }
@@ -185,28 +186,15 @@ export class BetPlaceFromComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.loader();
+          this.canceBet();
+          this.insertBet();
         }
       });
     }
     else {
-      this.loader();
-    }
-  }
-
-  loader() {
-    let EnentList = ["Cricket", "Tennis", "Football", "Soccer"];
-    let loaderTime;
-    if (EnentList.indexOf(this.details.event_name) !== -1)
-      loaderTime = 1000;
-    else
-      loaderTime = 7000;
-    /* this._betPlaceLoadingService.show(); */
-    this.canceBet();
-    setTimeout(() => {
+      this.canceBet();
       this.insertBet();
-      /* this._betPlaceLoadingService.hide(); */
-    }, loaderTime);
+    }
   }
 
   set_current_bet_amount() {

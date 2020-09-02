@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class BetplaceConfirmationPopupComponent implements OnInit {
 
-  isBetPlace: boolean = false;
+  isLoading: boolean = false;
   loaderTime;
   timeInterval: any;
   countDownTime;
@@ -32,7 +32,7 @@ export class BetplaceConfirmationPopupComponent implements OnInit {
   ngOnInit() { }
 
   loader() {
-    this.isBetPlace = true;
+    this.isLoading = true;
     this.secondCountDown();
     setTimeout(() => {
       this.closeDialog();

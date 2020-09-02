@@ -1,4 +1,4 @@
-<div class="dialog-content" *ngIf="isBetPlace">
+<div class="dialog-content" *ngIf="isLoading">
     <h1>{{data.description}}</h1>
     <div class="content-container">
         <h2>{{data.selectionType=='back' || data.selectionType=='yes'?'Backing':'Laying'}}
@@ -34,7 +34,7 @@
         </div>
     </div>
 </div>
-<div class="dialog-content" *ngIf="!isBetPlace">
+<div class="dialog-content" *ngIf="!isLoading">
     <div class="loader-div">
         <h5>Your bet is being processed.<br> Please Wait..</h5>
         <div class="circle-wrap readyProgress">
