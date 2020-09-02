@@ -1,11 +1,10 @@
 import { Injectable, ComponentFactoryResolver } from '@angular/core';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { SnackBarComponent } from "../../shared/components/snack-bar/snack-bar.component";
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { LoadingComponent } from "../../shared/components/loading/loading.component";
+import { LoadingComponent, SnackBarComponent } from "@shared/components";
 import { ComponentPortal } from '@angular/cdk/portal';
 import { HttpClient } from '@angular/common/http';
-import { APIService } from './api.service';
+import { APIService } from '@shared/services';
 import { DataService } from './data.service';
 import { environment } from '@env/environment';
 

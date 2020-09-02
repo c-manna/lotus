@@ -97,7 +97,7 @@ export class BetPlaceFromComponent implements OnInit {
     const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
       width: '100%',
       panelClass: 'custom-modalbox',
-      data: { description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+      data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -161,7 +161,7 @@ export class BetPlaceFromComponent implements OnInit {
     if (this.stakeValue.toString() == '') {
       this.calculatedValue = 0.00;
     } else {
-      let exposure: any={};
+      let exposure: any = {};
       let all_amount: any = this.set_current_bet_amount();
       console.log(all_amount)
       if (this.previousBet && this.previousBet.length) {
@@ -181,11 +181,12 @@ export class BetPlaceFromComponent implements OnInit {
       const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
         width: '100%',
         panelClass: 'custom-modalbox',
-        data: { description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+        data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
       });
       dialogRef.afterClosed().subscribe(result => {
-        if (result)
+        if (result) {
           this.loader();
+        }
       });
     }
     else {
@@ -200,11 +201,11 @@ export class BetPlaceFromComponent implements OnInit {
       loaderTime = 1000;
     else
       loaderTime = 7000;
-    this._loadingService.show();
+    /* this._betPlaceLoadingService.show(); */
     this.canceBet();
     setTimeout(() => {
       this.insertBet();
-      this._loadingService.hide();
+      /* this._betPlaceLoadingService.hide(); */
     }, loaderTime);
   }
 

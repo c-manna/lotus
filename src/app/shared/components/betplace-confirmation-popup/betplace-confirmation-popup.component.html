@@ -1,16 +1,8 @@
-<!-- <div>
-    <p>Want to place the bet?</p>
-    <div>
-        <button [mat-dialog-close]="false">No Thanks</button>
-        <button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
-    </div>
-</div> -->
-
-<div class="dialog-content">
+<div class="dialog-content" *ngIf="isBetPlace">
     <h1>{{data.description}}</h1>
     <div class="content-container">
-
-        <h2>{{data.selectionType=='back'?'Backing':'Laying'}} <strong>{{data.runner_name}}</strong></h2>
+        <h2>{{data.selectionType=='back' || data.selectionType=='yes'?'Backing':'Laying'}}
+            <strong>{{data.runner_name}}</strong></h2>
         <ul>
             <li>
                 <p>Odds</p>
@@ -25,42 +17,39 @@
                 <p><em>{{data.p_and_l}}</em></p>
             </li>
         </ul>
-
         <div class="input-buttons">
-            <button [mat-dialog-close]="false" analytics-on=""
-                class="button-md-cta-secondary"
-                 ion-button="" type="button"><span class="button-inner">Cancel</span>
-                
+            <button [mat-dialog-close]="false" analytics-on="" class="button-md-cta-secondary" ion-button=""
+                type="button"><span class="button-inner">Cancel</span>
             </button>
-            <button [mat-dialog-close]="true" cdkFocusInitial analytics-on=""
-                class="button-md-cta-primary"
+            <button (click)="loader()" cdkFocusInitial analytics-on="" class="button-md-cta-primary"
                 ion-button="" type="button">
                 <span class="button-inner">
                     <span class="content action">Place Bet</span>
-                    <span class="content info">{{data.selectionType=='back'||data.selectionType=='yes'?'Profit:' : 'Liability:'}}: {{data.p_and_l}}</span>
+                    <span
+                        class="content info">{{data.selectionType=='back'||data.selectionType=='yes'?'Profit:' : 'Liability:'}}:
+                        {{data.p_and_l}}</span>
                 </span>
-                
+
             </button>
         </div>
-
     </div>
-
-
+</div>
+<div class="dialog-content" *ngIf="!isBetPlace">
     <div class="loader-div">
         <h5>Your bet is being processed.<br> Please Wait..</h5>
-        <div  class="circle-wrap readyProgress">
-            <div  class="circle">
-                <div  class="mask half">
-                    <div  class="fill" style="transform: rotate(130deg);"></div>
+        <div class="circle-wrap readyProgress">
+            <div class="circle">
+                <div class="mask half">
+                    <div class="fill" style="transform: rotate(130deg);"></div>
                 </div>
-                <div  class="mask  full" style="transform: rotate(130deg);">
-                    <div  class="fill" style="transform: rotate(130deg);"></div>
+                <div class="mask  full" style="transform: rotate(130deg);">
+                    <div class="fill" style="transform: rotate(130deg);"></div>
                 </div>
-                    <div  class="inside-circle">
-                        <h2 >3</h2>
-                    </div>
+                <div class="inside-circle">
+                    <h2>{{countDownTime}}</h2>
                 </div>
-         </div>
+            </div>
+        </div>
 
     </div>
 </div>
