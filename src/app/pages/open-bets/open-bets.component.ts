@@ -33,6 +33,7 @@ export class OpenBetsComponent implements OnInit {
         this.matchBet = [];
         this.unmatchBet = [];
         if (this.matchesDetails.length) {
+          if(this.matchesDetails!=0)
           this.matchesDetails.forEach(item => {
             data.forEach(subItem => {
               if (subItem.bet_status == 0 && subItem.market_id == item.marketId) {

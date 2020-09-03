@@ -96,7 +96,9 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   getFancy() {
     this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'fetch-market-books?eventID=' + this.eventId + '&competitionId=' + this.competitionId + '&matchID=' + this.matchId, 'get').subscribe(
       result => {
-        this.fancyMatch = result['data'];
+        if (result.success) {
+          this.fancyMatch = result['data'];
+        }
       },
       err => {
       }
