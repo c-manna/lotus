@@ -87,7 +87,11 @@ export class MarketLiveSectionComponent implements OnInit {
         if(data.previous.length){
           this.previous_exposure[i] = data.previous[i];
         }
-        this.current_exposure[i] = data.current[i];
+        if(data.current[i]!=undefined){
+          this.current_exposure[i] = data.current[i];
+        }else{
+          this.current_exposure[i] = "0.00";
+        }
       }
     } /* else {
       for (let i = 0; i < this.fancyMatch.length; i++) {
@@ -114,6 +118,10 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.competition_id = this.route.snapshot.params['competitionId'];
     this.details.match_id = this.route.snapshot.params['matchId'];
     this.selectedItem = { type: type, ...item, value: value };
+    this.current_exposure=[];
+    this.details.runners.forEach(element => {
+      this.current_exposure.push("0.00")
+    });
   }
 
   openCreateBetFormFancy(value, type, item, runnerName, index, market_type) {

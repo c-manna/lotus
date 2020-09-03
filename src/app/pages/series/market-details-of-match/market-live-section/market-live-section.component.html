@@ -15,9 +15,9 @@
                         <div class="title">
                             {{item.runnerName}}
                             <span *ngIf="previous_exposure && openBetPlaceDialog && details.index==i"
-                                [ngClass]="{'red-Color': previous_exposure[j]<0,'green-Color':previous_exposure[j]>=0}">{{previous_exposure[j]}} {{previous_exposure.length?'>>':''}} </span>
+                                [ngClass]="{'red-Color': previous_exposure[j]<0,'green-Color':previous_exposure[j]>0}">{{previous_exposure[j]}} >> </span>
                             <span *ngIf="current_exposure && openBetPlaceDialog && details.index==i"
-                                [ngClass]="{'red-Color': current_exposure[j]<0,'green-Color':current_exposure[j]>=0}">{{current_exposure[j]}}</span>
+                                [ngClass]="{'red-Color': current_exposure[j]<0,'green-Color':current_exposure[j]>0}">{{current_exposure[j]}}</span>
                         </div>
                         <div class="bet-btn-wrapper">
                                 <div *ngIf="matchOdds[i].runners[j].ex.availableToBack.length>0; else blankBack"
