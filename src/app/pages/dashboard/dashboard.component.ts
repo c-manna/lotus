@@ -14,9 +14,7 @@ import { environment } from '@env/environment';
 export class DashboardComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   createBetFormActive: any;
-  // eventId = 1;
-  // events = [];
-  events = [{ "eventType": "1", "name": "Soccer", "marketCount": 2492 }, { "eventType": "2", "name": "Tennis", "marketCount": 5578 }, { "eventType": "4", "name": "Cricket", "marketCount": 22 }, { "eventType": "7", "name": "Horse Racing", "marketCount": 831 }, { "eventType": "4339", "name": "Greyhound Racing", "marketCount": 298 }];
+  events:any= [];
   dataList: any = [];
   selectedItem: any = {};
   inplayInterval: any;
@@ -31,7 +29,10 @@ export class DashboardComponent implements OnInit {
     private _cookieService: CookieService,
     private _apiService: APIService,
   ) {
-    this.getInPlay();
+    this.ds.events$.subscribe(data => {
+      this.events = data;
+      if(this.events) this.getInPlay();
+    });
     this.commonService.getOpenBets();
     this.ds.openBetLength$.subscribe(data => {
       this.OpenBetLength$ = data;
@@ -42,24 +43,11 @@ export class DashboardComponent implements OnInit {
     this.inplayTime();
   }
 
-  getEvents() {
-    // this._loadingService.show();
-    this._apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(result => {
-      // this._loadingService.hide();
-      if (result.success) {
-        this.events = result.data;
-      }
-    }, err => {
-      // this._loadingService.hide();
-    });
-  }
-
   getInPlay() {
     if (this.loading) this._loadingService.show();
     this._apiService.ApiCall({}, `${environment.apiUrl}inplay-match`, 'get').subscribe(res => {
       // this._apiService.ApiCall({}, `${environment.apiUrl}fetch-inplay?eventID=${this.eventId}`, 'get').subscribe(res => {
       if (this.loading) this._loadingService.hide();
-      if (this.loading) this.getEvents();
       this.loading = false;
       if (res.success) {
         let resData = res['data'];

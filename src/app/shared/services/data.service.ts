@@ -7,6 +7,12 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 })
 export class DataService {
 
+  private events = new BehaviorSubject<any>(null);
+  events$ = this.events.asObservable();
+  changeEvents(data) {
+    this.events.next(data);
+  }
+
   private breadCrumb = new BehaviorSubject<any>(null);
   breadCrumb$ = this.breadCrumb.asObservable();
   changeBread(data) {

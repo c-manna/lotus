@@ -10,7 +10,8 @@ import { BehaviorSubject, Subscription } from 'rxjs';
   styleUrls: ['./admin-left-panel.component.scss'],
 })
 export class AdminLeftPanelComponent implements OnInit {
-  events = [{ "eventType": "1", "name": "Soccer", "marketCount": 2492 }, { "eventType": "2", "name": "Tennis", "marketCount": 5578 }, { "eventType": "4", "name": "Cricket", "marketCount": 22 }, { "eventType": "7", "name": "Horse Racing", "marketCount": 831 }, { "eventType": "4339", "name": "Greyhound Racing", "marketCount": 298 }];
+  //events = [{ "eventType": "1", "name": "Soccer", "marketCount": 2492 }, { "eventType": "2", "name": "Tennis", "marketCount": 5578 }, { "eventType": "4", "name": "Cricket", "marketCount": 22 }, { "eventType": "7", "name": "Horse Racing", "marketCount": 831 }, { "eventType": "4339", "name": "Greyhound Racing", "marketCount": 298 }];
+  events = [];
   _routeListener: Subscription;
   constructor(
     private _loadingService: LoadingService,
@@ -20,31 +21,14 @@ export class AdminLeftPanelComponent implements OnInit {
     private router: Router,
     private commonService: CommonService,
     private toolbarService: SideNavService) {
-      this.commonService.getSettingData();
+    this.commonService.getSettingData();
+    this.commonService.getEvents();
+    this.ds.events$.subscribe(data => {
+      this.events = data;
+    });
   }
 
   ngOnInit() {
-    this.getEvents();
-  }
-
-  getEvents() {
-    if (this.router.url == '/dashboard') {
-      // this._loadingService.show();
-    }
-    this._routeListener = this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
-      result => {
-        // this._loadingService.hide();
-        if (result.success) {
-          this.events = result.data;
-          if (this.router.url == '/dashboard') {
-            // this._loadingService.hide();
-          }
-        }
-      },
-      err => {
-        // this._loadingService.hide();
-      }
-    );
   }
 
   setEventData(data) {

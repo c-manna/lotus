@@ -17,6 +17,14 @@ export class CommonService {
   constructor(private apiService: APIService,
     private ds: DataService) { }
 
+    getEvents() {
+      this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(result => {
+        if (result.success) {
+          this.ds.changeEvents(result.data);
+        }
+      }, err => {});
+    }
+
     getSettingData() {
       this.apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
         if (res.success) {
