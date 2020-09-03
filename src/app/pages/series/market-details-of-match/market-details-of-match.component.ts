@@ -89,7 +89,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.getOddsFromInterval(result);
           this.getBookMaker(result.data[0].marketId);
           //this.getBooMakerFromInterval(result.data[0].marketId);
-          this.getOpenBets(result.data[0].marketId);
+          this.getOpenBets(result.data);
         }
       }, err => { }
     ));
@@ -130,14 +130,16 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       }));
   }
 
-  getOpenBets(marketID) {
+  getOpenBets(markets) {
     this.ds.openBets$.subscribe(data => {
       if (data) {
         let previousBet = [];
-        data.forEach(item => {
-          if (item.bet_status == 0 && item.market_id == marketID) {
-            previousBet.push(item);
-          }
+        markets.forEach(item => {
+          data.forEach(subItem => {
+            if (subItem.bet_status == 0 && subItem.market_id == item.marketId) {
+              previousBet.push(subItem);
+            }
+          });
         });
         this.openBetCount = previousBet.length;
       }

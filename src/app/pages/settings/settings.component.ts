@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
-import { LoadingService, SnakebarService } from '@app/shared/services/common.service';
-import { APIService } from '@app/shared/services/api.service';
+import { APIService, LoadingService, SnakebarService, DataService, CommonService } from '@shared/services';
 import { environment } from '@env/environment';
 
 @Component({
@@ -21,10 +20,12 @@ export class SettingsComponent implements OnInit {
   selectedTime: any = new Date();
   timeInterval: any;
   constructor(
+    private _ds: DataService,
     private _fb: FormBuilder,
     private _snakebarService: SnakebarService,
     private _loadingService: LoadingService,
-    private _apiService: APIService
+    private _apiService: APIService,
+    private _commonService: CommonService
   ) {
     this.timeInterval = setInterval(() => {
       if (this.settingData && this.settingData.time_setting && this.settingData.time_setting == 1) {
@@ -75,18 +76,12 @@ export class SettingsComponent implements OnInit {
   }
 
   getSettingData() {
-    this._loadingService.show();
-    this._apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
-      this._loadingService.hide();
-      if (res.success) {
-        this.settingData = res.data;
-      } else {
-        this._loadingService.hide();
-        this._snakebarService.show("error", res.message);
+    this._ds.settingData$.subscribe(data => {
+      this.settingData = data;
+      if (this.settingData == null) {
+        this._commonService.getSettingData();
       }
-    }, err => {
-      this._loadingService.hide();
-      this._snakebarService.show("error", err.message);
+      //console.log(this.settingData)
     });
   }
 
@@ -161,7 +156,6 @@ export class SettingsComponent implements OnInit {
   }
 
   updateSetting(data) {
-    console.log("setting==", this.settingData);
     this._loadingService.show();
     this._apiService.ApiCall(data, `${environment.apiUrl}update-setting`, 'post').subscribe(res => {
       this._loadingService.hide();
@@ -171,6 +165,7 @@ export class SettingsComponent implements OnInit {
         this._loadingService.hide();
         this._snakebarService.show("error", res.message);
       }
+      this._commonService.getSettingData();
     }, err => {
       this._loadingService.hide();
       this._snakebarService.show("error", err.message);

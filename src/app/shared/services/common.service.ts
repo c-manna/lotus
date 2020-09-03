@@ -17,6 +17,14 @@ export class CommonService {
   constructor(private apiService: APIService,
     private ds: DataService) { }
 
+    getSettingData() {
+      this.apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
+        if (res.success) {
+          this.ds.changeSettingData(res.data);
+        }
+      }, err => {});
+    }
+
     getOpenBets() {
       this.apiService.ApiCall({}, environment.apiUrl + 'open-bet', 'get').subscribe(
         result => {
@@ -60,15 +68,6 @@ export class CommonService {
 
   getExposureForFancy(param, callback: any = null) {
     this.apiService.ApiCall(param, environment.apiUrl + 'getExposureFancy', 'post').subscribe(
-      result => {
-        if (callback != null) { callback(result.result); }
-      },
-      err => { }
-    );
-  }
-
-  getExposure(param, callback: any = null) {
-    this.apiService.ApiCall(param, environment.apiUrl + 'getexposure', 'post').subscribe(
       result => {
         if (callback != null) { callback(result.result); }
       },

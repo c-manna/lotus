@@ -20,6 +20,7 @@ export class AdminLeftPanelComponent implements OnInit {
     private router: Router,
     private commonService: CommonService,
     private toolbarService: SideNavService) {
+      this.commonService.getSettingData();
   }
 
   ngOnInit() {

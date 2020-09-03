@@ -281,6 +281,7 @@ export class BetPlaceFromComponent implements OnInit {
         description: this.details.description,
         event_name: this.details.event_name,
         event_id: this.details.event_id,
+        competition_id: this.details.competition_id,
         odd: this.selectedItem.type == 'back' ? 0 : 1,
         place_odd: this.inputData.toFixed(2),
         last_odd: last_odd,

@@ -59,9 +59,12 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   getSettingData() {
-    this.apiService.ApiCall({}, `${environment.apiUrl}setting`, 'get').subscribe(res => {
-      if (res.success) { this.settingData = res.data; }
-    }, err => { });
+    this.ds.settingData$.subscribe(data => {
+      this.settingData = data;
+      if (this.settingData == null) {
+        this.commonService.getSettingData();
+      }
+    });
   }
 
   trackByFn(index, entity) {
