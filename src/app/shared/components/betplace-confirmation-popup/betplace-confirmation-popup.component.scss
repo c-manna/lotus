@@ -43,17 +43,17 @@
             height: 60px;
             position: absolute;
             border-radius: 50%;
-            clip: rect(0px, 60px, 60px, 30px);
+            //clip: rect(0px, 60px, 60px, 30px);
         }
          .circle .mask.full{
-            animation: fill ease-in-out 3s;
-            transform: rotate(180deg);
+            //animation: fill ease-in-out 3s;
+            //transform: rotate(180deg);
         }
          .circle .mask .fill{
             clip: rect(0px, 30px, 60px, 0px);
             background-color: #000;
-            animation: fill ease-in-out 3s;
-            transform: rotate(180deg);
+            //animation: fill ease-in-out 3s;
+            //transform: rotate(180deg);
             width: 60px;
             height: 60px;
             position: absolute;
@@ -193,3 +193,12 @@
 mat-dialog-container{
     padding: 0;
 }
+
+@keyframes roll {
+    0% {
+      transform: rotate(0);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
