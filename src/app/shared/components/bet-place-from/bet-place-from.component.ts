@@ -69,7 +69,17 @@ export class BetPlaceFromComponent implements OnInit {
             this.previousBet.push(item);
           }
         });
-        //console.log(this.previousBet);
+        if (this.previousBet.length) {
+          let exposure: any = {};
+          exposure.previous = this.previous_exposure_calculation();
+          exposure.current = this.set_current_bet_amount();
+          this.profit_and_liability.emit(exposure);
+        } else {
+          let exposure: any = {};
+          exposure.previous = [];
+          exposure.current = this.set_current_bet_amount();
+          this.profit_and_liability.emit(exposure);
+        }
       }
     });
   }
