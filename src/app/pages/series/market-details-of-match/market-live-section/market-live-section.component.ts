@@ -92,14 +92,7 @@ export class MarketLiveSectionComponent implements OnInit {
           this.current_exposure[i] = "0.00";
         }
       }
-    } /* else {
-      for (let i = 0; i < this.fancyMatch.length; i++) {
-        if (data.index == i)
-          this.profile_and_loss[i] = data.loss;
-        else
-          this.profile_and_loss[i] = data.loss;
-      }
-    } */
+    }
   }
 
   openCreateBetForm(value, type, item, runnerName, index, fragment, market_type) {

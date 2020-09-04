@@ -58,7 +58,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     this.apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
       result => {
         console.log(result);
-        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'match odds') == undefined ? { status: false } : result.result.find(obj => obj.market == 'match odds');
+        this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'Match Odds') == undefined ? { status: false } : result.result.find(obj => obj.market == 'Match Odds');
         this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy') == undefined ? { status: false } : result.result.find(obj => obj.market == 'fancy');
         this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker') == undefined ? { status: false } : result.result.find(obj => obj.market == 'bookmaker');
         console.log(this.maxBetMaxMarket)
