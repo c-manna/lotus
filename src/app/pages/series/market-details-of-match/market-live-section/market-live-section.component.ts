@@ -80,7 +80,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.openBetPlaceDialogForFancy = false;
   }
   set_profit_loss(data) {
-    console.log(data);
+    //console.log(data);
     if (this.details.market_type != 'fancy') {
       for (let i = 0; i < this.matchesDetails[this.details.index].runners.length; i++) {
         if (data.previous.length) {
