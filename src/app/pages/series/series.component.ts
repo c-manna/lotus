@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '@env/environment';
 import { APIService, SnakebarService, LoadingService, DataService } from '@shared/services';
-import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
-import { BehaviorSubject, Subscription } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-series',

@@ -46,16 +46,13 @@ export class CommonService {
     }
 
   setEventInfo(id){
-    this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(
-      result => {
-        if (result.success) {
-          this.ds.changeEvent(result.data.find( ({ eventType }) => eventType === id ));
-        }else{
-          this.ds.changeEvent([]);
-        }
-      },
-      err => {}
-    );
+    this.ds.events$.subscribe(data => {
+      if (data) {
+        this.ds.changeEvent(data.find( ({ eventType }) => eventType === id ));
+      }else{
+        this.ds.changeEvent([]);
+      }
+    });
   }
 
   setEventDetailsInfo(eventId,competitionId,matchId){
