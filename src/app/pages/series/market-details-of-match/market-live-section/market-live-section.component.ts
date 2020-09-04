@@ -22,10 +22,9 @@ export class MarketLiveSectionComponent implements OnInit {
   openBetPlaceDialog = false;
   openBetPlaceDialogForBookMaker = false;
   openBetPlaceDialogForFancy = false;
-  current_exposure: any=[];
-  previous_exposure: any=[];
+  current_exposure: any = [];
+  previous_exposure: any = [];
   settingData;
-  previousBet: any;
   ladderContent: boolean = false;
   ladderTable: any = [];
   eventData: any;
@@ -84,12 +83,12 @@ export class MarketLiveSectionComponent implements OnInit {
     console.log(data);
     if (this.details.market_type != 'fancy') {
       for (let i = 0; i < this.matchesDetails[this.details.index].runners.length; i++) {
-        if(data.previous.length){
+        if (data.previous.length) {
           this.previous_exposure[i] = data.previous[i];
         }
-        if(data.current[i]!=undefined){
+        if (data.current[i] != undefined) {
           this.current_exposure[i] = data.current[i];
-        }else{
+        } else {
           this.current_exposure[i] = "0.00";
         }
       }
@@ -118,7 +117,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.competition_id = this.route.snapshot.params['competitionId'];
     this.details.match_id = this.route.snapshot.params['matchId'];
     this.selectedItem = { type: type, ...item, value: value };
-    this.current_exposure=[];
+    this.current_exposure = [];
     this.details.runners.forEach(element => {
       this.current_exposure.push("0.00")
     });
@@ -140,73 +139,76 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   showLader(SelectionId, index) {
-    this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index ? true : this.ladderContent;
-    this.details.index = index;
-    this.openBetPlaceDialogForFancy = false;
-    if (this.ladderContent) {
-      let param: any = {};
-      param.user_id = this.details.user_id;
-      param.match_id = this.route.snapshot.params['matchId'];
-      param.selection_id = SelectionId;
-      this.ladderTable = [];
-      this.commonService.getExposureForFancy(param, (result) => {
-        let previousBetFancy = result;
-        if (previousBetFancy.length > 0) {
-          //console.log(previousBetFancy)
-          let ladderTable: any = [];
-          for (let i = 0; i < previousBetFancy.length; i++) {
-            if (i == 0) {
-              ladderTable.push({ from: 0, to: previousBetFancy[i].placed_odd - 1 })
-            } else {
-              if (i + 1 <= previousBetFancy.length - 1) {
-                if (previousBetFancy[i - 1].placed_odd != previousBetFancy[i].placed_odd) {
-                  ladderTable.push({ from: previousBetFancy[i - 1].placed_odd, to: previousBetFancy[i].placed_odd - 1 })
-                }
-              }
-            }
+    this.ds.openBets$.subscribe(data => {
+      if (data) {
+        let previousBetFancy = [];
+        data.forEach(item => {
+          if (item.bet_status == 0 && item.market_id == SelectionId) {
+            previousBetFancy.push(item);
           }
-          if (previousBetFancy[previousBetFancy.length - 2].placed_odd == previousBetFancy[previousBetFancy.length - 1].placed_odd) {
-            ladderTable.push({ from: '', to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
-          } else {
-            ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 2].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
-          }
-
-          for (let i = 0; i < previousBetFancy.length; i++) {
-            for (let j = 0; j < ladderTable.length; j++) {
-              if (previousBetFancy[i].odd == 0) {
-                if (ladderTable[j].to >= previousBetFancy[i].placed_odd) {
-                  ladderTable[j][i] = previousBetFancy[i].price / 100 * previousBetFancy[i].stake;
-                }
-                else {
-                  ladderTable[j][i] = -Math.abs(previousBetFancy[i].stake);
-                }
-              }
-              else {
-                if (ladderTable[j].to < previousBetFancy[i].placed_odd) {
-                  ladderTable[j][i] = previousBetFancy[i].price / 100 * previousBetFancy[i].stake;
-                }
-                else {
-                  ladderTable[j][i] = -Math.abs(previousBetFancy[i].stake);
-                }
-              }
-            }
-          }
-          let all_amount: any = [];
-          for (let i = 0; i < ladderTable.length; i++) {
-            for (let j = 0; j < previousBetFancy.length; j++) {
-              if (j == 0) {
-                ladderTable[i]["result"] = ladderTable[i][j];
+        });
+        this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index ? true : this.ladderContent;
+        this.details.index = index;
+        this.openBetPlaceDialogForFancy = false;
+        if (this.ladderContent) {
+          this.ladderTable = [];
+          if (previousBetFancy.length > 0) {
+            //console.log(previousBetFancy)
+            let ladderTable: any = [];
+            for (let i = 0; i < previousBetFancy.length; i++) {
+              if (i == 0) {
+                ladderTable.push({ from: 0, to: previousBetFancy[i].placed_odd - 1 })
               } else {
-                ladderTable[i]["result"] += ladderTable[i][j];
-                all_amount[i] = ladderTable[i]["result"];
+                if (i + 1 <= previousBetFancy.length - 1) {
+                  if (previousBetFancy[i - 1].placed_odd != previousBetFancy[i].placed_odd) {
+                    ladderTable.push({ from: previousBetFancy[i - 1].placed_odd, to: previousBetFancy[i].placed_odd - 1 })
+                  }
+                }
               }
             }
+            if (previousBetFancy[previousBetFancy.length - 2].placed_odd == previousBetFancy[previousBetFancy.length - 1].placed_odd) {
+              ladderTable.push({ from: '', to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
+            } else {
+              ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 2].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
+            }
+  
+            for (let i = 0; i < previousBetFancy.length; i++) {
+              for (let j = 0; j < ladderTable.length; j++) {
+                if (previousBetFancy[i].odd == 0) {
+                  if (ladderTable[j].to >= previousBetFancy[i].placed_odd) {
+                    ladderTable[j][i] = previousBetFancy[i].price / 100 * previousBetFancy[i].stake;
+                  }
+                  else {
+                    ladderTable[j][i] = -Math.abs(previousBetFancy[i].stake);
+                  }
+                }
+                else {
+                  if (ladderTable[j].to < previousBetFancy[i].placed_odd) {
+                    ladderTable[j][i] = previousBetFancy[i].price / 100 * previousBetFancy[i].stake;
+                  }
+                  else {
+                    ladderTable[j][i] = -Math.abs(previousBetFancy[i].stake);
+                  }
+                }
+              }
+            }
+            let all_amount: any = [];
+            for (let i = 0; i < ladderTable.length; i++) {
+              for (let j = 0; j < previousBetFancy.length; j++) {
+                if (j == 0) {
+                  ladderTable[i]["result"] = ladderTable[i][j];
+                } else {
+                  ladderTable[i]["result"] += ladderTable[i][j];
+                  all_amount[i] = ladderTable[i]["result"];
+                }
+              }
+            }
+            this.ladderTable = ladderTable;
+            console.log(ladderTable)
           }
-          this.ladderTable = ladderTable;
-          console.log(ladderTable)
         }
-      });
-    }
+      }
+    });
   }
 
 }

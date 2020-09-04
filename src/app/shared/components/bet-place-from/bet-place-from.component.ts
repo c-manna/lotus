@@ -304,7 +304,7 @@ export class BetPlaceFromComponent implements OnInit {
         selection_id: 0,
         user_id: this.details.user_id,
         p_and_l: 0,
-        bet_status: 0,
+        bet_status: last_odd>=this.inputData.toFixed(2)?0:1,
         market_status: 0,
         bet_id: "111",
         settled_time: 0,

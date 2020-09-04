@@ -17,7 +17,7 @@
                             <span *ngIf="previous_exposure && openBetPlaceDialog && details.index==i"
 
                                 [ngClass]="{'red-Color': previous_exposure[j]<0,'green-Color':previous_exposure[j]>=0}">
-                                    {{previous_exposure[j]}} <span>{{previous_exposure.length?'>>':''}}</span> </span>
+                                    {{previous_exposure[j]}} <span>>></span> </span>
 
                                 
                             <span *ngIf="current_exposure && openBetPlaceDialog && details.index==i"
