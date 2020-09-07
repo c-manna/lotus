@@ -196,7 +196,7 @@ export class MarketLiveSectionComponent implements OnInit {
                 }
               }
             }
-            this.ladderTable = ladderTable;
+            this.ladderTable = [...ladderTable];
             console.log(ladderTable)
           }
         }
