@@ -71,6 +71,12 @@ export class DataService {
     this.openBetLength.next(data);
   }
 
+  private checkBoxConfirmation = new BehaviorSubject<any>(true);
+  checkBoxConfirmation$ = this.checkBoxConfirmation.asObservable();
+  changeCheckBoxConfirmation(data) {
+    this.checkBoxConfirmation.next(data);
+  }
+
   constructor(private router: Router) {
     this.event.next(JSON.parse(localStorage.getItem('event')));
     this.breadCrumb.next(JSON.parse(localStorage.getItem('breadCrumb')));

@@ -36,8 +36,7 @@ export class BetPlaceFromComponent implements OnInit {
     private apiService: APIService,
     public dialog: MatDialog,
     private _loadingService: LoadingService,
-    private _snakebarService: SnakebarService) {
-  }
+    private _snakebarService: SnakebarService) {}
 
   ngOnInit(): void {
     if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
@@ -56,8 +55,15 @@ export class BetPlaceFromComponent implements OnInit {
         this.bookMaker = data;
       });
     }
+    this.ds.checkBoxConfirmation$.subscribe(data => {
+      this.checkBoxConfirmation = data;
+    });
     this.getOpenBets();
     this.getIP();
+  }
+
+  checkboxOnChange(event){
+    this.ds.changeCheckBoxConfirmation(event.target.checked);
   }
 
   getOpenBets() {
