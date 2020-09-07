@@ -17,6 +17,7 @@ export class MarketLiveSectionComponent implements OnInit {
   @Input() maxBetMaxMarket: any;
   //createBetFormActive: any;
   selectedItem: any;
+  selectedItemCheck: any;
   details: any = {};
   eventDeatils: any;
   openBetPlaceDialog = false;
@@ -72,12 +73,15 @@ export class MarketLiveSectionComponent implements OnInit {
 
   canceBet() {
     this.openBetPlaceDialog = false;
+    this.selectedItem = '';
   }
   canceBetForBookMaker() {
     this.openBetPlaceDialogForBookMaker = false;
+    this.selectedItem = '';
   }
   canceBetForFancy() {
     this.openBetPlaceDialogForFancy = false;
+    this.selectedItem = '';
   }
   set_profit_loss(data) {
     //console.log(data);
@@ -110,6 +114,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.competition_id = this.route.snapshot.params['competitionId'];
     this.details.match_id = this.route.snapshot.params['matchId'];
     this.selectedItem = { type: type, ...item, value: value };
+    this.selectedItemCheck = item;
     this.current_exposure = [];
     this.details.runners.forEach(element => {
       this.current_exposure.push("0.00")

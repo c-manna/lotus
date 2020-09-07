@@ -26,6 +26,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   openBetCount = 0;
   private subscriptions: Subscription[] = [];
   maxBetMaxMarket: any = [];
+  teamNames: any = [];
 
   constructor(
     private _loadingService: LoadingService,
@@ -50,6 +51,11 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
   ngOnInit(): void {
     this.getHeaderData();
+    this.ds.eventDeatils$.subscribe(event => {
+      let index = event.event.name.indexOf(" v ");
+      this.teamNames[0] = event.event.name.substring(0, index);
+      this.teamNames[1] = event.event.name.substring(index + 3);
+    });
   }
 
   getMaxbetMaxMarket(event_id) {
@@ -85,6 +91,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           }
           this.ds.changeMatchOdds(this.matchOdds);
           this.getOddsFromInterval(result);
+          //this.getBookMaker('29932183');
           this.getBookMaker(result.data[0].marketId);
           //this.getBooMakerFromInterval(result.data[0].marketId);
           this.getOpenBets(result.data);
