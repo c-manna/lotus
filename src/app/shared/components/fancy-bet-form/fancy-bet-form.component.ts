@@ -316,6 +316,7 @@ export class FancyBetFormComponent implements OnInit {
         this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet-for-fancy', 'post').subscribe(
           result => {
             if (result.success) {
+              this.commonService.getOpenBets();
               this._snakebarService.show('success', result.message);
             }
             else {

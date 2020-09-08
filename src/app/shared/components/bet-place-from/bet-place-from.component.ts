@@ -113,7 +113,7 @@ export class BetPlaceFromComponent implements OnInit {
     const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
       width: '100%',
       panelClass: 'custom-modalbox',
-      data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+      data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue, isLoad: false }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -198,7 +198,7 @@ export class BetPlaceFromComponent implements OnInit {
       const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
         width: '100%',
         panelClass: 'custom-modalbox',
-        data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+        data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue, isLoad: false }
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
@@ -208,8 +208,17 @@ export class BetPlaceFromComponent implements OnInit {
       });
     }
     else {
-      this.canceBet();
-      this.insertBet();
+      const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
+        width: '100%',
+        panelClass: 'custom-modalbox',
+        data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue, isLoad: true }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.canceBet();
+          this.insertBet();
+        }
+      });
     }
   }
 

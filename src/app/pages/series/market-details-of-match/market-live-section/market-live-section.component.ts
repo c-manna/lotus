@@ -17,7 +17,6 @@ export class MarketLiveSectionComponent implements OnInit {
   @Input() maxBetMaxMarket: any;
   //createBetFormActive: any;
   selectedItem: any;
-  selectedItemCheck: any;
   details: any = {};
   eventDeatils: any;
   openBetPlaceDialog = false;
@@ -114,7 +113,6 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.competition_id = this.route.snapshot.params['competitionId'];
     this.details.match_id = this.route.snapshot.params['matchId'];
     this.selectedItem = { type: type, ...item, value: value };
-    this.selectedItemCheck = item;
     this.current_exposure = [];
     this.details.runners.forEach(element => {
       this.current_exposure.push("0.00")
@@ -164,11 +162,11 @@ export class MarketLiveSectionComponent implements OnInit {
                 }
               }
             }
-            if (previousBetFancy[previousBetFancy.length - 2].placed_odd == previousBetFancy[previousBetFancy.length - 1].placed_odd) {
+            /* if (previousBetFancy[previousBetFancy.length - 2].placed_odd == previousBetFancy[previousBetFancy.length - 1].placed_odd) {
               ladderTable.push({ from: '', to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
             } else {
               ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 2].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
-            }
+            } */
   
             for (let i = 0; i < previousBetFancy.length; i++) {
               for (let j = 0; j < ladderTable.length; j++) {

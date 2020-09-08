@@ -27,6 +27,10 @@ export class BetplaceConfirmationPopupComponent implements OnInit {
       this.countDownTime = 7;
       this.loaderTime = 7000;
     }
+    if(data.isLoad){
+      this.isLoading = true;
+      this.loader();
+    }
   }
 
   ngOnInit() { }
