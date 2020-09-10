@@ -48,7 +48,7 @@
           <div class="toggle-button">
               <label class="switch">
                   <div> Confirm bet before placing</div>
-                  <input type="checkbox" [(ngModel)]="checkBoxConfirmation">
+                  <input type="checkbox" (change)="checkboxOnChange($event)" [(ngModel)]="checkBoxConfirmation">
                   <span class="slider round">
                       <span class="text-span"></span>
                   </span>

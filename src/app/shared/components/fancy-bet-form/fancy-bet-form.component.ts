@@ -74,7 +74,10 @@ export class FancyBetFormComponent implements OnInit {
           this.profit_and_liability.emit(exposure);
         }
       }
-    })
+    });
+    this.ds.checkBoxConfirmation$.subscribe(data => {
+      this.checkBoxConfirmation = data;
+    });
   }
 
   getMaxMarketSummation() {
@@ -389,6 +392,10 @@ export class FancyBetFormComponent implements OnInit {
     if (toString.call(input) !== "[object Array]")
       return false;
     return Math.min.apply(null, input);
+  }
+
+  checkboxOnChange(event){
+    this.ds.changeCheckBoxConfirmation(event.target.checked);
   }
 
 }
