@@ -16,7 +16,6 @@ export class FancyBetFormComponent implements OnInit {
   @Input('settingData') settingData: any;
   @Input() maxBetMaxMarket: any = [];
   @Input() eventDeatils: any;
-  previousBet: any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
@@ -24,7 +23,7 @@ export class FancyBetFormComponent implements OnInit {
   calculatedValue: any = 0;
   checkBoxConfirmation: boolean = true;
   eventData: any;
-
+  previousBet: any = []
   fancy: any = [];
   ipAddress;
   returnExposure: any = {};
@@ -55,6 +54,27 @@ export class FancyBetFormComponent implements OnInit {
       //console.log(this.eventData)
     });
     this.getIP();
+    this.ds.openBets$.subscribe(data => {
+      if (data) {
+        this.previousBet = [];
+        data.forEach(item => {
+          if (item.bet_status == 0 && item.market_id == this.selectedItem.SelectionId) {
+            this.previousBet.push(item);
+          }
+        });
+        if (this.previousBet.length) {
+          let exposure: any = {};
+          exposure.previous = this.previous_exposure_calculation();
+          exposure.current = '0.00';
+          this.profit_and_liability.emit(exposure);
+        } else {
+          let exposure: any = {};
+          exposure.previous = '0.00';
+          exposure.current = '0.00';
+          this.profit_and_liability.emit(exposure);
+        }
+      }
+    })
   }
 
   getMaxMarketSummation() {
@@ -80,11 +100,12 @@ export class FancyBetFormComponent implements OnInit {
     const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
       width: '100%',
       panelClass: 'custom-modalbox',
-      data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+      data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue, isLoad: false }
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.loader();
+        this.canceBet();
+        this.insertBet();
       } else {
         this.canceBet()
       }
@@ -163,15 +184,27 @@ export class FancyBetFormComponent implements OnInit {
       const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
         width: '100%',
         panelClass: 'custom-modalbox',
-        data: { description: this.eventDeatils.event.name, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue }
+        data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue, isLoad: false }
       });
       dialogRef.afterClosed().subscribe(result => {
-        if (result)
-          this.loader();
+        if (result) {
+          this.canceBet();
+          this.insertBet();
+        }
       });
     }
     else {
-      this.loader();
+      const dialogRef = this.dialog.open(BetplaceConfirmationPopupComponent, {
+        width: '100%',
+        panelClass: 'custom-modalbox',
+        data: { event_name: this.details.event_name, description: this.details.description, runner_name: this.details.runnerName, selectionType: this.selectedItem.type, odds: this.inputData, stake: this.stakeValue, p_and_l: this.calculatedValue, isLoad: true }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.canceBet();
+          this.insertBet();
+        }
+      });
     }
   }
 
@@ -198,14 +231,20 @@ export class FancyBetFormComponent implements OnInit {
         if (i == 0) {
           ladderTable.push({ from: 0, to: tempPrevioutBet[i].placed_odd - 1 })
         } else {
-          if (i + 1 <= tempPrevioutBet.length - 1) {
-            if (tempPrevioutBet[i].placed_odd != tempPrevioutBet[i + 1].placed_odd) {
+            if (tempPrevioutBet[i - 1].placed_odd != tempPrevioutBet[i].placed_odd) {
               ladderTable.push({ from: tempPrevioutBet[i - 1].placed_odd, to: tempPrevioutBet[i].placed_odd - 1 })
             }
-          }
         }
       }
-      ladderTable.push({ from: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd, to: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd });
+      if (tempPrevioutBet.length == 1) {
+        ladderTable.push({ from: '', to: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd });
+      } else {
+        if (tempPrevioutBet[tempPrevioutBet.length - 2].placed_odd == tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd) {
+          ladderTable.push({ from: '', to: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd });
+        } else {
+          ladderTable.push({ from: tempPrevioutBet[tempPrevioutBet.length - 2].placed_odd, to: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd });
+        }
+      }
       for (let i = 0; i < tempPrevioutBet.length; i++) {
         for (let j = 0; j < ladderTable.length; j++) {
           if (tempPrevioutBet[i].odd == 0) {
@@ -243,92 +282,90 @@ export class FancyBetFormComponent implements OnInit {
     }
   }
 
+  previous_exposure_calculation(){
+    let tempPrevioutBet2 = [...this.previousBet];
+    tempPrevioutBet2.sort(this.GetSortOrder("single_bet_id"));
+    return (tempPrevioutBet2.length > 0 ? tempPrevioutBet2[tempPrevioutBet2.length - 1].all_teams_exposure_data : 0);
+  }
+
   insertBet() {
     let tempPrevioutBet = [];
-    let paramForGetExpo: any = {};
-    paramForGetExpo.user_id = this.details.user_id;
-    paramForGetExpo.match_id = this.eventDeatils.event.id;
-    paramForGetExpo.selection_id = this.selectedItem.SelectionId;
-    this.commonService.getExposureForFancy(paramForGetExpo, (result) => {
-      this.previousBet = result;
-      tempPrevioutBet = [...this.previousBet];
-      let price = this.selectedItem.type == 'yes' ? this.selectedItem.BackSize1 : this.selectedItem.LaySize1;
-      tempPrevioutBet.push({ placed_odd: parseInt(this.selectedItem.value), price: parseInt(price), stake: this.stakeValue, odd: this.selectedItem.type == 'yes' ? 0 : 1 })
-      tempPrevioutBet.sort(this.GetSortOrder("placed_odd"));
-      this.calculateLader(tempPrevioutBet);
-      let net_exposure = 0;
-      let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
-      let tempPrevioutBet2 = [...this.previousBet];
-      tempPrevioutBet2.sort(this.GetSortOrder("single_bet_id"));
-      let previous_fancy_exposure = tempPrevioutBet2.length > 0 ? tempPrevioutBet2[tempPrevioutBet2.length - 1].all_teams_exposure_data : 0;
-      let current_exposure = 0;
-      current_exposure = Math.abs(this.minValueOfFancy) - Math.abs(previous_fancy_exposure);
-      net_exposure = this.balanceInfo.net_exposure + current_exposure;
-      //console.log('net exposure', fancy_exposure, total_balance, this.balanceInfo.balance_limit);
-      if (this.stakeValue < 1000) {
-        this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
-      }
-      else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_bet)) {
-        this._snakebarService.show('error', 'Max bet amount exceed');
-      }
-      else if ((this.stakeValue + this.sum_of_max_market) > parseInt(this.maxBetMaxMarket.max_market)) {
-        this._snakebarService.show('error', 'Max market amount exceed');
-      }
-      else if (Math.abs(net_exposure) > total_balance) {
-        this._snakebarService.show('error', 'Insufficient funds');
-      }
-      else if (Math.abs(net_exposure) > this.balanceInfo.balance_limit) {
-        this._snakebarService.show('error', 'Exposure limit exceed');
-      }
-      else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
-        let param = {
-          market_id: this.details.marketId,
-          match_id: this.eventDeatils.event.id,
-          market_type: this.details.market_type,
-          description: this.eventDeatils.event.name,
-          event_name: this.eventData.name,
-          event_id: this.eventData.eventType,
-          odd: this.selectedItem.type == 'yes' ? 0 : 1,
-          place_odd: this.inputData,
-          last_odd: this.inputData,
-          stake: this.stakeValue,
-          runner_name: this.details.runnerName,
-          runners: 0,
-          market_start_time: 0,
-          market_end_time: 0,
-          user_ip: this.ipAddress,
-          selection_id: this.selectedItem.SelectionId,
-          user_id: this.details.user_id,
-          p_and_l: 0,
-          bet_status: 0,
-          market_status: 0,
-          bet_id: "111",
-          settled_time: 0,
-          master_id: this.details.punter_belongs_to,
-          current_exposure: current_exposure,
-          minValueOfFancy: Math.abs(this.minValueOfFancy),
-          amount: 0,
-          liability: Math.abs(this.returnExposure.loss),
-          profit: Math.abs(this.returnExposure.profit),
-          price: this.selectedItem.type == 'yes' ? this.selectedItem.BackSize1 : this.selectedItem.LaySize1
-        };
-        console.log(param);
-        this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet-for-fancy', 'post').subscribe(
-          result => {
-            if (result.success) {
-              this.commonService.getOpenBets();
-              this._snakebarService.show('success', result.message);
-            }
-            else {
-              this._snakebarService.show('error', result.message);
-            }
-          },
-          err => {
-            this._snakebarService.show('error', err);
+    tempPrevioutBet = [...this.previousBet];
+    let price = this.selectedItem.type == 'yes' ? this.selectedItem.BackSize1 : this.selectedItem.LaySize1;
+    tempPrevioutBet.push({ placed_odd: parseInt(this.selectedItem.value), price: parseInt(price), stake: this.stakeValue, odd: this.selectedItem.type == 'yes' ? 0 : 1 })
+    tempPrevioutBet.sort(this.GetSortOrder("placed_odd"));
+    this.calculateLader(tempPrevioutBet);
+    let net_exposure = 0;
+    let total_balance = this.balanceInfo.net_exposure + this.balanceInfo.available_balance;
+    let previous_fancy_exposure = this.previous_exposure_calculation();
+    let current_exposure = 0;
+    current_exposure = Math.abs(this.minValueOfFancy) - Math.abs(previous_fancy_exposure);
+    net_exposure = this.balanceInfo.net_exposure + current_exposure;
+    //console.log('net exposure', fancy_exposure, total_balance, this.balanceInfo.balance_limit);
+    if (this.stakeValue < 1000) {
+      this._snakebarService.show('error', 'Minimum stake amount is Rs: 1000');
+    }
+    else if (this.stakeValue > parseInt(this.maxBetMaxMarket.max_bet)) {
+      this._snakebarService.show('error', 'Max bet amount exceed');
+    }
+    else if ((this.stakeValue + this.sum_of_max_market) > parseInt(this.maxBetMaxMarket.max_market)) {
+      this._snakebarService.show('error', 'Max market amount exceed');
+    }
+    else if (Math.abs(net_exposure) > total_balance) {
+      this._snakebarService.show('error', 'Insufficient funds');
+    }
+    else if (Math.abs(net_exposure) > this.balanceInfo.balance_limit) {
+      this._snakebarService.show('error', 'Exposure limit exceed');
+    }
+    else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
+      let param = {
+        market_id: this.details.marketId,
+        match_id: this.details.match_id,
+        market_type: this.details.market_type,
+        description: this.details.description,
+        event_name: this.details.event_name,
+        event_id: this.details.event_id,
+        competition_id: this.details.competition_id,
+        odd: this.selectedItem.type == 'yes' ? 0 : 1,
+        place_odd: this.inputData,
+        last_odd: this.inputData,
+        stake: this.stakeValue,
+        runner_name: this.details.runnerName,
+        runners: 0,
+        market_start_time: 0,
+        market_end_time: 0,
+        user_ip: this.ipAddress,
+        selection_id: this.selectedItem.SelectionId,
+        user_id: this.details.user_id,
+        p_and_l: 0,
+        bet_status: 0,
+        market_status: 0,
+        bet_id: "111",
+        settled_time: 0,
+        master_id: this.details.punter_belongs_to,
+        current_exposure: current_exposure,
+        minValueOfFancy: Math.abs(this.minValueOfFancy),
+        amount: 0,
+        liability: Math.abs(this.returnExposure.loss),
+        profit: Math.abs(this.returnExposure.profit),
+        price: this.selectedItem.type == 'yes' ? this.selectedItem.BackSize1 : this.selectedItem.LaySize1
+      };
+      console.log(param);
+      this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet-for-fancy', 'post').subscribe(
+        result => {
+          if (result.success) {
+            this.commonService.getOpenBets();
+            this._snakebarService.show('success', result.message);
           }
-        );
-      }
-    });
+          else {
+            this._snakebarService.show('error', result.message);
+          }
+        },
+        err => {
+          this._snakebarService.show('error', err);
+        }
+      );
+    }
   }
 
   min(input) {

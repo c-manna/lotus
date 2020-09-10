@@ -95,6 +95,12 @@ export class MarketLiveSectionComponent implements OnInit {
           this.current_exposure[i] = "0.00";
         }
       }
+    }else{
+      console.log(data)
+      for (let i = 0; i < this.fancyMatch.length; i++) {
+          this.previous_exposure[i] = data.previous;
+          this.current_exposure[i] = data.current;
+      }
     }
   }
 
@@ -115,7 +121,7 @@ export class MarketLiveSectionComponent implements OnInit {
     this.selectedItem = { type: type, ...item, value: value };
     this.current_exposure = [];
     this.details.runners.forEach(element => {
-      this.current_exposure.push("0.00")
+      this.current_exposure.push("0.00");
     });
   }
 
@@ -132,6 +138,21 @@ export class MarketLiveSectionComponent implements OnInit {
     this.details.competition_id = this.route.snapshot.params['competitionId'];
     this.details.match_id = this.route.snapshot.params['matchId'];
     this.selectedItem = { type: type, ...item, value: value };
+    this.current_exposure = [];
+    this.fancyMatch.forEach(element => {
+      this.current_exposure.push("0.00");
+    });
+  }
+
+  GetSortOrder(prop) {
+    return function (a, b) {
+      if (a[prop] > b[prop]) {
+        return 1;
+      } else if (a[prop] < b[prop]) {
+        return -1;
+      }
+      return 0;
+    }
   }
 
   showLader(SelectionId, index) {
@@ -143,54 +164,60 @@ export class MarketLiveSectionComponent implements OnInit {
             previousBetFancy.push(item);
           }
         });
+        let tempPrevioutBet = [];
+        tempPrevioutBet = [...previousBetFancy];
+        tempPrevioutBet.sort(this.GetSortOrder("placed_odd"));
         this.ladderContent = (this.details.index === index || this.details.index === undefined) ? !this.ladderContent : this.details.index != index ? true : this.ladderContent;
         this.details.index = index;
         this.openBetPlaceDialogForFancy = false;
         if (this.ladderContent) {
           this.ladderTable = [];
-          if (previousBetFancy.length > 0) {
-            //console.log(previousBetFancy)
+          if (tempPrevioutBet.length > 0) {
+            console.log(tempPrevioutBet)
             let ladderTable: any = [];
-            for (let i = 0; i < previousBetFancy.length; i++) {
+            for (let i = 0; i < tempPrevioutBet.length; i++) {
               if (i == 0) {
-                ladderTable.push({ from: 0, to: previousBetFancy[i].placed_odd - 1 })
+                ladderTable.push({ from: 0, to: tempPrevioutBet[i].placed_odd - 1 })
               } else {
-                if (i + 1 <= previousBetFancy.length - 1) {
-                  if (previousBetFancy[i - 1].placed_odd != previousBetFancy[i].placed_odd) {
-                    ladderTable.push({ from: previousBetFancy[i - 1].placed_odd, to: previousBetFancy[i].placed_odd - 1 })
+                  if (tempPrevioutBet[i - 1].placed_odd != tempPrevioutBet[i].placed_odd) {
+                    ladderTable.push({ from: tempPrevioutBet[i - 1].placed_odd, to: tempPrevioutBet[i].placed_odd - 1 })
                   }
-                }
               }
             }
-            /* if (previousBetFancy[previousBetFancy.length - 2].placed_odd == previousBetFancy[previousBetFancy.length - 1].placed_odd) {
-              ladderTable.push({ from: '', to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
+            if (tempPrevioutBet.length == 1) {
+              ladderTable.push({ from: '', to: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd });
             } else {
-              ladderTable.push({ from: previousBetFancy[previousBetFancy.length - 2].placed_odd, to: previousBetFancy[previousBetFancy.length - 1].placed_odd });
-            } */
-  
-            for (let i = 0; i < previousBetFancy.length; i++) {
+              if (tempPrevioutBet[tempPrevioutBet.length - 2].placed_odd == tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd) {
+                ladderTable.push({ from: '', to: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd });
+              } else {
+                ladderTable.push({ from: tempPrevioutBet[tempPrevioutBet.length - 2].placed_odd, to: tempPrevioutBet[tempPrevioutBet.length - 1].placed_odd });
+              }
+            }
+
+            for (let i = 0; i < tempPrevioutBet.length; i++) {
               for (let j = 0; j < ladderTable.length; j++) {
-                if (previousBetFancy[i].odd == 0) {
-                  if (ladderTable[j].to >= previousBetFancy[i].placed_odd) {
-                    ladderTable[j][i] = previousBetFancy[i].price / 100 * previousBetFancy[i].stake;
+                if (tempPrevioutBet[i].odd == 0) {
+                  if (ladderTable[j].to >= tempPrevioutBet[i].placed_odd) {
+                    ladderTable[j][i] = tempPrevioutBet[i].price / 100 * tempPrevioutBet[i].stake;
                   }
                   else {
-                    ladderTable[j][i] = -Math.abs(previousBetFancy[i].stake);
+                    ladderTable[j][i] = -Math.abs(tempPrevioutBet[i].stake);
                   }
                 }
                 else {
-                  if (ladderTable[j].to < previousBetFancy[i].placed_odd) {
-                    ladderTable[j][i] = previousBetFancy[i].price / 100 * previousBetFancy[i].stake;
+                  if (ladderTable[j].to < tempPrevioutBet[i].placed_odd) {
+                    ladderTable[j][i] = tempPrevioutBet[i].price / 100 * tempPrevioutBet[i].stake;
                   }
                   else {
-                    ladderTable[j][i] = -Math.abs(previousBetFancy[i].stake);
+                    ladderTable[j][i] = -Math.abs(tempPrevioutBet[i].stake);
                   }
                 }
               }
             }
+            
             let all_amount: any = [];
             for (let i = 0; i < ladderTable.length; i++) {
-              for (let j = 0; j < previousBetFancy.length; j++) {
+              for (let j = 0; j < tempPrevioutBet.length; j++) {
                 if (j == 0) {
                   ladderTable[i]["result"] = ladderTable[i][j];
                 } else {

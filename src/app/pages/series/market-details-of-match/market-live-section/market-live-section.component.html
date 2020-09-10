@@ -1,6 +1,8 @@
 <div class="live-tab-bd">
     <!-- match odds start -->
-    <ng-template [ngIf]="matchOdds && matchOdds.length && matchOdds[i] && matchesDetails && matchesDetails.length && maxBetMaxMarket['Match Odds'].status=='1'" *ngFor="let md of matchesDetails;trackBy: trackByFn;let i= index">
+    <ng-template
+        [ngIf]="matchOdds && matchOdds.length && matchOdds[i] && matchesDetails && matchesDetails.length && maxBetMaxMarket['Match Odds'].status=='1'"
+        *ngFor="let md of matchesDetails;trackBy: trackByFn;let i= index">
         <div class="market-group">
             <div class="heading">
                 <div class="title">{{md.marketName}}</div>
@@ -15,31 +17,32 @@
                         <div class="title">
                             {{item.runnerName}}
                             <span *ngIf="previous_exposure && openBetPlaceDialog && details.index==i"
-
                                 [ngClass]="{'red-Color': previous_exposure[j]<0,'green-Color':previous_exposure[j]>=0}">
-                                    {{previous_exposure[j]}} <span>>></span> </span>
+                                {{previous_exposure[j]}} <span>>></span> </span>
 
-                                
+
                             <span *ngIf="current_exposure && openBetPlaceDialog && details.index==i"
                                 [ngClass]="{'red-Color': current_exposure[j]<0,'green-Color':current_exposure[j]>0}">{{current_exposure[j]}}</span>
                         </div>
                         <div class="bet-btn-wrapper">
-                                <div *ngIf="matchOdds[i].runners[j].ex.availableToBack.length>0; else blankBack"
-                                    class="bet-button back" [ngClass]="{'active': details.index == i && details.fragment==j && selectedItem.type=='back'}"
-                                    (click)="openCreateBetForm(matchOdds[i].runners[j].ex.availableToBack[0].price, 'back', matchOdds[i].runners[j],matchesDetails[i].runners[j].runnerName,i,j,matchesDetails[i].marketName);openBetPlaceDialog=true;">
-                                    <div class="price" *ngIf="matchOdds[i].runners[j].ex.availableToBack.length>0">
-                                        {{matchOdds[i].runners[j].ex.availableToBack[0].price}}
-                                    </div>
-                                    <div class="market-volume">298,288</div>
+                            <div *ngIf="matchOdds[i].runners[j].ex.availableToBack.length>0; else blankBack"
+                                class="bet-button back"
+                                [ngClass]="{'active': details.index == i && details.fragment==j && selectedItem.type=='back'}"
+                                (click)="openCreateBetForm(matchOdds[i].runners[j].ex.availableToBack[0].price, 'back', matchOdds[i].runners[j],matchesDetails[i].runners[j].runnerName,i,j,matchesDetails[i].marketName);openBetPlaceDialog=true;">
+                                <div class="price" *ngIf="matchOdds[i].runners[j].ex.availableToBack.length>0">
+                                    {{matchOdds[i].runners[j].ex.availableToBack[0].price}}
                                 </div>
-                                <div *ngIf="matchOdds[i].runners[j].ex.availableToLay.length>0; else blankLay"
-                                    class="bet-button lay" [ngClass]="{'active': details.index == i && details.fragment==j && selectedItem.type=='lay'}"
-                                    (click)="openCreateBetForm(matchOdds[i].runners[j].ex.availableToLay[0].price, 'lay', matchOdds[i].runners[j],matchesDetails[i].runners[j].runnerName,i,j,matchesDetails[i].marketName);openBetPlaceDialog=true;">
-                                    <div class="price" *ngIf="matchOdds[i].runners[j].ex.availableToLay.length>0">
-                                        {{matchOdds[i].runners[j].ex.availableToLay[0].price}}
-                                    </div>
-                                    <div class="market-volume">298,288</div>
+                                <div class="market-volume">298,288</div>
+                            </div>
+                            <div *ngIf="matchOdds[i].runners[j].ex.availableToLay.length>0; else blankLay"
+                                class="bet-button lay"
+                                [ngClass]="{'active': details.index == i && details.fragment==j && selectedItem.type=='lay'}"
+                                (click)="openCreateBetForm(matchOdds[i].runners[j].ex.availableToLay[0].price, 'lay', matchOdds[i].runners[j],matchesDetails[i].runners[j].runnerName,i,j,matchesDetails[i].marketName);openBetPlaceDialog=true;">
+                                <div class="price" *ngIf="matchOdds[i].runners[j].ex.availableToLay.length>0">
+                                    {{matchOdds[i].runners[j].ex.availableToLay[0].price}}
                                 </div>
+                                <div class="market-volume">298,288</div>
+                            </div>
                         </div>
                     </li>
                     <app-bet-place-from *ngIf="openBetPlaceDialog && details.index==i && details.fragment==j"
@@ -68,9 +71,13 @@
                 <li>
                     <div class="title">
                         {{matchesDetails[0].runners[i].runnerName}}
-                        <span
-                            *ngIf="profile_and_loss && openBetPlaceDialogForBookMaker && settingData.one_click_betting == 0"
-                            [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
+                        <span *ngIf="previous_exposure && openBetPlaceDialog && details.index==i"
+                            [ngClass]="{'red-Color': previous_exposure[j]<0,'green-Color':previous_exposure[j]>=0}">
+                            {{previous_exposure[j]}} <span>>></span> </span>
+
+
+                        <span *ngIf="current_exposure && openBetPlaceDialog && details.index==i"
+                            [ngClass]="{'red-Color': current_exposure[j]<0,'green-Color':current_exposure[j]>0}">{{current_exposure[j]}}</span>
                     </div>
                     <ng-container *ngIf="matchesDetails[0].runners.length>0;then activeMatch;else suspendMatch">
                     </ng-container>
@@ -78,13 +85,15 @@
                         <div class="bet-btn-wrapper">
                             <div *ngIf="i<bookMakerMatch.runners.length;else blankBack"
                                 (click)="openCreateBetForm(bookMakerMatch.runners[i].back, 'back', bookMakerMatch.runners[i],matchesDetails[0].runners[i].runnerName,i,0,'bookmaker');openBetPlaceDialogForBookMaker=true;"
-                                class="bet-button back" [ngClass]="{'active': details.index == i && details.market_type=='bookmaker' && selectedItem.type=='back'}">
+                                class="bet-button back"
+                                [ngClass]="{'active': details.index == i && details.market_type=='bookmaker' && selectedItem.type=='back'}">
                                 <div class="price">{{bookMakerMatch.runners[i].back}}</div>
                                 <div class="market-volume">298,288</div>
                             </div>
                             <div *ngIf="i<bookMakerMatch.runners.length;else blankLay"
                                 (click)="openCreateBetForm(bookMakerMatch.runners[i].lay, 'lay', bookMakerMatch.runners[i],matchesDetails[0].runners[i].runnerName,i,0,'bookmaker');openBetPlaceDialogForBookMaker=true;"
-                                class="bet-button lay" [ngClass]="{'active': details.index == i && details.market_type=='bookmaker' && selectedItem.type=='lay'}">
+                                class="bet-button lay"
+                                [ngClass]="{'active': details.index == i && details.market_type=='bookmaker' && selectedItem.type=='lay'}">
                                 <div class="price">{{bookMakerMatch.runners[i].lay}}</div>
                                 <div class="market-volume">298,288</div>
                             </div>
@@ -114,9 +123,14 @@
                 <li>
                     <div class="title_Wrapper">
                         <div class="title">{{item.RunnerName}}</div>
-                        <span
-                            *ngIf="profile_and_loss && openBetPlaceDialogForFancy && settingData.one_click_betting == 0 && this.details.index==i"
-                            [ngClass]="{'red-Color': profile_and_loss[i]<0,'green-Color':profile_and_loss[i]>=0}">{{profile_and_loss[i]}}</span>
+
+                        <span *ngIf="previous_exposure && openBetPlaceDialogForFancy && details.index==i"
+                            [ngClass]="{'red-Color': previous_exposure[i]<0,'green-Color':previous_exposure[i]>=0}">
+                            {{previous_exposure[i]}} <span>>></span> </span>
+
+
+                        <span *ngIf="current_exposure && openBetPlaceDialogForFancy && details.index==i"
+                            [ngClass]="{'red-Color': current_exposure[i]<0,'green-Color':current_exposure[i]>0}">{{current_exposure[i]}}</span>
                         <span class="ladderIcon" (click)="showLader(item.SelectionId,i)"></span>
                     </div>
 
@@ -134,7 +148,7 @@
                                 <div class="price">{{item.LayPrice1}}</div>
                                 <div class="market-volume">{{item.LaySize1}}</div>
                             </div>
-                            <div  *ngIf="item.BackSize1!='-'; else blankBack" class="bet-button back"
+                            <div *ngIf="item.BackSize1!='-'; else blankBack" class="bet-button back"
                                 [ngClass]="{'active': details.index == i && details.market_type=='fancy' && selectedItem.type=='yes'}"
                                 (click)="openCreateBetFormFancy(item.BackPrice1, 'yes', item,item.RunnerName,i,'fancy');openBetPlaceDialogForFancy=true;">
                                 <div class="price">{{item.BackPrice1}}</div>
@@ -155,13 +169,26 @@
                                 <span>Runs</span><span>P&L</span>
                             </li>
                             <ng-container *ngFor="let item of ladderTable;trackBy: trackByFn;let i=index">
-                                <li *ngIf="i!=ladderTable.length-1"><span>{{item.from}}-{{item.to}}</span><span
+                                <li *ngIf="ladderTable.length==1;else elsePart1">
+                                    <span>{{item.from}}-{{item.to}}</span><span
                                         [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}"
                                         class="green-Color">{{item.result}}</span></li>
-                                <li *ngIf="i==ladderTable.length-1">
-                                    <span>{{item.from}}{{item.from!=''?'-':''}}{{item.to}}+</span><span
-                                        [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}"
-                                        class="green-Color">{{item.result}}</span></li>
+                                <ng-template #elsePart1>
+                                    <li *ngIf="(i!=ladderTable.length-1)&&(item.from==item.to);else elsePart2">
+                                        <span>{{item.to}}</span>
+                                        <span [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}"
+                                            class="green-Color">{{item.result}}</span>
+                                    </li>
+                                    <ng-template #elsePart2>
+                                        <li *ngIf="i!=ladderTable.length-1"><span>{{item.from}}-{{item.to}}</span><span
+                                                [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}"
+                                                class="green-Color">{{item.result}}</span></li>
+                                        <li *ngIf="i==ladderTable.length-1">
+                                            <span>{{item.to}}+</span><span
+                                                [ngClass]="{'red-Color': item.result<0,'green-Color':item.result>=0}"
+                                                class="green-Color">{{item.result}}</span></li>
+                                    </ng-template>
+                                </ng-template>
                             </ng-container>
                         </ul>
                     </div>

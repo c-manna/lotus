@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./open-bets.component.scss']
 })
 export class OpenBetsComponent implements OnInit {
-  @Input('matchesDetails') matchesDetails: any=[];
+  @Input('matchesDetails') matchesDetails: any = [];
   openBetList: any = [];
   matchBet: any = [];
   unmatchBet: any = [];
@@ -33,16 +33,17 @@ export class OpenBetsComponent implements OnInit {
         this.matchBet = [];
         this.unmatchBet = [];
         if (this.matchesDetails.length) {
-          if(this.matchesDetails!=0)
-          this.matchesDetails.forEach(item => {
-            data.forEach(subItem => {
-              if (subItem.bet_status == 0 && subItem.market_id == item.marketId) {
-                this.matchBet.push(subItem);
-              } else if (subItem.bet_status == 1 && subItem.market_id == item.marketId) {
-                this.unmatchBet.push(subItem);
-              }
+          if (this.matchesDetails != 0) {
+            this.matchesDetails.forEach(item => {
+              data.forEach(subItem => {
+                if (subItem.bet_status == 0 && subItem.market_id == item.marketId) {
+                  this.matchBet.push(subItem);
+                } else if (subItem.bet_status == 1 && subItem.market_id == item.marketId) {
+                  this.unmatchBet.push(subItem);
+                }
+              });
             });
-          });
+          }
         } else {
           data.forEach(item => {
             if (item.bet_status == 0) {
@@ -60,7 +61,7 @@ export class OpenBetsComponent implements OnInit {
   }
 
   goToDetailsPage(betData) {
-      this._router.navigate([`/series/${betData.event_id}/matches/${betData.competition_id}/match-details/${betData.match_id}`]);
+    this._router.navigate([`/series/${betData.event_id}/matches/${betData.competition_id}/match-details/${betData.match_id}`]);
   }
 
 }
