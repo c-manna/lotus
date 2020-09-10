@@ -123,14 +123,14 @@
                 <li>
                     <div class="title_Wrapper">
                         <div class="title">{{item.RunnerName}}</div>
-
+                        <span *ngIf="previous_exposure[i]!='0.00'||current_exposure[i]!='0.00'">Max exposure:</span>
                         <span *ngIf="previous_exposure && openBetPlaceDialogForFancy && details.index==i"
-                            [ngClass]="{'red-Color': previous_exposure[i]<0,'green-Color':previous_exposure[i]>=0}">
-                            {{previous_exposure[i]}} <span>>></span> </span>
-
+                            class="red-Color">
+                            {{previous_exposure[i]!='0.00'?previous_exposure[i]:''}} <span>>></span> </span>
 
                         <span *ngIf="current_exposure && openBetPlaceDialogForFancy && details.index==i"
-                            [ngClass]="{'red-Color': current_exposure[i]<0,'green-Color':current_exposure[i]>0}">{{current_exposure[i]}}</span>
+                            class="red-Color">{{current_exposure[i]}}</span>
+
                         <span class="ladderIcon" (click)="showLader(item.SelectionId,i)"></span>
                     </div>
 

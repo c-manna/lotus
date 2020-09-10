@@ -64,7 +64,7 @@ export class FancyBetFormComponent implements OnInit {
         });
         if (this.previousBet.length) {
           let exposure: any = {};
-          exposure.previous = this.previous_exposure_calculation();
+          exposure.previous = -Math.abs(this.previous_exposure_calculation());
           exposure.current = '0.00';
           this.profit_and_liability.emit(exposure);
         } else {
@@ -152,7 +152,7 @@ export class FancyBetFormComponent implements OnInit {
 
   calculateValue() {
     if (this.selectedItem.type === 'yes') {
-      this.calculatedValue = parseFloat(this.selectedItem.BackSize1) / 100 * this.stakeValue; //parseFloat((this.inputData - 1).toString()) * parseFloat(this.stakeValue.toString())).toFixed(2);
+      this.calculatedValue = parseFloat(this.selectedItem.BackSize1) / 100 * this.stakeValue;
       this.returnExposure.loss = -Math.abs(this.stakeValue);
       this.returnExposure.profit = this.calculatedValue;
     } else {
@@ -163,8 +163,25 @@ export class FancyBetFormComponent implements OnInit {
     if (this.stakeValue.toString() == '') {
       this.calculatedValue = 0.00;
     } else {
-      this.returnExposure.index = this.details.index;
-      this.profit_and_liability.emit(this.returnExposure);
+      let tempPrevioutBet = [];
+      tempPrevioutBet = [...this.previousBet];
+      let price = this.selectedItem.type == 'yes' ? this.selectedItem.BackSize1 : this.selectedItem.LaySize1;
+      tempPrevioutBet.push({ placed_odd: parseInt(this.selectedItem.value), price: parseInt(price), stake: this.stakeValue, odd: this.selectedItem.type == 'yes' ? 0 : 1 })
+      tempPrevioutBet.sort(this.GetSortOrder("placed_odd"));
+      this.calculateLader(tempPrevioutBet);
+      let previous_fancy_exposure = -Math.abs(this.previous_exposure_calculation());
+      let current_exposure = 0;
+      current_exposure = -Math.abs(this.minValueOfFancy);
+      let exposure: any = {};
+      if (this.previousBet && this.previousBet.length) {
+        exposure.previous = previous_fancy_exposure;
+        exposure.current = current_exposure;
+
+      } else {
+        exposure.previous = '0.00';
+        exposure.current = current_exposure;
+      }
+      this.profit_and_liability.emit(exposure);
     }
   }
 
@@ -231,9 +248,9 @@ export class FancyBetFormComponent implements OnInit {
         if (i == 0) {
           ladderTable.push({ from: 0, to: tempPrevioutBet[i].placed_odd - 1 })
         } else {
-            if (tempPrevioutBet[i - 1].placed_odd != tempPrevioutBet[i].placed_odd) {
-              ladderTable.push({ from: tempPrevioutBet[i - 1].placed_odd, to: tempPrevioutBet[i].placed_odd - 1 })
-            }
+          if (tempPrevioutBet[i - 1].placed_odd != tempPrevioutBet[i].placed_odd) {
+            ladderTable.push({ from: tempPrevioutBet[i - 1].placed_odd, to: tempPrevioutBet[i].placed_odd - 1 })
+          }
         }
       }
       if (tempPrevioutBet.length == 1) {
@@ -257,10 +274,10 @@ export class FancyBetFormComponent implements OnInit {
           }
           else {
             if (ladderTable[j].to < tempPrevioutBet[i].placed_odd) {
-              ladderTable[j][i] = tempPrevioutBet[i].price / 100 * tempPrevioutBet[i].stake;
+              ladderTable[j][i] = tempPrevioutBet[i].stake;
             }
             else {
-              ladderTable[j][i] = -Math.abs(tempPrevioutBet[i].stake);
+              ladderTable[j][i] = -Math.abs(tempPrevioutBet[i].price / 100 * tempPrevioutBet[i].stake);
             }
           }
         }
@@ -282,7 +299,7 @@ export class FancyBetFormComponent implements OnInit {
     }
   }
 
-  previous_exposure_calculation(){
+  previous_exposure_calculation() {
     let tempPrevioutBet2 = [...this.previousBet];
     tempPrevioutBet2.sort(this.GetSortOrder("single_bet_id"));
     return (tempPrevioutBet2.length > 0 ? tempPrevioutBet2[tempPrevioutBet2.length - 1].all_teams_exposure_data : 0);

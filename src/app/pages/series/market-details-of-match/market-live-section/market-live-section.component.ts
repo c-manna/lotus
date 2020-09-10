@@ -206,15 +206,15 @@ export class MarketLiveSectionComponent implements OnInit {
                 }
                 else {
                   if (ladderTable[j].to < tempPrevioutBet[i].placed_odd) {
-                    ladderTable[j][i] = tempPrevioutBet[i].price / 100 * tempPrevioutBet[i].stake;
+                    ladderTable[j][i] = tempPrevioutBet[i].stake;
                   }
                   else {
-                    ladderTable[j][i] = -Math.abs(tempPrevioutBet[i].stake);
+                    ladderTable[j][i] = -Math.abs(tempPrevioutBet[i].price / 100 * tempPrevioutBet[i].stake);
                   }
                 }
               }
             }
-            
+            console.log(ladderTable)
             let all_amount: any = [];
             for (let i = 0; i < ladderTable.length; i++) {
               for (let j = 0; j < tempPrevioutBet.length; j++) {
