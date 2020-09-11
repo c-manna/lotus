@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./open-bets.component.scss']
 })
 export class OpenBetsComponent implements OnInit {
-  @Input('matchesDetails') matchesDetails: any = [];
+  @Input('allData') matchesDetails: any = [];
   openBetList: any = [];
   matchBet: any = [];
   unmatchBet: any = [];
@@ -34,14 +34,18 @@ export class OpenBetsComponent implements OnInit {
         this.unmatchBet = [];
         if (this.matchesDetails.length) {
           if (this.matchesDetails != 0) {
-            this.matchesDetails.forEach(item => {
-              data.forEach(subItem => {
-                if (subItem.bet_status == 0 && subItem.market_id == item.marketId) {
-                  this.matchBet.push(subItem);
-                } else if (subItem.bet_status == 1 && subItem.market_id == item.marketId) {
-                  this.unmatchBet.push(subItem);
-                }
+            let i=0;
+            this.matchesDetails.forEach(mitem => {
+              mitem.data.forEach(item => {
+                data.forEach(subItem => {
+                  if (subItem.bet_status == 0 && subItem.market_id == (i==0?item.marketId:item.SelectionId)) {
+                    this.matchBet.push(subItem);
+                  } else if (subItem.bet_status == 1 && subItem.market_id == (i==0?item.marketId:item.SelectionId)) {
+                    this.unmatchBet.push(subItem);
+                  }
+                });
               });
+              i++;
             });
           }
         } else {

@@ -4,6 +4,8 @@ import { SnakebarService, LoadingService, APIService, DataService, CommonService
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Platform } from '@angular/cdk/platform';
+import { HttpClient } from '@angular/common/http';
+import { Observable, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-market-details-of-match',
@@ -27,8 +29,10 @@ export class MarketDetailsOfMatchComponent implements OnInit {
   private subscriptions: Subscription[] = [];
   maxBetMaxMarket: any = [];
   teamNames: any = [];
+  allData:any = [];
 
   constructor(
+    private http: HttpClient,
     private _loadingService: LoadingService,
     private _snakebarService: SnakebarService,
     private ds: DataService,
@@ -47,6 +51,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     this.getMatchDetails();
     this.getFancy();
     this.getFancyFromInterval();
+    this.getOpenBets();
   }
 
   ngOnInit(): void {
@@ -67,7 +72,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'Match Odds') == undefined ? { status: false } : result.result.find(obj => obj.market == 'Match Odds');
         this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy') == undefined ? { status: false } : result.result.find(obj => obj.market == 'fancy');
         this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker') == undefined ? { status: false } : result.result.find(obj => obj.market == 'bookmaker');
-        console.log(this.maxBetMaxMarket)
+        //console.log(this.maxBetMaxMarket)
       }, err => { }
     );
   }
@@ -94,7 +99,6 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           //this.getBookMaker('29932183');
           this.getBookMaker(result.data[0].marketId);
           //this.getBooMakerFromInterval(result.data[0].marketId);
-          this.getOpenBets(result.data);
         }
       }, err => { }
     ));
@@ -137,19 +141,31 @@ export class MarketDetailsOfMatchComponent implements OnInit {
       }));
   }
 
-  getOpenBets(markets) {
-    this.ds.openBets$.subscribe(data => {
-      if (data) {
-        let previousBet = [];
-        markets.forEach(item => {
-          data.forEach(subItem => {
-            if (subItem.market_id == item.marketId) {
-              previousBet.push(subItem);
-            }
+  getOpenBets() {
+    let Odds$ = this.http.get(`${environment.apiUrl}fetch-market-match?eventID=${this.eventId}&competitionId=${this.competitionId}&matcheventID=${this.matchId}`);
+    let Fancy$ = this.http.get(`${environment.apiUrl}fetch-market-books?eventID=${this.eventId}&competitionId=${this.competitionId}&matchID=${this.matchId}`);
+
+    forkJoin([Odds$, Fancy$]).subscribe(results => {
+      this.allData = results;
+      //console.log('forkjoin', results);
+      this.ds.openBets$.subscribe(data => {
+        if (data) {
+          let previousBet = [];
+          let i=0;
+          this.allData.forEach(mitem => {
+            mitem.data.forEach(item => {
+              data.forEach(subItem => {
+                if (subItem.market_id == (i==0?item.marketId:item.SelectionId)) {
+                  previousBet.push(subItem);
+                }
+              });
+            });
+            i++;
           });
-        });
-        this.openBetCount = previousBet.length;
-      }
+          this.openBetCount = previousBet.length;
+          //console.log(previousBet)
+        }
+      });
     });
   }
 

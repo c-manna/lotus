@@ -51,7 +51,7 @@
                 </app-live-tab>
             </div>
             <div id="tab4" class="tab-slider--body bg-img" *ngSwitchCase="'tab4'">
-                <app-open-bets *ngIf="matchesDetails" [matchesDetails]="matchesDetails.length?matchesDetails:'0'"></app-open-bets>
+                <app-open-bets *ngIf="allData" [allData]="openBetCount>0?allData:'0'"></app-open-bets>
             </div>
         </div>
     </div>
