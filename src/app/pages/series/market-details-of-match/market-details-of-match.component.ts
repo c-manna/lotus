@@ -143,7 +143,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
         let previousBet = [];
         markets.forEach(item => {
           data.forEach(subItem => {
-            if (subItem.bet_status == 0 && subItem.market_id == item.marketId) {
+            if (subItem.market_id == item.marketId) {
               previousBet.push(subItem);
             }
           });

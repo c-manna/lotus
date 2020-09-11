@@ -71,7 +71,7 @@ export class BetPlaceFromComponent implements OnInit {
       if (data) {
         this.previousBet = [];
         data.forEach(item => {
-          if (item.bet_status == 0 && item.market_id == this.details.marketId) {
+          if (item.market_id == this.details.marketId) {
             this.previousBet.push(item);
           }
         });

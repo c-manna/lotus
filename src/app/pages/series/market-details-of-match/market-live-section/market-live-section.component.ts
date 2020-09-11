@@ -160,7 +160,7 @@ export class MarketLiveSectionComponent implements OnInit {
       if (data) {
         let previousBetFancy = [];
         data.forEach(item => {
-          if (item.bet_status == 0 && item.market_id == SelectionId) {
+          if (item.market_id == SelectionId) {
             previousBetFancy.push(item);
           }
         });

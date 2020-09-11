@@ -70,15 +70,6 @@ export class CommonService {
       }
     );
   }
-
-  getExposureForFancy(param, callback: any = null) {
-    this.apiService.ApiCall(param, environment.apiUrl + 'getExposureFancy', 'post').subscribe(
-      result => {
-        if (callback != null) { callback(result.result); }
-      },
-      err => { }
-    );
-  }
 }
 
 

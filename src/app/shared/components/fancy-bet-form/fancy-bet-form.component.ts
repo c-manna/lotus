@@ -58,7 +58,7 @@ export class FancyBetFormComponent implements OnInit {
       if (data) {
         this.previousBet = [];
         data.forEach(item => {
-          if (item.bet_status == 0 && item.market_id == this.selectedItem.SelectionId) {
+          if (item.market_id == this.selectedItem.SelectionId) {
             this.previousBet.push(item);
           }
         });
