@@ -6,7 +6,8 @@
         <span>
           <img src="{{showIcon(item.event_name)}}" alt="">
         </span>
-        <div>{{item.description}}</div>
+        <div routerLink="/series/{{item.event_id}}/matches/{{item.competition_id}}/match-details/{{item.match_id}}">
+          {{item.description}}</div>
       </li>
     </ul>
   </div>
