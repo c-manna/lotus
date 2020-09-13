@@ -14,18 +14,20 @@ import { environment } from '@env/environment';
 export class DashboardComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   createBetFormActive: any;
-  events:any= [];
+  events: any = [];
   dataList: any = [];
   inplayInterval: any;
   refreshDataInterval: any;
   loading: boolean = true;
-  OpenBetLength$: number=0;
+  OpenBetLength$: number = 0;
   openBetPlaceDialog = false;
   selectedItem: any;
   details: any = {};
   settingData;
   maxBetMaxMarket: any = [];
-
+  current_exposure: any = [];
+  maxBetMaxMarketFinal: any = [];
+  
   constructor(
     private commonService: CommonService,
     private ds: DataService,
@@ -37,7 +39,7 @@ export class DashboardComponent implements OnInit {
     this.getSettingData();
     this.ds.events$.subscribe(data => {
       this.events = data;
-      if(this.events) this.getInPlay();
+      if (this.events) this.getInPlay();
     });
     this.commonService.getOpenBets();
     this.ds.openBetLength$.subscribe(data => {
@@ -68,6 +70,7 @@ export class DashboardComponent implements OnInit {
     this._apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
       result => {
         console.log(result);
+        this.maxBetMaxMarket = result.result;
         //this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'Match Odds') == undefined ? { status: false } : result.result.find(obj => obj.market == 'Match Odds');
         // this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy') == undefined ? { status: false } : result.result.find(obj => obj.market == 'fancy');
         // this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker') == undefined ? { status: false } : result.result.find(obj => obj.market == 'bookmaker');
@@ -133,31 +136,27 @@ export class DashboardComponent implements OnInit {
     this.selectedItem = '';
   }
 
-  openCreateBetForm(value, type, item, runnerName, index, fragment, market_type) {
-    /* this.current_exposure = [];
-    if(market_type=='bookmaker'){
-      this.details.marketId = this.bookMakerMatch.marketId;
-      this.details.market_start_time = this.matchesDetails[0].marketStartTime;
-      this.details.runners = this.matchesDetails[0].runners;
-    }else{
-      this.details.marketId = this.matchesDetails[index].marketId;
-      this.details.market_start_time = this.matchesDetails[index].marketStartTime;
-      this.details.runners = this.matchesDetails[index].runners;
-    }
+  openCreateBetForm(value, type, item, runnerName, index, fragment, eachMatch) {
+    this.current_exposure = [];
+    this.details.marketId = eachMatch.runner_details.marketId;
+    this.details.market_start_time = eachMatch.runner_details.marketStartTime;
+    this.details.runners = eachMatch.runner_details.runners;
     this.details.index = index;
     this.details.fragment = fragment;
-    this.details.market_type = market_type;
-    this.details.runnerName = runnerName; 
-    this.details.event_id = this.eventData.eventType;
-    this.details.event_name = this.eventData.name;
-    this.details.description = this.eventDeatils.event.name;
-    this.details.competition_id = this.route.snapshot.params['competitionId'];
-    this.details.match_id = this.route.snapshot.params['matchId'];
+    this.details.market_type = eachMatch.runner_details.marketName;
+    this.details.runnerName = runnerName;
+    this.details.event_id = eachMatch.event_id;
+    this.maxBetMaxMarketFinal = [];
+    this.maxBetMaxMarketFinal = this.maxBetMaxMarket.find(obj => obj.event == eachMatch.event_id) == undefined ? { status: false } : this.maxBetMaxMarket.find(obj => obj.event == eachMatch.event_id);
+    this.details.event_name = eachMatch.event_name;
+    this.details.description = eachMatch.match_name;
+    this.details.competition_id = eachMatch.competetion_id;
+    this.details.match_id = eachMatch.match_id;
     this.selectedItem = { type: type, ...item, value: value };
     this.current_exposure = [];
     this.details.runners.forEach(element => {
       this.current_exposure.push("0.00");
-    }); */
+    });
   }
 
   showMatchName(matchName, team) {

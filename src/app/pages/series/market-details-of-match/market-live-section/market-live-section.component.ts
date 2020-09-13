@@ -107,7 +107,6 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   openCreateBetForm(value, type, item, runnerName, index, fragment, market_type) {
-    this.current_exposure = [];
     if(market_type=='bookmaker'){
       this.details.marketId = this.bookMakerMatch.marketId;
       this.details.market_start_time = this.matchesDetails[0].marketStartTime;
