@@ -27,7 +27,7 @@ export class DashboardComponent implements OnInit {
   maxBetMaxMarket: any = [];
   current_exposure: any = [];
   maxBetMaxMarketFinal: any = [];
-  
+
   constructor(
     private commonService: CommonService,
     private ds: DataService,
@@ -37,6 +37,9 @@ export class DashboardComponent implements OnInit {
     private _apiService: APIService,
   ) {
     this.getSettingData();
+    let user = JSON.parse(this._cookieService.get("user"))
+    this.details.user_id = user.punter_id;
+    this.details.punter_belongs_to = user.punter_belongs_to;
     this.ds.events$.subscribe(data => {
       this.events = data;
       if (this.events) this.getInPlay();
@@ -109,6 +112,8 @@ export class DashboardComponent implements OnInit {
       result => {
         if (result.success) {
           this.dataList[index].inplay_data[index1].inPlay_data = result["data"][0];
+          if(this.selectedItem && this.selectedItem.dataList_i!='undefined' && this.selectedItem.dataList_j!='undefined')
+            this.ds.changeMatchOdds([this.dataList[this.selectedItem.dataList_i].inplay_data[this.selectedItem.dataList_j].inPlay_data]);
         }
       }, err => { }
     );
@@ -136,7 +141,12 @@ export class DashboardComponent implements OnInit {
     this.selectedItem = '';
   }
 
-  openCreateBetForm(value, type, item, runnerName, index, fragment, eachMatch) {
+  
+  trackByFn(index, entity) {
+    return entity.id;
+  }
+
+  openCreateBetForm(value, type, item, runnerName, index, fragment, eachMatch,dataList_i,dataList_j,event_name) {
     this.current_exposure = [];
     this.details.marketId = eachMatch.runner_details.marketId;
     this.details.market_start_time = eachMatch.runner_details.marketStartTime;
@@ -148,11 +158,11 @@ export class DashboardComponent implements OnInit {
     this.details.event_id = eachMatch.event_id;
     this.maxBetMaxMarketFinal = [];
     this.maxBetMaxMarketFinal = this.maxBetMaxMarket.find(obj => obj.event == eachMatch.event_id) == undefined ? { status: false } : this.maxBetMaxMarket.find(obj => obj.event == eachMatch.event_id);
-    this.details.event_name = eachMatch.event_name;
+    this.details.event_name = event_name;
     this.details.description = eachMatch.match_name;
     this.details.competition_id = eachMatch.competetion_id;
     this.details.match_id = eachMatch.match_id;
-    this.selectedItem = { type: type, ...item, value: value };
+    this.selectedItem = { type: type, ...item, value: value,dataList_i:  dataList_i,dataList_j:  dataList_j};
     this.current_exposure = [];
     this.details.runners.forEach(element => {
       this.current_exposure.push("0.00");
