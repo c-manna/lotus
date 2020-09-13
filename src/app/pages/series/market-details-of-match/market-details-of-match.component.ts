@@ -97,8 +97,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.ds.changeMatchOdds(this.matchOdds);
           this.getOddsFromInterval(result);
           //this.getBookMaker('29932183');
-          this.getBookMaker(result.data[0].marketId);
-          //this.getBooMakerFromInterval(result.data[0].marketId);
+          this.getBookMaker();
+          //this.getBooMakerFromInterval();
         }
       }, err => { }
     ));
@@ -129,8 +129,8 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     ));
   }
 
-  getBookMaker(market_id) {
-    this.subscriptions.push(this.apiService.ApiCall('', environment.apiUrl + 'get-bookmaker/' + market_id, 'get').subscribe(
+  getBookMaker() {
+    this.subscriptions.push(this.apiService.ApiCall('', `${environment.apiUrl}get-bookmaker/${this.eventId}/${this.competitionId}/${this.matchId}`, 'get').subscribe(
       result => {
         if (result.success) {
           this.bookMakerMatch = result.data[0];
@@ -143,9 +143,10 @@ export class MarketDetailsOfMatchComponent implements OnInit {
 
   getOpenBets() {
     let Odds$ = this.http.get(`${environment.apiUrl}fetch-market-match?eventID=${this.eventId}&competitionId=${this.competitionId}&matcheventID=${this.matchId}`);
+    let BookMaker$ = this.http.get(`${environment.apiUrl}get-bookmaker/${this.eventId}/${this.competitionId}/${this.matchId}`);
     let Fancy$ = this.http.get(`${environment.apiUrl}fetch-market-books?eventID=${this.eventId}&competitionId=${this.competitionId}&matchID=${this.matchId}`);
 
-    forkJoin([Odds$, Fancy$]).subscribe(results => {
+    forkJoin([Odds$, BookMaker$, Fancy$]).subscribe(results => {
       this.allData = results;
       //console.log('forkjoin', results);
       this.ds.openBets$.subscribe(data => {
@@ -155,7 +156,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.allData.forEach(mitem => {
             mitem.data.forEach(item => {
               data.forEach(subItem => {
-                if (subItem.market_id == (i==0?item.marketId:item.SelectionId)) {
+                if (subItem.market_id == ((i==0||i==1)?item.marketId:item.SelectionId)) {
                   previousBet.push(subItem);
                 }
               });
@@ -178,9 +179,9 @@ export class MarketDetailsOfMatchComponent implements OnInit {
     }, 1000);
   }
 
-  getBooMakerFromInterval(marketID) {
+  getBooMakerFromInterval() {
     this.getBookMakerInterval = setInterval(() => {
-      this.getBookMaker(marketID);
+      this.getBookMaker();
     }, 1000);
   }
 

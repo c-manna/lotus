@@ -54,7 +54,7 @@ export class MarketLiveSectionComponent implements OnInit {
   }
 
   ngOnChanges() {
-    //console.log(this.maxBetMaxMarket)
+    //console.log(this.bookMakerMatch)
   }
 
   getSettingData() {
@@ -74,16 +74,18 @@ export class MarketLiveSectionComponent implements OnInit {
     this.openBetPlaceDialog = false;
     this.selectedItem = '';
   }
+
   canceBetForBookMaker() {
     this.openBetPlaceDialogForBookMaker = false;
     this.selectedItem = '';
   }
+  
   canceBetForFancy() {
     this.openBetPlaceDialogForFancy = false;
     this.selectedItem = '';
   }
   set_profit_loss(data) {
-    //console.log(data);
+    console.log(data);
     if (this.details.market_type != 'fancy') {
       for (let i = 0; i < this.matchesDetails[this.details.index].runners.length; i++) {
         if (data.previous.length) {
@@ -106,13 +108,19 @@ export class MarketLiveSectionComponent implements OnInit {
 
   openCreateBetForm(value, type, item, runnerName, index, fragment, market_type) {
     this.current_exposure = [];
-    this.details.marketId = this.matchesDetails[index].marketId;
-    this.details.market_start_time = this.matchesDetails[index].marketStartTime;
-    this.details.market_type = market_type;
-    this.details.runnerName = runnerName;
-    this.details.runners = this.matchesDetails[index].runners;
+    if(market_type=='bookmaker'){
+      this.details.marketId = this.bookMakerMatch.marketId;
+      this.details.market_start_time = this.matchesDetails[0].marketStartTime;
+      this.details.runners = this.matchesDetails[0].runners;
+    }else{
+      this.details.marketId = this.matchesDetails[index].marketId;
+      this.details.market_start_time = this.matchesDetails[index].marketStartTime;
+      this.details.runners = this.matchesDetails[index].runners;
+    }
     this.details.index = index;
     this.details.fragment = fragment;
+    this.details.market_type = market_type;
+    this.details.runnerName = runnerName; 
     this.details.event_id = this.eventData.eventType;
     this.details.event_name = this.eventData.name;
     this.details.description = this.eventDeatils.event.name;

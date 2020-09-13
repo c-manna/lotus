@@ -141,7 +141,7 @@ export class BetPlaceFromComponent implements OnInit {
     this.calculatedValue = 0;
     this.selectedItem = changes.selectedItem.currentValue;
     this.inputData = this.selectedItem.value;
-    console.log(this.matchOdds)
+    console.log(this.selectedItem)
   }
 
   addValue() {
@@ -297,7 +297,7 @@ export class BetPlaceFromComponent implements OnInit {
       if (this.details.market_type != 'bookmaker') {
         last_odd = this.selectedItem.type == 'back' ? this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToBack[0].price : this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToLay[0].price
       } else {
-        last_odd = this.selectedItem.type == 'back' ? this.bookMaker.runners[this.details.index].back : this.bookMaker.runners[this.details.index].lay;
+        last_odd = this.selectedItem.type == 'back' ? this.bookMaker.details.runners[this.details.fragment].back : this.bookMaker.details.runners[this.details.fragment].lay;
       }
       let param = {
         market_id: this.details.marketId,

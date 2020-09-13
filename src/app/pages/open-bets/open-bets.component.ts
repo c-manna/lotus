@@ -38,9 +38,9 @@ export class OpenBetsComponent implements OnInit {
             this.matchesDetails.forEach(mitem => {
               mitem.data.forEach(item => {
                 data.forEach(subItem => {
-                  if (subItem.bet_status == 0 && subItem.market_id == (i==0?item.marketId:item.SelectionId)) {
+                  if (subItem.bet_status == 0 && subItem.market_id == ((i==0||i==1)?item.marketId:item.SelectionId)) {
                     this.matchBet.push(subItem);
-                  } else if (subItem.bet_status == 1 && subItem.market_id == (i==0?item.marketId:item.SelectionId)) {
+                  } else if (subItem.bet_status == 1 && subItem.market_id == ((i==0||i==1)?item.marketId:item.SelectionId)) {
                     this.unmatchBet.push(subItem);
                   }
                 });

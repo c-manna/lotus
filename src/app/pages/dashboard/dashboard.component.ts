@@ -16,11 +16,16 @@ export class DashboardComponent implements OnInit {
   createBetFormActive: any;
   events:any= [];
   dataList: any = [];
-  selectedItem: any = {};
   inplayInterval: any;
   refreshDataInterval: any;
   loading: boolean = true;
   OpenBetLength$: number=0;
+  openBetPlaceDialog = false;
+  selectedItem: any;
+  details: any = {};
+  settingData;
+  maxBetMaxMarket: any = [];
+
   constructor(
     private commonService: CommonService,
     private ds: DataService,
@@ -29,6 +34,7 @@ export class DashboardComponent implements OnInit {
     private _cookieService: CookieService,
     private _apiService: APIService,
   ) {
+    this.getSettingData();
     this.ds.events$.subscribe(data => {
       this.events = data;
       if(this.events) this.getInPlay();
@@ -37,10 +43,37 @@ export class DashboardComponent implements OnInit {
     this.ds.openBetLength$.subscribe(data => {
       this.OpenBetLength$ = data;
     });
+    this.getMaxbetMaxMarket();
   }
 
   ngOnInit(): void {
     this.inplayTime();
+  }
+
+  set_profit_loss(data) {
+  }
+
+  getSettingData() {
+    this.ds.settingData$.subscribe(data => {
+      this.settingData = data;
+      if (this.settingData == null) {
+        this.commonService.getSettingData();
+      }
+    });
+  }
+
+  getMaxbetMaxMarket() {
+    let param: any = {};
+    param.event_id = -1;
+    this._apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
+      result => {
+        console.log(result);
+        //this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'Match Odds') == undefined ? { status: false } : result.result.find(obj => obj.market == 'Match Odds');
+        // this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy') == undefined ? { status: false } : result.result.find(obj => obj.market == 'fancy');
+        // this.maxBetMaxMarket['bookmaker'] = result.result.find(obj => obj.market == 'bookmaker') == undefined ? { status: false } : result.result.find(obj => obj.market == 'bookmaker');
+        //console.log(this.maxBetMaxMarket)
+      }, err => { }
+    );
   }
 
   getInPlay() {
@@ -96,35 +129,35 @@ export class DashboardComponent implements OnInit {
   }
 
   canceBet() {
-    console.log("canceBet");
-    this.createBetFormActive = 0;
+    this.openBetPlaceDialog = false;
+    this.selectedItem = '';
   }
 
-  openCreateBetForm(viewMode, value, type, item, eachItem) {
-    // let currentTime = Date.now();
-    // this.selectedItem = { type: type, ...item, value: value };
-    // eachItem['viewMode'] = viewMode;
-    // item['createBetFormActive'] = currentTime;
-    // eachItem['createBetFormActive'] = currentTime;
-    // this.createBetFormActive = currentTime;
-
-
-    // this.profile_and_loss = [];
-    // //console.log(this.matchesDetails)
-    // this.details.marketId = this.matchesDetails[0].marketId;
-    // this.details.market_start_time = this.matchesDetails[0].marketStartTime;
-    // this.details.market_type = this.matchesDetails[0].marketName;
-    // this.details.runnerName = runnerName;
-    // this.details.runners = this.matchesDetails[0].runners;
-    // this.details.index = index;
-    // let user = JSON.parse(this._cookieService.get("user"))
-    // this.details.user_id = user.punter_id;
-    // this.details.punter_belongs_to = user.punter_belongs_to;
-    // let currentTime = Date.now();
-    // this.selectedItem = { type: type, ...item, value: value };
-    // item['viewMode'] = viewMode;
-    // item['createBetFormActive'] = currentTime;
-    // this.createBetFormActive = currentTime;
+  openCreateBetForm(value, type, item, runnerName, index, fragment, market_type) {
+    /* this.current_exposure = [];
+    if(market_type=='bookmaker'){
+      this.details.marketId = this.bookMakerMatch.marketId;
+      this.details.market_start_time = this.matchesDetails[0].marketStartTime;
+      this.details.runners = this.matchesDetails[0].runners;
+    }else{
+      this.details.marketId = this.matchesDetails[index].marketId;
+      this.details.market_start_time = this.matchesDetails[index].marketStartTime;
+      this.details.runners = this.matchesDetails[index].runners;
+    }
+    this.details.index = index;
+    this.details.fragment = fragment;
+    this.details.market_type = market_type;
+    this.details.runnerName = runnerName; 
+    this.details.event_id = this.eventData.eventType;
+    this.details.event_name = this.eventData.name;
+    this.details.description = this.eventDeatils.event.name;
+    this.details.competition_id = this.route.snapshot.params['competitionId'];
+    this.details.match_id = this.route.snapshot.params['matchId'];
+    this.selectedItem = { type: type, ...item, value: value };
+    this.current_exposure = [];
+    this.details.runners.forEach(element => {
+      this.current_exposure.push("0.00");
+    }); */
   }
 
   showMatchName(matchName, team) {
