@@ -33,9 +33,13 @@ button:hover,input:hover,textarea:hover,select:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1001;
 svg{
   fill: #fff;
   width: 35px;
+}
+&:focus{
+  outline: none;
 }
   // background-image: url(./assets/icons/eye_white.svg);
 }

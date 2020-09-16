@@ -161,6 +161,7 @@
                             display: flex;
                             justify-content: space-between;
                             padding: 0 2px;
+                            position: relative;
                             li{
                                 // width: 50px;
                                 height: 41px;
@@ -463,3 +464,26 @@
   
 
   //tab css================================ end
+
+  .app-bet-form-wrapper{
+      display: none;
+  }
+
+.app-bet-form-wrapper.highlight{
+    display: block;
+height: 250px;
+position: absolute;
+left: 0;
+width: 100%;
+
+top: 40px;
+
+app-bet-place-from{
+    position: relative;
+    background-color: #fff;
+}
+}
+
+.highlight2{
+    height: 250px!important;
+}

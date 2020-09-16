@@ -21,12 +21,13 @@ export class DashboardComponent implements OnInit {
   loading: boolean = true;
   OpenBetLength$: number = 0;
   openBetPlaceDialog = false;
-  selectedItem: any;
+  selectedItem: any={};
   details: any = {};
   settingData;
   maxBetMaxMarket: any = [];
   current_exposure: any = [];
   maxBetMaxMarketFinal: any = [];
+  currentTime:any;
 
   constructor(
     private commonService: CommonService,
@@ -139,6 +140,7 @@ export class DashboardComponent implements OnInit {
   canceBet() {
     this.openBetPlaceDialog = false;
     this.selectedItem = '';
+    this.currentTime = null;
   }
 
   
@@ -162,11 +164,16 @@ export class DashboardComponent implements OnInit {
     this.details.description = eachMatch.match_name;
     this.details.competition_id = eachMatch.competetion_id;
     this.details.match_id = eachMatch.match_id;
+    let currentTime= new Date().getTime();
+    this.currentTime = currentTime;
+    eachMatch.currentTime = currentTime;
     this.selectedItem = { type: type, ...item, value: value,dataList_i:  dataList_i,dataList_j:  dataList_j};
     this.current_exposure = [];
     this.details.runners.forEach(element => {
       this.current_exposure.push("0.00");
     });
+
+    
   }
 
   showMatchName(matchName, team) {
