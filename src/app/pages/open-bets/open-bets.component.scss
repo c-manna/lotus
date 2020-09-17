@@ -15,13 +15,15 @@
         font-weight: 400;
         font-size: 14px;
         color: #fff;
-        background-color: #0f2327;
+        // background-color: #0f2327;
+        background-color: #000;
         mat-panel-title{
             color: #fff;
         }
     }
     .mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover{
-        background-color: #0f2327;
+        // background-color: #0f2327;
+        background-color: #000;
     }
     .mat-accordion .mat-expansion-panel{
         border-radius: 0;

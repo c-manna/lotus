@@ -35,8 +35,10 @@
                     height: 35px;
                     width: 35px;
                     z-index: 10;
-                    background-color: #0f2327;
-                    border: 1px solid #0f2327;
+                    // background-color: #0f2327;
+                    // border: 1px solid #0f2327;
+                    background-color: #e1b513;;
+                    border: 1px solid #e1b513;;
                     color: #fff;
                     font-size: 13px;
                     &:first-child{
@@ -84,7 +86,8 @@
             font-size: 13px;
             padding: 0 .9em;
             box-shadow: none;
-            background-color: #0f2327;
+            // background-color: #0f2327;
+            background-color: #e1b513;;
             color: #ffffff;
             border: 0;
             width: 33%;
@@ -120,7 +123,9 @@
              }
          }
          button:last-child{
-             background-color: #0f2327;
+            //  background-color: #0f2327;
+            background-color: #000;
+            border-color: #000;;
              color: #fff;
              span{
                  display: block;

@@ -46,6 +46,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        &:focus{
+            outline: none;
+        }
+        div:focus{
+            outline: none;
+        }
         span{
            display: inline-block;
             width: 16px;

@@ -71,7 +71,8 @@
     align-items: center;
     padding: 0 16px;
     color: #fff;
-    background-color: #163439;
+    // background-color: #163439;
+    background-color: #0d0d0d;
     .left-side-bar{
         display: flex;
         align-items: center;
@@ -91,7 +92,8 @@
                 height: 30px;
                 font-size: 16px;
                 color: #fff;
-                background-color: #0f2327;
+                // background-color: #0f2327;
+                background-color: #000;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -111,11 +113,13 @@
         margin: 0;
         list-style: none;
         display: flex;
-        background-color: #0f2327;
+        // background-color: #0f2327;
+        background-color: #000;
         li{
             // width: 25%;
             padding: 15px 22px 13px;
-            color: #5bafc0;
+            // color: #5bafc0;
+            color: #737373;
             text-transform: uppercase;
             white-space: nowrap;
             font-size: 10px;
@@ -123,6 +127,7 @@
             flex-grow: 1;
             &.active{
                 border-bottom: 2px solid;
+                color: #fff;
             }
         }
     }

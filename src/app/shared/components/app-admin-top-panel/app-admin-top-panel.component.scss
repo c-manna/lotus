@@ -1,8 +1,10 @@
 
 
 .header{
-    border-bottom: 1px solid #081215;
-    background: #0f2327;
+    // border-bottom: 1px solid #081215;
+    // background: #0f2327;
+    border-bottom: 1px solid #000;
+    background: #000;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -43,6 +45,9 @@
             background-position: center;
             margin-left: 15px;
             cursor: pointer;
+            &:focus{
+                outline: none;
+            }
         }
     }
     .header-right{
@@ -65,7 +70,8 @@
         .user-icon{
             width: 68px;
             height: 38px;
-            background-color:#265360 ;
+            // background-color:#265360 ;
+            background-color:#e1b513; ;
             border-radius: 2px;
            
            padding-bottom: 5px;

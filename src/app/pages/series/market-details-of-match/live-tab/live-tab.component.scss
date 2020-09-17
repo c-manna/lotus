@@ -19,7 +19,8 @@
     margin-left: -8px;
     margin-right: -8px;
     li{
-        background-color: #0f2327;
+        // background-color: #0f2327;
+        background-color: #000;
         flex-grow: 1;
         padding: 15px 22px 13px;
         text-align: center;
@@ -27,9 +28,10 @@
         text-transform: uppercase;
         white-space: nowrap;
         width: 50%;
-        color: #fff;
+        color: #737373;
         &.active{
-            border-bottom: 3px solid #2c4f58;
+            // border-bottom: 3px solid #2c4f58;
+            color: #fff;
         }
     }
 }

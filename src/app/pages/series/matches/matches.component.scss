@@ -18,7 +18,8 @@
             .date{
                 padding: 8px 13px;
                 font-size: 12px;
-                background-color: #0f2327;
+                // background-color: #0f2327;
+                background-color: #000;
                 color: #fff;
             }
             ul{
@@ -34,6 +35,9 @@
                     font-weight: 400;
                     padding: 13px 11px;
                     padding-left: 24px;
+                    &:focus{
+                        outline: none;
+                    }
                 }
             }
         }

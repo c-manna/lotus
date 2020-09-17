@@ -23,7 +23,8 @@ button:hover,input:hover,textarea:hover,select:hover{
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #2c4f58;
+  // background-color: #2c4f58;
+  background-color: #e1b513;
   position: fixed;
   right: 20px;
   bottom: 50px;
@@ -94,15 +95,16 @@ mat-expansion-panel{
 }
 }
 
-.mat-drawer {
-  width: 75%;
+.mat-expansion-indicator::after{
+  color: #fff;
 }
 
 
 .datePicker{
   mat-form-field{
       button{
-        background: #2f8230!important;
+        // background: #2f8230!important;
+        background: #e1b513!important;
           border: 0!important;
           border-top-left-radius: 0!important;
           border-bottom-left-radius: 0!important;
