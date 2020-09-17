@@ -35,7 +35,7 @@ export class SigninComponent implements OnInit {
   }
 
   login() {
-    console.log("data==", this.loginForm);
+    //console.log("data==", this.loginForm);
     const reqData = this.loginForm.value;
     this._loadingService.show();
     this._apiService.ApiCall(reqData, `${environment.apiUrl}login`, 'post').subscribe(result => {
