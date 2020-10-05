@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DataService, APIService, CommonService, LoadingService } from '@shared/services';
-import { environment } from '@env/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { ActivatedRoute } from '@angular/router';
 
