@@ -296,7 +296,7 @@ export class BetPlaceFromComponent implements OnInit {
     else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
       let last_odd;
       let bet_status;
-      if(this.selectedItem.type == 'back') bet_status = (last_odd>=this.inputData)?0:1;
+      if(this.selectedItem.type == 'back') bet_status = (last_odd>this.inputData)?0:1;
       else bet_status = (last_odd<this.inputData)?0:1;
       if (this.details.market_type != 'bookmaker') {
         last_odd = this.selectedItem.type == 'back' ? this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToBack[0].price : this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToLay[0].price

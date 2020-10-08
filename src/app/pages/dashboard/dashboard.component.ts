@@ -21,13 +21,13 @@ export class DashboardComponent implements OnInit {
   loading: boolean = true;
   OpenBetLength$: number = 0;
   openBetPlaceDialog = false;
-  selectedItem: any={};
+  selectedItem: any;
   details: any = {};
   settingData;
   maxBetMaxMarket: any = [];
   current_exposure: any = [];
   maxBetMaxMarketFinal: any = [];
-  currentTime:any;
+  currentTime: any;
 
   constructor(
     private commonService: CommonService,
@@ -113,8 +113,9 @@ export class DashboardComponent implements OnInit {
       result => {
         if (result.success) {
           this.dataList[index].inplay_data[index1].inPlay_data = result["data"][0];
-          if(this.selectedItem && this.selectedItem.dataList_i!='undefined' && this.selectedItem.dataList_j!='undefined')
+          if (this.selectedItem && this.selectedItem.dataList_i != 'undefined' && this.selectedItem.dataList_j != 'undefined') {
             this.ds.changeMatchOdds([this.dataList[this.selectedItem.dataList_i].inplay_data[this.selectedItem.dataList_j].inPlay_data]);
+          }
         }
       }, err => { }
     );
@@ -143,20 +144,21 @@ export class DashboardComponent implements OnInit {
     this.currentTime = null;
   }
 
-  
+
   trackByFn(index, entity) {
     return entity.id;
   }
 
-  openCreateBetForm(value, type, item, runnerName, index, fragment, eachMatch,dataList_i,dataList_j,event_name) {
+  openCreateBetForm(value, type, item, index, fragment, eachMatch, dataList_i, dataList_j, event_name) {
     this.current_exposure = [];
+    console.log(eachMatch)
     this.details.marketId = eachMatch.runner_details.marketId;
     this.details.market_start_time = eachMatch.runner_details.marketStartTime;
-    this.details.runners = eachMatch.runner_details.runners;
+    this.details.runners = eachMatch.runner_details;
     this.details.index = index;
     this.details.fragment = fragment;
     this.details.market_type = eachMatch.runner_details.marketName;
-    this.details.runnerName = runnerName;
+    this.details.runnerName = eachMatch.runner_details[fragment].runnerName;
     this.details.event_id = eachMatch.event_id;
     this.maxBetMaxMarketFinal = [];
     this.maxBetMaxMarketFinal = this.maxBetMaxMarket.find(obj => obj.event == eachMatch.event_id) == undefined ? { status: false } : this.maxBetMaxMarket.find(obj => obj.event == eachMatch.event_id);
@@ -164,16 +166,16 @@ export class DashboardComponent implements OnInit {
     this.details.description = eachMatch.match_name;
     this.details.competition_id = eachMatch.competetion_id;
     this.details.match_id = eachMatch.match_id;
-    let currentTime= new Date().getTime();
+    let currentTime = new Date().getTime();
     this.currentTime = currentTime;
     eachMatch.currentTime = currentTime;
-    this.selectedItem = { type: type, ...item, value: value,dataList_i:  dataList_i,dataList_j:  dataList_j};
+    this.selectedItem = { type: type, ...item, value: value, dataList_i: dataList_i, dataList_j: dataList_j };
     this.current_exposure = [];
     this.details.runners.forEach(element => {
       this.current_exposure.push("0.00");
     });
 
-    
+
   }
 
   showMatchName(matchName, team) {
