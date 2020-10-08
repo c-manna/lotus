@@ -19,8 +19,8 @@ export class LoginGuard implements CanActivate {
     if(admin_token!= undefined && admin_token!=null && admin_token!=""){
       this.router.navigate(['/dashboard']);
       return false;
+    }else{
+      return true;
     }
-
-    return true;
   }
 }

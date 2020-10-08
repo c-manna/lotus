@@ -39,6 +39,6 @@ export class AdminLeftPanelComponent implements OnInit {
     this.toolbarService.close();
   }
   ngOnDestroy() {
-    this._routeListener.unsubscribe();
+    //this._routeListener.unsubscribe();
   }
 }

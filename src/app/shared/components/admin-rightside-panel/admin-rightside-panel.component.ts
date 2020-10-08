@@ -45,8 +45,8 @@ export class AdminRightsidePanelComponent implements OnInit {
   logout() {
     console.log('logout');
     this._cookieService.deleteAll();
-    this._router.navigate(["/"]);
     this.closeNav();
+    this._router.navigate(["/"]);
   }
   getUserBalance() {
     let param: any = {};
