@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
     param.event_id = -1;
     this._apiService.ApiCall(param, environment.apiUrl + 'getMaxBetMaxMarket', 'post').subscribe(
       result => {
-        console.log(result);
+        //console.log(result);
         this.maxBetMaxMarket = result.result;
         //this.maxBetMaxMarket['Match Odds'] = result.result.find(obj => obj.market == 'Match Odds') == undefined ? { status: false } : result.result.find(obj => obj.market == 'Match Odds');
         // this.maxBetMaxMarket['fancy'] = result.result.find(obj => obj.market == 'fancy') == undefined ? { status: false } : result.result.find(obj => obj.market == 'fancy');
@@ -98,7 +98,7 @@ export class DashboardComponent implements OnInit {
         });
         this.dataList = resData;
         this.refreshData();
-        console.log("this.dataList==", this.dataList)
+        //console.log("this.dataList==", this.dataList)
       } else {
         this._snakebarService.show("error", res.message);
       }
@@ -151,6 +151,32 @@ export class DashboardComponent implements OnInit {
 
   openCreateBetForm(value, type, item, index, fragment, eachMatch, dataList_i, dataList_j, event_name) {
     this.current_exposure = [];
+    this.details.marketId = eachMatch.runner_details[0].marketId;
+    this.details.market_start_time = eachMatch.runner_details[0].marketStartTime;
+    this.details.runners = eachMatch.runner_details[0].runners;
+    this.details.index = index;
+    this.details.fragment = fragment;
+    this.details.market_type = eachMatch.runner_details[0].marketName;
+    this.details.runnerName = eachMatch.runner_details[0].runners[fragment].runnerName;
+    this.details.event_id = eachMatch.event_id;
+    this.maxBetMaxMarketFinal = [];
+    this.maxBetMaxMarketFinal = this.maxBetMaxMarket.find(obj => obj.event == eachMatch.event_id) == undefined ? { status: false } : this.maxBetMaxMarket.find(obj => obj.event == eachMatch.event_id);
+    this.details.event_name = event_name;
+    this.details.description = eachMatch.match_name;
+    this.details.competition_id = eachMatch.competetion_id;
+    this.details.match_id = eachMatch.match_id;
+    let currentTime = new Date().getTime();
+    this.currentTime = currentTime;
+    eachMatch.currentTime = currentTime;
+    this.selectedItem = { type: type, ...item, value: value, dataList_i: dataList_i, dataList_j: dataList_j };
+    this.current_exposure = [];
+    this.details.runners.forEach(element => {
+      this.current_exposure.push("0.00");
+    });
+  }
+
+  /* openCreateBetForm(value, type, item, index, fragment, eachMatch, dataList_i, dataList_j, event_name) {
+    this.current_exposure = [];
     console.log(eachMatch)
     this.details.marketId = eachMatch.runner_details.marketId;
     this.details.market_start_time = eachMatch.runner_details.marketStartTime;
@@ -174,9 +200,7 @@ export class DashboardComponent implements OnInit {
     this.details.runners.forEach(element => {
       this.current_exposure.push("0.00");
     });
-
-
-  }
+  } */
 
   showMatchName(matchName, team) {
     let index = matchName.indexOf(" v ")
