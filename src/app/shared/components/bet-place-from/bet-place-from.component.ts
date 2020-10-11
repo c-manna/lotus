@@ -36,7 +36,7 @@ export class BetPlaceFromComponent implements OnInit {
     private apiService: APIService,
     public dialog: MatDialog,
     private _loadingService: LoadingService,
-    private _snakebarService: SnakebarService) {}
+    private _snakebarService: SnakebarService) { }
 
   ngOnInit(): void {
     if (this.settingData.one_click_betting == 1) this.IsOneClickBet();
@@ -63,7 +63,7 @@ export class BetPlaceFromComponent implements OnInit {
     this.getIP();
   }
 
-  checkboxOnChange(event){
+  checkboxOnChange(event) {
     this.ds.changeCheckBoxConfirmation(event.target.checked);
   }
 
@@ -296,57 +296,61 @@ export class BetPlaceFromComponent implements OnInit {
     else if ((Math.abs(net_exposure) <= total_balance) && (Math.abs(net_exposure) <= this.balanceInfo.balance_limit)) {
       let last_odd;
       let bet_status;
-      if(this.selectedItem.type == 'back') bet_status = (last_odd>this.inputData)?0:1;
-      else bet_status = (last_odd<this.inputData)?0:1;
-      if (this.details.market_type != 'bookmaker') {
-        last_odd = this.selectedItem.type == 'back' ? this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToBack[0].price : this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToLay[0].price
-      } else {
-        last_odd = this.selectedItem.type == 'back' ? this.bookMaker.details.runners[this.details.fragment].back : this.bookMaker.details.runners[this.details.fragment].lay;
-      }
-      let param = {
-        market_id: this.details.marketId,
-        match_id: this.details.match_id,
-        market_type: this.details.market_type,
-        description: this.details.description,
-        event_name: this.details.event_name,
-        event_id: this.details.event_id,
-        competition_id: this.details.competition_id,
-        odd: this.selectedItem.type == 'back' ? 0 : 1,
-        place_odd: this.inputData,
-        last_odd: last_odd,
-        stake: this.stakeValue,
-        runner_name: this.details.runnerName,
-        runners: this.details.runners,
-        market_start_time: this.details.market_start_time,
-        market_end_time: 0,
-        user_ip: this.ipAddress,
-        selection_id: 0,
-        user_id: this.details.user_id,
-        p_and_l: 0,
-        bet_status: bet_status,
-        market_status: 0,
-        bet_id: "111",
-        settled_time: 0,
-        master_id: this.details.punter_belongs_to,
-        current_exposure: Math.abs(current_exposure) - Math.abs(prev_exposure),
-        amount: 0,
-        liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
-      };
-      console.log(param);
-      this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
-        result => {
-          if (result.success) {
-            this.commonService.getOpenBets();
-            this._snakebarService.show('success', result.message);
-          }
-          else {
-            this._snakebarService.show('error', result.message);
-          }
-        },
-        err => {
-          this._snakebarService.show('error', err);
+      if (this.selectedItem.type == 'back') bet_status = (last_odd >= this.inputData) ? 0 : 1;
+      else bet_status = (last_odd <= this.inputData) ? 0 : 1;
+      if (bet_status == 0) {
+        if (this.details.market_type != 'bookmaker') {
+          last_odd = this.selectedItem.type == 'back' ? this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToBack[0].price : this.matchOdds[this.details.index].runners[this.details.fragment].ex.availableToLay[0].price
+        } else {
+          last_odd = this.selectedItem.type == 'back' ? this.bookMaker.details.runners[this.details.fragment].back : this.bookMaker.details.runners[this.details.fragment].lay;
         }
-      );
+        let param = {
+          market_id: this.details.marketId,
+          match_id: this.details.match_id,
+          market_type: this.details.market_type,
+          description: this.details.description,
+          event_name: this.details.event_name,
+          event_id: this.details.event_id,
+          competition_id: this.details.competition_id,
+          odd: this.selectedItem.type == 'back' ? 0 : 1,
+          place_odd: this.inputData,
+          last_odd: last_odd,
+          stake: this.stakeValue,
+          runner_name: this.details.runnerName,
+          runners: this.details.runners,
+          market_start_time: this.details.market_start_time,
+          market_end_time: 0,
+          user_ip: this.ipAddress,
+          selection_id: 0,
+          user_id: this.details.user_id,
+          p_and_l: 0,
+          bet_status: bet_status,
+          market_status: 0,
+          bet_id: "111",
+          settled_time: 0,
+          master_id: this.details.punter_belongs_to,
+          current_exposure: Math.abs(current_exposure) - Math.abs(prev_exposure),
+          amount: 0,
+          liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)
+        };
+        console.log(param);
+        this.apiService.ApiCall(param, environment.apiUrl + 'single-place-bet', 'post').subscribe(
+          result => {
+            if (result.success) {
+              this.commonService.getOpenBets();
+              this._snakebarService.show('success', result.message);
+            }
+            else {
+              this._snakebarService.show('error', result.message);
+            }
+          },
+          err => {
+            this._snakebarService.show('error', err);
+          }
+        );
+      }else{
+        this._snakebarService.show('error', 'Unmatched Bet not allowed. Please contact with Admin');
+      }
     }
   }
 

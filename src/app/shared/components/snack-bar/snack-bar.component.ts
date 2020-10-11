@@ -13,7 +13,7 @@ export class SnackBarComponent implements OnInit {
     @Inject(MAT_SNACK_BAR_DATA) public data: any) { }
 
   ngOnInit(): void {
-    console.log("data==", this.data);
+    //console.log("data==", this.data);
   }
 
 }

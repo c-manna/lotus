@@ -94,6 +94,7 @@ export class SnakebarService {
   show(type: snackBarType, msg: String, options?: options) {
     this._snackBar.openFromComponent(SnackBarComponent, {
       duration: (options && options.duration) ? options.duration : 5000,
+      panelClass: [type=='error'?'red-background':'green-background'],
       horizontalPosition: (options && options.horizontalPosition) ? options.horizontalPosition : 'center',
       verticalPosition: (options && options.verticalPosition) ? options.verticalPosition : 'top',
       data: { msg: msg, type: type }

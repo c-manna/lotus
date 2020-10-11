@@ -86,7 +86,7 @@ export class SettingsComponent implements OnInit {
   }
 
   passwordSubmit() {
-    console.log("this.passwordForm==", this.passwordForm);
+    //console.log("this.passwordForm==", this.passwordForm);
     this.passwordFormSubmit = true;
     if (this.passwordForm.invalid) return;
     //do the API call
