@@ -28,6 +28,7 @@ export class DashboardComponent implements OnInit {
   current_exposure: any = [];
   maxBetMaxMarketFinal: any = [];
   currentTime: any;
+  UserBelongsTo:any;
 
   constructor(
     private commonService: CommonService,
@@ -41,6 +42,7 @@ export class DashboardComponent implements OnInit {
     let user = JSON.parse(this._cookieService.get("user"))
     this.details.user_id = user.punter_id;
     this.details.punter_belongs_to = user.punter_belongs_to;
+    this.getUserBelongsTo();
     this.ds.events$.subscribe(data => {
       this.events = data;
       if (this.events) this.getInPlay();
@@ -54,6 +56,15 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.inplayTime();
+  }
+
+  getUserBelongsTo(){
+    this._apiService.ApiCall({},'http://admin.max66.games/api/get-punter-upline/'+this.details.punter_belongs_to, 'get').subscribe(
+      result => {
+        this.UserBelongsTo= result;
+      },
+      err => {}
+    );
   }
 
   set_profit_loss(data) {

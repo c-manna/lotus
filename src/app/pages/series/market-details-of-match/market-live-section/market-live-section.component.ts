@@ -27,6 +27,7 @@ export class MarketLiveSectionComponent implements OnInit {
   ladderContent: boolean = false;
   ladderTable: any = [];
   eventData: any;
+  UserBelongsTo:any;
 
   constructor(private ds: DataService,
     private apiService: APIService,
@@ -39,6 +40,7 @@ export class MarketLiveSectionComponent implements OnInit {
     let user = JSON.parse(this._cookieService.get("user"))
     this.details.user_id = user.punter_id;
     this.details.punter_belongs_to = user.punter_belongs_to;
+    this.getUserBelongsTo();
   }
 
   ngOnInit(): void {
@@ -50,6 +52,15 @@ export class MarketLiveSectionComponent implements OnInit {
       this.eventDeatils = event;
     });
     //console.log(this.matchesDetails)
+  }
+
+  getUserBelongsTo(){
+    this.apiService.ApiCall({},'http://admin.max66.games/api/get-punter-upline/'+this.details.punter_belongs_to, 'get').subscribe(
+      result => {
+        this.UserBelongsTo= result;
+      },
+      err => {}
+    );
   }
 
   ngOnChanges() {

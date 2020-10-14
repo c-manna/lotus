@@ -15,6 +15,7 @@ export class BetPlaceFromComponent implements OnInit {
   @Input('details') details: any;
   @Input('settingData') settingData: any;
   @Input() maxBetMaxMarket: any;
+  @Input('UserBelongsTo') UserBelongsTo: any;
   previousBet: any = [];
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
@@ -329,6 +330,7 @@ export class BetPlaceFromComponent implements OnInit {
           bet_id: "111",
           settled_time: 0,
           master_id: this.details.punter_belongs_to,
+          userBelongsTo: this.UserBelongsTo,
           current_exposure: Math.abs(current_exposure) - Math.abs(prev_exposure),
           amount: 0,
           liability: this.selectedItem.type === 'back' ? Math.abs(this.returnExposure.stake) : Math.abs(this.returnExposure.value)

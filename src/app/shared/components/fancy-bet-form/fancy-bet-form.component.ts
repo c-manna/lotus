@@ -16,6 +16,7 @@ export class FancyBetFormComponent implements OnInit {
   @Input('settingData') settingData: any;
   @Input() maxBetMaxMarket: any = [];
   @Input() eventDeatils: any;
+  @Input('UserBelongsTo') UserBelongsTo: any;
   @Output() profit_and_liability: any = new EventEmitter();
   inputData: number;
   stakeValue: number;
@@ -363,6 +364,7 @@ export class FancyBetFormComponent implements OnInit {
         bet_id: "111",
         settled_time: 0,
         master_id: this.details.punter_belongs_to,
+        userBelongsTo: this.UserBelongsTo,
         current_exposure: current_exposure,
         minValueOfFancy: Math.abs(this.minValueOfFancy),
         amount: 0,
