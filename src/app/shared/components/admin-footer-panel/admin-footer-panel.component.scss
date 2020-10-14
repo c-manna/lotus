@@ -13,3 +13,42 @@ marquee{
 p{
     color: #fff;
 }
+
+.sign-in-bottom-icon{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    
+    a{
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        display: inline-block;
+    }
+    .left-icon{
+        width: 32px;
+        height: 32px;
+        background-image: url(../../../../assets/images/gamcare.png);
+    }
+    .age-18-plus-icon{
+      svg{
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+      }
+    }
+    .thirdIcon{
+        display: flex;
+        align-items: center;
+        .textDiv{
+            width: 125px;
+            text-align: left;
+            text-transform: uppercase;
+            color: #fff;
+            font-size: 11px;
+            margin-left: 5px;
+            line-height: normal;
+        }
+    }
+  
+}

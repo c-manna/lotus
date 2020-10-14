@@ -13,7 +13,7 @@ import { DataService } from '@shared/services';
 export class AppAdminTopPanelComponent implements OnInit {
   url;
   balanceInfo:any = {};
-
+  marquee:boolean=true;
   constructor(
     private ds: DataService,
     private router: Router,
@@ -45,5 +45,8 @@ export class AppAdminTopPanelComponent implements OnInit {
 
   backClicked() {
     this._location.back();
+  }
+  marqueeClick(){
+    this.marquee=false;
   }
 }

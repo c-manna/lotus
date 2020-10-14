@@ -110,6 +110,11 @@ mat-expansion-panel{
           border-bottom-left-radius: 0!important;
       }
   }
+    .mat-form-field-appearance-fill .mat-form-field-flex{
+        padding-right: 0;
+        background: transparent;
+    }
+
 }
 
 
@@ -157,6 +162,9 @@ background-color: #f00;
 .width-100 {
   width: 100% !important;
 }  
+
+
+ 
 
 
 

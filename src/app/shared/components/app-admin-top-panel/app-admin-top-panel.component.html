@@ -1,4 +1,6 @@
 <div class="header">
+    <div class="headerMarquee" *ngIf="marquee"><marquee>Write your IPL script with BetBuilder.  Play now</marquee><a  class="close-btn" (click)="marqueeClick()">x</a></div>
+   <div class="header-inner-section">
     <div class="header-left">
         <button *ngIf="url[1]=='dashboard';else elsePart" class="menu-icon" (click)="toggleDrawer()"></button>
         <ng-template #elsePart>
@@ -15,6 +17,7 @@
             <span *ngIf="balanceInfo">{{balanceInfo.available_balance}}</span>
         </button>
     </div>
+   </div>
 </div>
 
 

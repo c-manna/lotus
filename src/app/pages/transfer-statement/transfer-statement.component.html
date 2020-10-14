@@ -62,7 +62,15 @@
                     <td>{{item.remark}}</td>
                 </tr>
             </tbody>
-            <tbody *ngIf="!newList.length">No record found</tbody>
+            <!-- <tbody *ngIf="!newList.length">No record found</tbody> -->
+         
+        </table>
+        <table>
+            <tr>    
+                <td style="text-align: center;" *ngIf="!newList.length">
+                    No record found
+                </td>
+            </tr>
         </table>
         <div *ngIf="newList.length">
             <mat-paginator [length]="dataCount" [pageSize]="f.limit.value" (page)="paginationPageChange($event)">
