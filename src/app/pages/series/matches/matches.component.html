@@ -24,6 +24,10 @@
                 <li *ngFor="let eachItem of newData[item].data" [routerLink]="['match-details/'+eachItem.event.id]"
                     (click)="setEventName(eachItem)">
                     {{eachItem.event.name}}
+                    <p *ngIf="eachItem.diff==0||eachItem.diff==-1;else elsePart" class="date-info">{{eachItem.marketStartDate}}</p>
+                    <ng-template #elsePart>
+                        <p class="date-info">{{eachItem.marketStartDate | date:'d/M/yy, H:mm'}}</p>
+                    </ng-template>
                 </li>
             </ul>
         </div>

@@ -12,10 +12,10 @@
     <li [routerLink]="['/my-market']" (click)="closeNav()"><span><img src="assets/icons/star.svg" alt=""> </span> My
         Markets</li>
     <li *ngFor="let item of events" (click)="closeNav();setEventData(item)" [routerLink]="['/series/'+item.eventType]">
+        <span *ngIf="item.name=='Soccer'"><img src="assets/icons/football.svg"
+                alt=""></span>{{item.name=='Soccer'?item.name:''}}
         <span *ngIf="item.name=='Cricket'"><img src="assets/icons/cricket.svg" alt=""></span>
         {{item.name=='Cricket'?item.name:''}}
-        <span *ngIf="item.name=='Soccer'"><img src="assets/icons/football.svg"
-            alt=""></span>{{item.name=='Soccer'?item.name:''}}
         <span *ngIf="item.name=='Tennis'"><img src="assets/icons/tennis.svg" alt=""></span>
         {{item.name=='Tennis'?item.name:''}}
         <span *ngIf="item.name=='Horse Racing'"><img src="assets/icons/horse.svg" alt=""></span>

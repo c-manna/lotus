@@ -36,7 +36,7 @@ export class MatchesComponent implements OnInit {
   }
 
   setEventName(data) {
-      this.ds.changeEventDetails(data);
+    this.ds.changeEventDetails(data);
   }
 
   getMatches() {
@@ -59,10 +59,22 @@ export class MatchesComponent implements OnInit {
   groupData() {
     let newData = {};
     this.matches.forEach(item => {
-      let date = new Date(item.event.openDate);
-      let day = date.getDate();
-      let month = date.getMonth() + 1;
-      let year = date.getFullYear();
+      const a = new Date(item.event.openDate);
+      const b = new Date();
+
+      const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+      const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+      const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+      let diff = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+      item.diff = diff;
+      //console.log(diff)
+      if(diff==0)item.marketStartDate = "Today "+a.getHours()+":"+a.getMinutes();
+      else if(diff==-1)item.marketStartDate = "Tomorrow "+a.getHours()+":"+a.getMinutes();
+      else item.marketStartDate = item.event.openDate;
+      let day = a.getDate();
+      let month = a.getMonth() + 1;
+      let year = a.getFullYear();
       let key = day + '_' + month;
       let newDate = new Date(month + '/' + day + '/' + year);
       if (!newData[key]) newData[key] = { data: [], date: newDate };

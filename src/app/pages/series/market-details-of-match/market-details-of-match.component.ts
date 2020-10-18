@@ -13,7 +13,7 @@ import { Observable, forkJoin } from 'rxjs';
   styleUrls: ['./market-details-of-match.component.scss']
 })
 export class MarketDetailsOfMatchComponent implements OnInit {
-  viewMode = 'tab3';
+  viewMode = 'tab1';
   matchesDetails: any = [];
   eventId;
   competitionId;
@@ -98,7 +98,7 @@ export class MarketDetailsOfMatchComponent implements OnInit {
           this.getOddsFromInterval(result);
           //this.getBookMaker('29932183');
           this.getBookMaker();
-          //this.getBooMakerFromInterval();
+          this.getBooMakerFromInterval();
         }
       }, err => { }
     ));

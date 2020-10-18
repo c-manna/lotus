@@ -33,18 +33,18 @@
                                         [class.active]="openBetPlaceDialog && details.index==0 && details.fragment==k && selectedItem.dataList_i==i && selectedItem.dataList_j==j && selectedItem.type=='back'"
                                         rel="tab1"
                                         (click)="openCreateBetForm(eachItem.ex.availableToBack[0].price, 'back', eachItem,0,k,eachMatch,i,j,item.name);openBetPlaceDialog=true;">
-                                        <div class="bet-button back">
+                                        <div appHighlight [size]="eachItem.ex.availableToBack[0].size" bet_status="back" class="bet-button back">
                                             <div class="price">{{eachItem.ex.availableToBack[0].price}}</div>
-                                            <div class="market-volume">298,208 </div>
+                                            <div class="market-volume">{{eachItem.ex.availableToBack[0].size*100 | number : '1.0-0'}} </div>
                                         </div>
                                     </li>
                                     <li *ngIf="(eachItem.ex && eachItem.ex.availableToLay && eachItem.ex.availableToLay.length && eachItem.ex.availableToLay[0] && eachItem.ex.availableToLay[0].price);else blankBackLay"
                                         [class.active]="openBetPlaceDialog && details.index==0 && details.fragment==k && selectedItem.dataList_i==i && selectedItem.dataList_j==j && selectedItem.type=='lay'"
                                         rel="tab2"
                                         (click)="openCreateBetForm(eachItem.ex.availableToLay[0].price, 'lay', eachItem,0,k,eachMatch,i,j,item.name);openBetPlaceDialog=true;">
-                                        <div class="bet-button lay">
+                                        <div class="bet-button lay" appHighlight [size]="eachItem.ex.availableToLay[0].size" bet_status="lay">
                                             <div class="price">{{eachItem.ex.availableToLay[0].price}}</div>
-                                            <div class="market-volume">298,208</div>
+                                            <div class="market-volume">{{eachItem.ex.availableToLay[0].size*100 | number : '1.0-0'}}</div>
                                         </div>
                                     </li>
                                     <li *ngIf="k==0 && eachMatch.inPlay_data.runners.length==2">

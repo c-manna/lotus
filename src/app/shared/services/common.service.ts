@@ -20,6 +20,12 @@ export class CommonService {
     getEvents() {
       this.apiService.ApiCall('', environment.apiUrl + 'event', 'get').subscribe(result => {
         if (result.success) {
+          result.data.forEach(function(item,i){
+            if(item.eventType == 4){
+              result.data.splice(i, 1);
+              result.data.unshift(item);
+            }
+          });
           this.ds.changeEvents(result.data);
         }
       }, err => {});
