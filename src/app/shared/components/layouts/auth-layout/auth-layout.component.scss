@@ -9,8 +9,20 @@
 
 
 app-admin-footer-panel{
-    position: fixed;
+    // position: fixed;
     width: 100%;
     bottom: 0;
     text-align: center;
+}
+
+
+.loginPageWrapper{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #000;
+}
+app-signin{
+    height: calc(100% - 141px);
 }

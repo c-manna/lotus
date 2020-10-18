@@ -61,7 +61,7 @@ svg{
     padding: 10px;
   }
   .mat-drawer{
-    width: 55%;
+    width: 70%;
   }
 
 
@@ -161,7 +161,20 @@ background-color: #f00;
 
 .width-100 {
   width: 100% !important;
-}  
+} 
+
+.example-container{
+border-top: 0;
+}
+
+
+
+.mat-typography{
+  font-family: Lato,sans-serif!important;
+}
+.mat-typography h2{
+  font-family: Lato,sans-serif!important;
+}
 
 
  
